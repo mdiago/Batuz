@@ -526,25 +526,73 @@ namespace Batuz.TicketBai.Xades.Signer
         }
 
         /// <summary>
-        /// Obtiene un XmlDocument a partir del texto XML
-        /// cargado como fuente.
+        /// Devuelve el XmlNode del TicketBai orígen para la firma.
         /// </summary>
-        /// <returns>XmlDocument a partir del texto XML original.</returns>
-        public XmlDocument GetSourceXmlDocument() 
+        /// <returns>XmlNode del TicketBai orígen para la firma.</returns>
+        public XmlNode GetSourceTicketBai() 
         {
 
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.PreserveWhitespace = true;
-            xmlDoc.LoadXml(_XmlLoadedSource);
+            if(_XmlDocLoadedSource == null)
+                throw new Exception("No XmlDocLoadedSource found.");
 
-            return xmlDoc;
+            if (_XmlNamespaceManager == null)
+                throw new Exception("No XmlNamespaceManager found.");
+
+
+            var ticketBais = _XmlDocLoadedSource.SelectNodes(@"//T:TicketBai", _XmlNamespaceManager);
+
+            if (ticketBais.Count == 0)
+                throw new Exception("No T:TicketBai found.");
+
+            return _XmlDocLoadedSource.SelectNodes(@"//T:TicketBai", _XmlNamespaceManager)[0];
 
         }
 
-        public XmlNode GetTicketBai(XmlDocument xmlDoc) 
+        /// <summary>
+        /// Borra el elmento Sginature del nodo TicketBai.
+        /// </summary>
+        /// <param name="ticketBai">Nodo TicketBai.</param>
+        public void DeleteSignature(XmlNode ticketBai) 
         {
 
-            return xmlDoc.SelectNodes(@"//T:TicketBai", _XmlNamespaceManager)[0];
+            if (_XmlNamespaceManager == null)
+                throw new Exception("No XmlNamespaceManager found.");
+
+            var signatures = _XmlDocLoadedSource.SelectNodes(
+                @"//ds:Signature/descendant-or-self::node()|//ds:Signature//@*", _XmlNamespaceManager);
+
+            if (signatures.Count > 0)
+                ticketBai.RemoveChild(signatures[0]);
+        }
+
+        /// <summary>
+        /// Devuelve el texto XML de la firma generada.
+        /// </summary>
+        /// <returns>Texto XML de la firma generada.</returns>
+        public string GetNewSignatureXmlText() 
+        {
+
+            if (_TicketBai == null)
+                throw new Exception("No TicketBai found.");
+
+            if (_XmlNamespaceManager == null)
+                throw new Exception("No XmlNamespaceManager found.");
+
+            var parser = new XmlParser();
+
+            var xml = parser.GetString(_TicketBai, Namespaces.Items);
+            XmlDocument xmlDocPreSigned = new XmlDocument();
+            xmlDocPreSigned.PreserveWhitespace = true;
+            xmlDocPreSigned.LoadXml(_XmlLoadedSource);
+
+            var signatures = xmlDocPreSigned.SelectNodes(@"//ds:Signature/descendant-or-self::node()|//ds:Signature//@*", _XmlNamespaceManager);
+            XmlNode newSignature = null;
+
+            if (signatures.Count > 0)
+                newSignature = signatures[0];
+
+
+            return newSignature.OuterXml;
 
         }
 
@@ -564,41 +612,24 @@ namespace Batuz.TicketBai.Xades.Signer
             PrepareSignedInfo(certificate);
 
             var parser = new XmlParser();
-     
+
 
             // Compongo el documento resultado
 
-            XmlDocument xmlDoc = GetSourceXmlDocument();
+            XmlDocument xmlDoc = _XmlDocLoadedSource;
 
-            XmlNamespaceManager nm = GetDefaultXmlNamespaceManager(xmlDoc);
+            XmlNamespaceManager nm = _XmlNamespaceManager;
 
-            var ticketBai = xmlDoc.SelectNodes(@"//T:TicketBai", nm)[0];
+            var ticketBai = GetSourceTicketBai();
 
-            var signatures = xmlDoc.SelectNodes(@"//ds:Signature/descendant-or-self::node()|//ds:Signature//@*", nm);
+            DeleteSignature(ticketBai);           
 
-            if (signatures.Count > 0)
-                ticketBai.RemoveChild(signatures[0]);
-
-
-            var xml = parser.GetString(_TicketBai, Namespaces.Items);
-            XmlDocument xmlDocPreSigned = new XmlDocument();
-            xmlDocPreSigned.PreserveWhitespace = true;
-            xmlDocPreSigned.LoadXml(_XmlLoadedSource);
-
-            signatures = xmlDocPreSigned.SelectNodes(@"//ds:Signature/descendant-or-self::node()|//ds:Signature//@*", nm);
-            XmlNode newSignature = null;
-
-            if (signatures.Count > 0)
-                newSignature = signatures[0];
-
-
-            _XmlSignature = newSignature.OuterXml;
+            _XmlSignature = GetNewSignatureXmlText();
 
             XmlDocumentFragment signature = xmlDoc.CreateDocumentFragment();
             signature.InnerXml = _XmlSignature;
 
-            ticketBai.AppendChild(signature);           
-
+            ticketBai.AppendChild(signature);
 
             var signedProperties = xmlDoc.SelectNodes(@"//xades:SignedProperties", nm)[0];
             signedProperties.InnerXml = Regex.Match(_XmlSignedProperties,
