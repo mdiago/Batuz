@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2B7CE964-32ED-4791-A00E-F72D8E20AB17}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Batuz</RootNamespace>
+    <AssemblyName>Batuz</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Batuz.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CRC8.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Src\TicketBai\FacturaTipoDesgloseDesgloseFactura.cs" />
+    <Compile Include="Src\TicketBai\FacturaTipoDesgloseDesgloseFacturaSujetaNoExenta.cs" />
+    <Compile Include="Src\TicketBai\FacturaTipoDesgloseDesgloseFacturaSujetaNoExentaDetalleNoExenta.cs" />
+    <Compile Include="Src\TicketBai\FacturaTipoDesgloseDesgloseFacturaSujetaNoExentaDetalleNoExentaDetalleIVA.cs" />
+    <Compile Include="Src\TicketBai\HuellaTBAI.cs" />
+    <Compile Include="Src\TicketBai\HuellaTBAIEncadenamientoFacturaAnterior.cs" />
+    <Compile Include="Src\TicketBai\HuellaTBAISoftware.cs" />
+    <Compile Include="Src\TicketBai\HuellaTBAISoftwareEntidadDesarrolladora.cs" />
+    <Compile Include="Src\TicketBai\Cabecera.cs" />
+    <Compile Include="Src\TicketBai\ClaveRegimenIvaOpTrascendencia.cs" />
+    <Compile Include="Src\TicketBai\Factura.cs" />
+    <Compile Include="Src\TicketBai\FacturaCabeceraFactura.cs" />
+    <Compile Include="Src\TicketBai\FacturaDatosFactura.cs" />
+    <Compile Include="Src\TicketBai\FacturaDatosFacturaClaves.cs" />
+    <Compile Include="Src\TicketBai\FacturaDatosFacturaClavesIDClave.cs" />
+    <Compile Include="Src\TicketBai\FacturaTipoDesglose.cs" />
+    <Compile Include="Src\TicketBai\FacturaTipoDesgloseDesgloseFacturaSujeta.cs" />
+    <Compile Include="Src\TicketBai\Sujetos.cs" />
+    <Compile Include="Src\TicketBai\SujetosDestinatarios.cs" />
+    <Compile Include="Src\TicketBai\SujetosDestinatariosIDDestinatario.cs" />
+    <Compile Include="Src\TicketBai\Sujeto.cs" />
+    <Compile Include="Src\TicketBai\SujetosEmisor.cs" />
+    <Compile Include="Src\TicketBai\TicketBai.cs" />
+    <Compile Include="Src\TicketBai\TipoNoExenta.cs" />
+    <Compile Include="Src\Xades\Hash\DigestMethodSHA1.cs" />
+    <Compile Include="Src\Xades\Hash\DigestMethodSHA256.cs" />
+    <Compile Include="Src\Xades\Hash\DigestMethodSHA512.cs" />
+    <Compile Include="Src\Xades\Hash\IDigestMethod.cs" />
+    <Compile Include="Src\Xades\Signer\Signer.cs" />
+    <Compile Include="Src\Xades\Signer\TicketBaiSigner.cs" />
+    <Compile Include="Src\Xades\Xml\Canonicalization\CanonicalizationMethodDsigC14N.cs" />
+    <Compile Include="Src\Xades\Xml\Canonicalization\ICanonicalizationMethod.cs" />
+    <Compile Include="Src\Xades\Xml\Namespaces.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\DigestMethod.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingProperties.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedProperties.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedDataObjectProperties.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedDataObjectPropertiesDataObjectFormat.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedDataObjectPropertiesDataObjectFormatObjectIdentifier.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedDataObjectPropertiesDataObjectFormatObjectIdentifierIdentifier.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedSignatureProperties.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifier.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifierSignaturePolicyId.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifierSignaturePolicyIdSigPolicyHash.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifierSignaturePolicyIdSigPolicyId.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifierSignaturePolicyIdSigPolicyQualifiers.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifierSignaturePolicyIdSigPolicyQualifiersSigPolicyQualifier.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSigningCertificate.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSigningCertificateCert.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSigningCertificateCertCertDigest.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSigningCertificateCertIssuerSerial.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\Signature.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\SignatureKeyInfo.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\SignatureKeyInfoKeyValue.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\SignatureKeyInfoKeyValueRSAKeyValue.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\SignatureKeyInfoX509Data.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\SignatureObject.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\SignatureSignatureValue.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\SignatureSignedInfo.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\SignatureSignedInfoCanonicalizationMethod.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\SignatureSignedInfoReference.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\SignatureSignedInfoReferenceDigestMethod.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\SignatureSignedInfoReferenceTransform.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\SignatureSignedInfoSignatureMethod.cs" />
+    <Compile Include="Src\Xades\Xml\Signature\XmlElementBase.cs" />
+    <Compile Include="Src\XmlParser.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

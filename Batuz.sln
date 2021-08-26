@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Batuz", "Batuz\Batuz.csproj", "{2B7CE964-32ED-4791-A00E-F72D8E20AB17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Batuz.Test", "Batuz.Test\Batuz.Test.csproj", "{E9501D76-5DBC-4741-A4AC-B8555FAC9239}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B7CE964-32ED-4791-A00E-F72D8E20AB17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B7CE964-32ED-4791-A00E-F72D8E20AB17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B7CE964-32ED-4791-A00E-F72D8E20AB17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B7CE964-32ED-4791-A00E-F72D8E20AB17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9501D76-5DBC-4741-A4AC-B8555FAC9239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9501D76-5DBC-4741-A4AC-B8555FAC9239}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9501D76-5DBC-4741-A4AC-B8555FAC9239}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9501D76-5DBC-4741-A4AC-B8555FAC9239}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {15371AED-C789-4FFC-990B-5F0190970CAF}
+	EndGlobalSection
+EndGlobal
