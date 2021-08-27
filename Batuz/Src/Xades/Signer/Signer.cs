@@ -1,5 +1,5 @@
 ﻿/*
-    This file is part of the Irene.Solutions.Xades (R) project.
+    This file is part of the Batuz (R) project.
     Copyright (c) 2021-2022 Irene Solutions SL
     Authors: Irene Solutions SL.
 
@@ -27,11 +27,11 @@
     
     You can be released from the requirements of the license by purchasing
     a commercial license. Buying such a license is mandatory as soon as you
-    develop commercial activities involving the Irene.Solutions.Xades software without
+    develop commercial activities involving the Batuz software without
     disclosing the source code of your own applications.
     These activities include: offering paid services to customers as an ASP,
-    serving Irene.Solutions.Xades services on the fly in a web application, 
-    shipping Irene.Solutions.Xades with a closed source product.
+    serving Batuz services on the fly in a web application, 
+    shipping Batuz with a closed source product.
     
     For more information, please contact Irene Solutions SL. at this
     address: info@irenesolutions.com
@@ -54,9 +54,6 @@ namespace Batuz.TicketBai.Xades.Signer
     public class Signer
     {
 
-        #region Variables Privadas Estáticas
-        #endregion
-
         #region Variables Privadas de Instancia
 
         /// <summary>
@@ -69,15 +66,149 @@ namespace Batuz.TicketBai.Xades.Signer
         /// </summary>
         protected XmlDocument _XmlDocLoadedSource;
 
-        #endregion
+        /// <summary>
+        /// String XML de la carga original.
+        /// </summary>
+        protected string _XmlLoadedSource;
 
-        #region Propiedades Privadas Estáticas
-        #endregion
+        /// <summary>
+        /// String XML de la carga original canonicalizado.
+        /// </summary>
+        protected string _XmlLoadedCanonical;
 
-        #region Propiedades Privadas de Instacia
-        #endregion
+        /// <summary>
+        /// String XML firmado.
+        /// </summary>
+        protected string _XmlSigned;
 
-        #region Construtores Estáticos
+        /// <summary>
+        /// XmlDocuments con cada una de las
+        /// fases de trabajo de la firma.
+        /// </summary>
+        protected XmlDocument _XmlDocSignedProperties;
+
+        /// <summary>
+        /// XmlDocuments con cada una de las
+        /// fases de trabajo de la firma.
+        /// Documento generado con el bloque KeyInfo
+        /// realizado.
+        /// </summary>
+        protected XmlDocument _XmlDocKeyInfo;
+
+        /// <summary>
+        /// XmlDocuments con cada una de las
+        /// fases de trabajo de la firma.
+        /// Documento generado con el bloque SignedInfo
+        /// realizado.
+        /// </summary>
+        protected XmlDocument _XmlDocSignedInfo;
+
+        /// <summary>
+        /// XmlDocuments con cada una de las
+        /// fases de trabajo de la firma.
+        /// Documento generado con el bloque SignatureValue
+        /// realizado.
+        /// </summary>
+        protected XmlDocument _XmlDocSignatureValue;
+
+        /// <summary>
+        /// XmlNodeList utilizados con cada una de las
+        /// fases de trabajo de la firma.
+        /// XmlNodeList generado con el bloque SignedProperties
+        /// realizado.
+        /// </summary>
+        protected XmlNodeList _XmlSignedPropertiesXmlNodeList;
+
+        /// <summary>
+        /// XmlNodeList utilizados con cada una de las
+        /// fases de trabajo de la firma.
+        /// XmlNodeList generado con el bloque KeyInfo
+        /// realizado.
+        /// </summary>
+        protected XmlNodeList _XmlKeyInfoXmlNodeList;
+
+        /// <summary>
+        /// XmlNodeList utilizados con cada una de las
+        /// fases de trabajo de la firma.
+        /// XmlNodeList generado con el bloque SignedInfo
+        /// realizado.
+        /// </summary>
+        protected XmlNodeList _XmlSignedInfoXmlNodeList;
+
+        /// <summary>
+        /// XmlNodeList utilizados con cada una de las
+        /// fases de trabajo de la firma.
+        /// XmlNodeList generado con el bloque SignatureValue
+        /// realizado.
+        /// </summary>
+        protected XmlNodeList _XmlSignatureValueXmlNodeList;
+
+        /// <summary>
+        /// Guid generado como identificador de la firma.
+        /// </summary>
+        protected string _IdSignature;
+
+        /// <summary>
+        /// Guid generado como identificador de objeto.
+        /// </summary>
+        protected string _IdObject;
+
+        /// <summary>
+        /// XML del objeto cargado para firma
+        /// </summary>
+        protected string _XmlSignedProperties;
+
+        /// <summary>
+        /// XML del objeto cargado para firma
+        /// </summary>
+        protected string _XmlKeyInfo;
+
+        /// <summary>
+        /// XML del objeto cargado para firma
+        /// </summary>
+        protected string _XmlSignedInfo;
+
+        /// <summary>
+        /// XML del objeto cargado para firma
+        /// </summary>
+        protected string _XmlSignature;
+
+        /// <summary>
+        /// XML del objeto cargado para firma
+        /// </summary>
+        protected string _XmlSignatureValue;
+
+
+        /// <summary>
+        /// XML del objeto cargado para firma
+        /// </summary>
+        protected string _XmlSignedPropertiesCN14;
+
+        /// <summary>
+        /// XML del objeto cargado para firma
+        /// </summary>
+        protected string _XmlKeyInfoCN14;
+
+        /// <summary>
+        /// XML del objeto cargado para firma
+        /// </summary>
+        protected string _XmlSignedInfoCN14;
+
+        /// <summary>
+        /// XML del objeto cargado para firma
+        /// </summary>
+        protected string _XmlSignatureValueCN14;
+
+        /// <summary>
+        /// XML del objeto cargado para firma
+        /// </summary>
+        protected string _SignedPropertiesHash;
+
+        /// <summary>
+        /// XML del objeto cargado para firma
+        /// </summary>
+        protected string _KeyInfoHash;
+
         #endregion
 
         #region Construtores de Instancia
@@ -100,16 +231,133 @@ namespace Batuz.TicketBai.Xades.Signer
 
         #endregion
 
-        #region Indexadores
-        #endregion
-
-        #region Métodos Privados Estáticos
-        #endregion
-
         #region Métodos Privados de Instancia
-        #endregion
 
-        #region Propiedades Públicas Estáticas
+        /// <summary>
+        /// Devuelve un XmlDocument a partir del el XML de entrada.
+        /// </summary>
+        /// <param name="xmlContent">XML para el XmlDocument.</param>
+        /// <param name="preserveWhitespace">Indica si se conservan los especios
+        /// en blanco.</param>
+        /// <returns>XmlDocument a partir del XML de entrada.</returns>
+        protected XmlDocument GetXmlDocument(string xmlContent, bool preserveWhitespace = true)
+        {
+
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.PreserveWhitespace = preserveWhitespace;
+            xmlDoc.LoadXml(xmlContent);
+
+            return xmlDoc;
+
+        }
+
+        /// <summary>
+        /// Devuelve la lista de nodos del XML de entrada que
+        /// se corresponde con la expresión XPath.
+        /// </summary>
+        /// <param name="xmlDoc">XML a canonicalizar.</param>
+        /// <param name="xpath">Expresión XPath que devuelve el nodeList a canonicalizar.</param>
+        /// <param name="namespaces">Espacios de nombres.</param>
+        /// <returns>XmlNodeList con los nodos que devuelve la expresión XPath.</returns>
+        protected XmlNodeList GetXmlNodeListByXPath(XmlDocument xmlDoc, string xpath, Dictionary<string, string> namespaces = null)
+        {
+
+            XmlNamespaceManager nm = new XmlNamespaceManager(xmlDoc.NameTable);
+
+            var nms = namespaces ?? Namespaces.Items;
+
+            foreach (KeyValuePair<string, string> n in nms)
+                nm.AddNamespace(n.Key, n.Value);
+
+            return xmlDoc.SelectNodes(xpath, nm);
+
+        }
+
+        /// <summary>
+        /// Devuelve el XML de entrada canonicalizado.
+        /// </summary>
+        /// <param name="xmlContent">XML a canonicalizar.</param>
+        /// <returns>XML de entrada canonicalizado.</returns>
+        protected string GetCanonical(string xmlContent)
+        {
+            return CanonicalizationMethod.GetCanonicalString(xmlContent);
+        }
+
+        /// <summary>
+        /// Devuelve el XML de entrada canonicalizado.
+        /// </summary>
+        /// <param name="xmlDoc">Documento XML a canonicalizar.</param>
+        /// <returns>XML de entrada canonicalizado.</returns>
+        protected string GetCanonical(XmlDocument xmlDoc)
+        {
+            return CanonicalizationMethod.GetCanonicalString(xmlDoc);
+        }
+
+        /// <summary>
+        /// Recupera el hash del documento, excluyendo en su caso la
+        /// firma.
+        /// </summary>
+        /// <param name="xmlContent">Texto del documento xm.</param>
+        /// <returns></returns>
+        protected string GetDigestValue(string xmlContent)
+        {
+
+            var canonicalXml = GetCanonical(xmlContent);
+
+            return GetStringUTF8HashToBase64(canonicalXml);
+
+        }
+
+        /// <summary>
+        /// Recupera el hash del documento, excluyendo en su caso la
+        /// firma.
+        /// </summary>
+        /// <param name="xmlContent">Texto del documento xm.</param>
+        /// <returns></returns>
+        protected string GetXmlDocumentDigestValue(string xmlContent)
+        {
+
+            var xml = xmlContent;
+
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.PreserveWhitespace = true;
+            xmlDoc.LoadXml(xmlContent);
+
+            var nodesSignature = xmlDoc.SelectNodes("//ds:Signature", _XmlNamespaceManager);
+
+            if (nodesSignature.Count > 0)
+                if (nodesSignature[0].ParentNode != null)
+                    nodesSignature[0].ParentNode.RemoveChild(nodesSignature[0]);
+
+            var canonicalXml = GetCanonical(xmlDoc);
+
+            return GetStringUTF8HashToBase64(canonicalXml);
+
+
+        }
+
+        /// <summary>
+        /// Devuelve el hash de una cadena previamente
+        /// codificada en UTF8 como una cadena en base 64.
+        /// </summary>
+        /// <param name="text">Texto del que obtener el hash.</param>
+        /// <returns></returns>
+        protected string GetStringUTF8HashToBase64(string text)
+        {
+            return Convert.ToBase64String(GetStringUTF8Hash(text));
+        }
+
+        /// <summary>
+        /// Devuelve hash de una cadena tras codificarla
+        /// en UTF8.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        private byte[] GetStringUTF8Hash(string text)
+        {
+            return DigestMethod.ComputeHash(CanonicalizationMethod.Encoding.GetBytes(text));
+        }
+
         #endregion
 
         #region Propiedades Públicas de Instancia
@@ -129,142 +377,19 @@ namespace Batuz.TicketBai.Xades.Signer
         /// </summary>
         public HashAlgorithm SignatureHashAlgorithm { get; private set; }
 
+        /// <summary>
+        /// XML obtenido tras la ejecución del método
+        /// Sign.
+        /// </summary>
+        public string XmlSigned
+        {
+            get
+            {
+                return _XmlSigned;
+            }
+        }
 
         #endregion
-
-        #region Métodos Públicos Estáticos
-        #endregion
-
-        #region Métodos Públicos de Instancia
-        #endregion
-
-        /// <summary>
-        /// Devuelve un XmlDocument a partir del el XML de entrada.
-        /// </summary>
-        /// <param name="xmlContent">XML para el XmlDocument.</param>
-        /// <param name="preserveWhitespace">Indica si se conservan los especios
-        /// en blanco.</param>
-        /// <returns>XmlDocument a partir del XML de entrada.</returns>
-        public XmlDocument GetXmlDocument(string xmlContent, bool preserveWhitespace = true) 
-        {
-
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.PreserveWhitespace = preserveWhitespace;
-            xmlDoc.LoadXml(xmlContent);
-
-            return xmlDoc;
-
-        }
-
-        /// <summary>
-        /// Devuelve la lista de nodos del XML de entrada que
-        /// se corresponde con la expresión XPath.
-        /// </summary>
-        /// <param name="xmlDoc">XML a canonicalizar.</param>
-        /// <param name="xpath">Expresión XPath que devuelve el nodeList a canonicalizar.</param>
-        /// <param name="namespaces">Espacios de nombres.</param>
-        /// <returns>XmlNodeList con los nodos que devuelve la expresión XPath.</returns>
-        public XmlNodeList GetXmlNodeListByXPath(XmlDocument xmlDoc, string xpath, Dictionary<string, string> namespaces = null) 
-        {
-
-            XmlNamespaceManager nm = new XmlNamespaceManager(xmlDoc.NameTable);
-
-            var nms = namespaces ?? Namespaces.Items;
-
-            foreach (KeyValuePair<string, string> n in nms)
-                nm.AddNamespace(n.Key, n.Value);
-
-            return xmlDoc.SelectNodes(xpath, nm);
-
-        }
-
-        /// <summary>
-        /// Devuelve el XML de entrada canonicalizado.
-        /// </summary>
-        /// <param name="xmlContent">XML a canonicalizar.</param>
-        /// <returns>XML de entrada canonicalizado.</returns>
-        public string GetCanonical(string xmlContent) 
-        { 
-            return CanonicalizationMethod.GetCanonicalString(xmlContent);
-        }
-
-        /// <summary>
-        /// Devuelve el XML de entrada canonicalizado.
-        /// </summary>
-        /// <param name="xmlDoc">Documento XML a canonicalizar.</param>
-        /// <returns>XML de entrada canonicalizado.</returns>
-        public string GetCanonical(XmlDocument xmlDoc)
-        {
-            return CanonicalizationMethod.GetCanonicalString(xmlDoc);
-        }
-
-        /// <summary>
-        /// Recupera el hash del documento, excluyendo en su caso la
-        /// firma.
-        /// </summary>
-        /// <param name="xmlContent">Texto del documento xm.</param>
-        /// <returns></returns>
-        public string GetDigestValue(string xmlContent)
-        {           
-
-            var canonicalXml = GetCanonical(xmlContent);
-
-            return GetStringUTF8HashToBase64(canonicalXml);
-
-
-        }
-
-        /// <summary>
-        /// Recupera el hash del documento, excluyendo en su caso la
-        /// firma.
-        /// </summary>
-        /// <param name="xmlContent">Texto del documento xm.</param>
-        /// <returns></returns>
-        public string GetXmlDocumentDigestValue(string xmlContent) 
-        {
-
-            var xml = xmlContent;
-
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.PreserveWhitespace = true;
-            xmlDoc.LoadXml(xmlContent);
-
-            var nodesSignature = xmlDoc.SelectNodes("//ds:Signature", _XmlNamespaceManager);
-
-            if (nodesSignature.Count > 0)
-                if(nodesSignature[0].ParentNode != null)
-                    nodesSignature[0].ParentNode.RemoveChild(nodesSignature[0]);
-
-            var canonicalXml = GetCanonical(xmlDoc);
-
-            return GetStringUTF8HashToBase64(canonicalXml);
-
-
-        }
-
-        /// <summary>
-        /// Devuelve el hash de una cadena previamente
-        /// codificada en UTF8 como una cadena en base 64.
-        /// </summary>
-        /// <param name="text">Texto del que obtener el hash.</param>
-        /// <returns></returns>
-        public string GetStringUTF8HashToBase64(string text)
-        {
-            return Convert.ToBase64String(GetStringUTF8Hash(text));
-        }
-
-        /// <summary>
-        /// Devuelve hash de una cadena tras codificarla
-        /// en UTF8.
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        private byte[] GetStringUTF8Hash(string text)
-        {
-            return DigestMethod.ComputeHash(CanonicalizationMethod.Encoding.GetBytes(text));
-        }
-
-
 
     }
 }

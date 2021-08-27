@@ -1,5 +1,5 @@
 ﻿/*
-    This file is part of the Irene.Solutions.Xades (R) project.
+    This file is part of the Batuz (R) project.
     Copyright (c) 2021-2022 Irene Solutions SL
     Authors: Irene Solutions SL.
 
@@ -27,11 +27,11 @@
     
     You can be released from the requirements of the license by purchasing
     a commercial license. Buying such a license is mandatory as soon as you
-    develop commercial activities involving the Irene.Solutions.Xades software without
+    develop commercial activities involving the Batuz software without
     disclosing the source code of your own applications.
     These activities include: offering paid services to customers as an ASP,
-    serving Irene.Solutions.Xades services on the fly in a web application, 
-    shipping Irene.Solutions.Xades with a closed source product.
+    serving Batuz services on the fly in a web application, 
+    shipping Batuz with a closed source product.
     
     For more information, please contact Irene Solutions SL. at this
     address: info@irenesolutions.com
@@ -42,18 +42,47 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// Identificador del objeto.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
     public class QualifyingPropertiesSignedPropertiesSignedDataObjectPropertiesDataObjectFormatObjectIdentifier : XmlElementBase
     {
 
+        #region Propiedades Públicas de Instancia
+
+        /// <summary>
+        /// OID del objeto.
+        /// </summary>
         public QualifyingPropertiesSignedPropertiesSignedDataObjectPropertiesDataObjectFormatObjectIdentifierIdentifier Identifier { get; set; }
 
-
+        /// <summary>
+        /// Descripción.
+        /// </summary>
         public string Description { get; set; }
 
+        /// <summary>
+        /// Flagg para el serializador.
+        /// </summary>
         [XmlIgnore]
         public bool DescriptionSpecified { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{Identifier}";
+        }
+
+        #endregion
 
     }
 }

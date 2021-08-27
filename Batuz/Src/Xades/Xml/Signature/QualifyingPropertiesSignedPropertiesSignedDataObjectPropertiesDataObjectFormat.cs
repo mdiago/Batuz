@@ -1,5 +1,5 @@
 ﻿/*
-    This file is part of the Irene.Solutions.Xades (R) project.
+    This file is part of the Batuz (R) project.
     Copyright (c) 2021-2022 Irene Solutions SL
     Authors: Irene Solutions SL.
 
@@ -27,11 +27,11 @@
     
     You can be released from the requirements of the license by purchasing
     a commercial license. Buying such a license is mandatory as soon as you
-    develop commercial activities involving the Irene.Solutions.Xades software without
+    develop commercial activities involving the Batuz software without
     disclosing the source code of your own applications.
     These activities include: offering paid services to customers as an ASP,
-    serving Irene.Solutions.Xades services on the fly in a web application, 
-    shipping Irene.Solutions.Xades with a closed source product.
+    serving Batuz services on the fly in a web application, 
+    shipping Batuz with a closed source product.
     
     For more information, please contact Irene Solutions SL. at this
     address: info@irenesolutions.com
@@ -42,30 +42,71 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// Datos del objeto firmado.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
     public class QualifyingPropertiesSignedPropertiesSignedDataObjectPropertiesDataObjectFormat : XmlElementBase
     {
 
+        #region Propiedades Públicas de Instancia
 
+        /// <summary>
+        /// Descripción del objeto-
+        /// </summary>
         public string Description { get; set; }
 
+        /// <summary>
+        /// Indicador de si está especificada la descripción.
+        /// Si es true, el serializador incluirá la descripción
+        /// con cadena vacía como una etiqueta vacía.
+        /// </summary>
         [XmlIgnore]
         public bool DescriptionSpecified { get; set; }
 
+        /// <summary>
+        /// Identificador del objeto según IETF RFC 3061.
+        /// </summary>
         public QualifyingPropertiesSignedPropertiesSignedDataObjectPropertiesDataObjectFormatObjectIdentifier ObjectIdentifier { get; set; }
 
-
+        /// <summary>
+        /// Tipo mime.
+        /// </summary>
         public string MimeType { get; set; }
 
-
+        /// <summary>
+        /// Codificación de texto.
+        /// </summary>
         public string Encoding { get; set; }
 
+        /// <summary>
+        /// Indicador para el serializador.
+        /// </summary>
         [XmlIgnore]
         public bool EncodingSpecified { get; set; }
 
-
+        /// <summary>
+        /// Referencia al objeto.
+        /// </summary>
         [XmlAttribute()]
         public string ObjectReference { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{ObjectReference}";
+        }
+
+        #endregion
+
     }
 }

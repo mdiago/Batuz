@@ -1,5 +1,5 @@
 ﻿/*
-    This file is part of the Irene.Solutions.Xades (R) project.
+    This file is part of the Batuz (R) project.
     Copyright (c) 2021-2022 Irene Solutions SL
     Authors: Irene Solutions SL.
 
@@ -27,11 +27,11 @@
     
     You can be released from the requirements of the license by purchasing
     a commercial license. Buying such a license is mandatory as soon as you
-    develop commercial activities involving the Irene.Solutions.Xades software without
+    develop commercial activities involving the Batuz software without
     disclosing the source code of your own applications.
     These activities include: offering paid services to customers as an ASP,
-    serving Irene.Solutions.Xades services on the fly in a web application, 
-    shipping Irene.Solutions.Xades with a closed source product.
+    serving Batuz services on the fly in a web application, 
+    shipping Batuz with a closed source product.
     
     For more information, please contact Irene Solutions SL. at this
     address: info@irenesolutions.com
@@ -49,6 +49,23 @@ namespace Batuz.TicketBai.Xades.Xml.Canonicalization
     /// </summary>
     public interface ICanonicalizationMethod
     {
+
+        #region Propiedades Públicas de Instancia
+
+        /// <summary>
+        /// Url a incluir en el atributo 'Transform Algorithm'
+        /// del elemento signature.
+        /// </summary>
+        string TransformAlgorithmUrl { get; }
+
+        /// <summary>
+        /// Codificación de texto a utilizar. UTF8 por defecto.
+        /// </summary>
+        Encoding Encoding { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
 
         /// <summary>
         /// Devuelve el XML de entrada canonicalizado.
@@ -71,16 +88,7 @@ namespace Batuz.TicketBai.Xades.Xml.Canonicalization
         /// <returns>XML de entrada canonicalizado.</returns>
         string GetCanonicalString(XmlNodeList xmlNodeList);
 
-        /// <summary>
-        /// Url a incluir en el atributo 'Transform Algorithm'
-        /// del elemento signature.
-        /// </summary>
-        string TransformAlgorithmUrl { get; }
-
-        /// <summary>
-        /// Codificación de texto a utilizar. UTF8 por defecto.
-        /// </summary>
-        Encoding Encoding { get; set; }
+        #endregion
 
     }
 }

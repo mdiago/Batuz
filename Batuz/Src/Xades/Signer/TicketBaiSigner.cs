@@ -23,50 +23,15 @@ namespace Batuz.TicketBai.Xades.Signer
 
         #region Variables Privadas de Instancia
 
-        string _XmlLoadedSource;
-        string _XmlLoadedCanonical;
-        string _XmlSigned;
-        TicketBai _TicketBai;
+        /// <summary>
+        /// Serialización del texto XML de entrada
+        /// para trabajar con los datos.
+        /// </summary>
+        TicketBai _TicketBaiTmp;
 
-
-        XmlDocument _XmlDocSignedProperties;        
-        XmlDocument _XmlDocKeyInfo;
-        XmlDocument _XmlDocSignedInfo;
-        XmlDocument _XmlDocSignatureValue;
-
-        XmlNodeList _XmlSignedPropertiesXmlNodeList;
-        XmlNodeList _XmlKeyInfoXmlNodeList;
-        XmlNodeList _XmlSignedInfoXmlNodeList;
-        XmlNodeList _XmlSignatureValueXmlNodeList;
-
-        string _IdSignature;
-        string _IdObject;
-
-        string _XmlSignedProperties;
-        string _XmlKeyInfo;
-        string _XmlSignedInfo; 
-        string _XmlSignature;
-        string _XmlSignatureValue;
-
-        string _XmlSignedPropertiesCN14;
-        string _XmlKeyInfoCN14;
-        string _XmlSignedInfoCN14;
-        string _XmlSignatureValueCN14;
-
-        string _SignedPropertiesHash;
-        string _KeyInfoHash;
 
         string _SignatureMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
 
-        #endregion
-
-        #region Propiedades Privadas Estáticas
-        #endregion
-
-        #region Propiedades Privadas de Instacia
-        #endregion
-
-        #region Construtores Estáticos
         #endregion
 
         #region Construtores de Instancia
@@ -85,47 +50,14 @@ namespace Batuz.TicketBai.Xades.Signer
 
         #endregion
 
-        #region Indexadores
-        #endregion
-
-        #region Métodos Privados Estáticos
-        #endregion
-
         #region Métodos Privados de Instancia
-
-        /// <summary>
-        /// XML obtenido tras la ejecución del método
-        /// Sign.
-        /// </summary>
-        public string XmlSigned
-        {
-            get 
-            {
-                return _XmlSigned;
-            }
-        }
-
-        #endregion
-
-        #region Propiedades Públicas Estáticas
-        #endregion
-
-        #region Propiedades Públicas de Instancia
-        #endregion
-
-        #region Métodos Públicos Estáticos
-        #endregion
-
-        #region Métodos Públicos de Instancia
-        #endregion
-
 
         /// <summary>
         /// Contruye el bloque xml 'SignedInfo'.
         /// </summary>
         /// <param name="xmlText">Texto xml del TicketBai sin firmar.</param>
         /// <returns>Elemento 'SignedInfo' de 'Signature'.</returns>
-        public SignatureSignedInfo GetSignedInfo(string xmlText) 
+        private SignatureSignedInfo GetSignedInfo(string xmlText)
         {
 
             var result = new SignatureSignedInfo()
@@ -205,7 +137,7 @@ namespace Batuz.TicketBai.Xades.Signer
         /// <param name="certificate">Certificado con el que se realiza la
         /// operación de firma.</param>
         /// <returns>Elemento 'SignedInfo' de 'Signature'.</returns>
-        public SignatureKeyInfo GetKeyInfo(X509Certificate2 certificate) 
+        private SignatureKeyInfo GetKeyInfo(X509Certificate2 certificate)
         {
 
             var certificateModulus = Convert.ToBase64String(((RSACryptoServiceProvider)certificate.PublicKey.Key).ExportParameters(false).Modulus);
@@ -241,7 +173,7 @@ namespace Batuz.TicketBai.Xades.Signer
         /// <param name="certificate">Certificado con el que se realiza
         /// la operación de firma.</param>
         /// <returns>Elemento 'SignedProperties' de 'Signature'.</returns>
-        public QualifyingPropertiesSignedProperties GetSignedProperties(X509Certificate2 certificate) 
+        private QualifyingPropertiesSignedProperties GetSignedProperties(X509Certificate2 certificate)
         {
 
             var result = new QualifyingPropertiesSignedProperties()
@@ -333,23 +265,23 @@ namespace Batuz.TicketBai.Xades.Signer
         /// <param name="xmlText">Texto del TicketBai a firmar.</param>
         /// <param name="certificate">Certificado a utilziar en la firma.</param>
         /// <returns>Elemento 'Signature' de 'TicketBai'. </returns>
-        public Xml.Signature.Signature GetEmptySignature(string xmlText, X509Certificate2 certificate) 
+        private Xml.Signature.Signature GetEmptySignature(string xmlText, X509Certificate2 certificate)
         {
 
             var result = new Xml.Signature.Signature()
             {
                 Id = $"Signature-{_IdSignature}-Signature",
                 SignedInfo = GetSignedInfo(xmlText),
-                SignatureValue = new SignatureSignatureValue() 
-                { 
+                SignatureValue = new SignatureSignatureValue()
+                {
                     Id = $"Signature-{_IdSignature}-SignatureValue",
                     Value = null
                 },
                 KeyInfo = GetKeyInfo(certificate),
                 Object = new SignatureObject()
                 {
-                    QualifyingProperties = new QualifyingProperties() 
-                    { 
+                    QualifyingProperties = new QualifyingProperties()
+                    {
                         Id = $"Signature-{_IdSignature}-QualifyingProperties",
                         Target = $"#Signature-{_IdSignature}-Signature",
                         SignedProperties = GetSignedProperties(certificate)
@@ -362,35 +294,14 @@ namespace Batuz.TicketBai.Xades.Signer
         }
 
         /// <summary>
-        /// Carga el texto xml de un TicketBai
-        /// </summary>
-        /// <param name="xml"></param>
-        public void Load(string xml) 
-        {
-            
-            _XmlLoadedSource = xml;
-            _XmlLoadedCanonical = GetCanonical(_XmlLoadedSource);
-
-            XmlSerializer serializer = new XmlSerializer(typeof(TicketBai));         
-
-            using(Stream reader = new MemoryStream(Encoding.UTF8.GetBytes(_XmlLoadedCanonical)))
-                _TicketBai = (TicketBai)serializer.Deserialize(reader);
-
-            _XmlDocLoadedSource = GetXmlDocument(_XmlLoadedSource);
-
-            _XmlNamespaceManager = GetDefaultXmlNamespaceManager(_XmlDocLoadedSource);
-
-        }
-
-        /// <summary>
         /// Soluciona el problema con las Stag con autocierre de Microsoft.
         /// (sustituye ' />' por '/>') eliminando el espacio 
         /// </summary>
         /// <param name="xml">XML a limpiar.</param>
         /// <returns>XML limpio.</returns>
-        public string ClearAutoSelfClosedTagSpaces(string xml) 
-        { 
-        
+        private string ClearAutoSelfClosedTagSpaces(string xml)
+        {
+
             return Regex.Replace(xml,
                 @"(?<=<(\w+:){0,1}[^>]*)\s/>", "/>");
 
@@ -399,32 +310,32 @@ namespace Batuz.TicketBai.Xades.Signer
         /// <summary>
         /// Prepara SignedProperties para la firma.
         /// </summary>
-        public void PrepareSignedProperties() 
+        private void PrepareSignedProperties()
         {
 
             var parser = new XmlParser();
 
-            var xml = parser.GetString(_TicketBai, Namespaces.Items);
+            var xml = parser.GetString(_TicketBaiTmp, Namespaces.Items);
 
             _XmlDocSignedProperties = GetXmlDocument(xml);
             _XmlSignedPropertiesXmlNodeList = GetXmlNodeListByXPath(_XmlDocSignedProperties,
                 "//xades:SignedProperties/descendant-or-self::node()|//xades:SignedProperties//@*");
 
-            _XmlSignedProperties = Regex.Match(xml, 
+            _XmlSignedProperties = Regex.Match(xml,
                 @"<(\w+:){0,1}SignedProperties[^>]*>[\S\s]+</(\w+:){0,1}SignedProperties>").Value;
 
             _XmlSignedProperties = ClearAutoSelfClosedTagSpaces(_XmlSignedProperties);
 
             _XmlSignedPropertiesCN14 = CanonicalizationMethod.GetCanonicalString(_XmlSignedPropertiesXmlNodeList);
             _SignedPropertiesHash = GetDigestValue(_XmlSignedPropertiesCN14);
-            _TicketBai.Signature.SignedInfo.Reference[1].DigestValue = _SignedPropertiesHash;
+            _TicketBaiTmp.Signature.SignedInfo.Reference[1].DigestValue = _SignedPropertiesHash;
 
         }
 
         /// <summary>
         /// Prepara KeyInfo para la firma.
         /// </summary>
-        public void PrepareKeyInfo() 
+        private void PrepareKeyInfo()
         {
 
             var parser = new XmlParser();
@@ -435,7 +346,7 @@ namespace Batuz.TicketBai.Xades.Signer
                 { "ds",         "http://www.w3.org/2000/09/xmldsig#"},
             };
 
-            var xml = parser.GetString(_TicketBai, namespaces);
+            var xml = parser.GetString(_TicketBaiTmp, namespaces);
 
             _XmlDocKeyInfo = GetXmlDocument(xml);
             _XmlKeyInfoXmlNodeList = GetXmlNodeListByXPath(_XmlDocKeyInfo,
@@ -446,9 +357,9 @@ namespace Batuz.TicketBai.Xades.Signer
 
             _XmlKeyInfo = ClearAutoSelfClosedTagSpaces(_XmlKeyInfo);
 
-            _XmlKeyInfoCN14 = CanonicalizationMethod.GetCanonicalString(_XmlKeyInfoXmlNodeList); 
+            _XmlKeyInfoCN14 = CanonicalizationMethod.GetCanonicalString(_XmlKeyInfoXmlNodeList);
             _KeyInfoHash = GetDigestValue(_XmlKeyInfoCN14);
-            _TicketBai.Signature.SignedInfo.Reference[2].DigestValue = _KeyInfoHash;
+            _TicketBaiTmp.Signature.SignedInfo.Reference[2].DigestValue = _KeyInfoHash;
 
         }
 
@@ -456,7 +367,7 @@ namespace Batuz.TicketBai.Xades.Signer
         /// Cálcula firma y actualiza SignatureValue.
         /// </summary>
         /// <param name="certificate">Certificado con el que realizar la firma.</param>
-        public void ComputeSignature(X509Certificate2 certificate) 
+        private void ComputeSignature(X509Certificate2 certificate)
         {
 
             var parser = new XmlParser();
@@ -475,13 +386,13 @@ namespace Batuz.TicketBai.Xades.Signer
                 RSACryptoServiceProvider pk = (RSACryptoServiceProvider)certificate.PrivateKey;
                 byte[] Sign = pk.SignData(DataToSign, SignatureHashAlgorithm);
 
-                _TicketBai.Signature.SignatureValue = new SignatureSignatureValue()
+                _TicketBaiTmp.Signature.SignatureValue = new SignatureSignatureValue()
                 {
                     Id = $"Signature-{_IdSignature}-SignatureValue",
                     Value = Convert.ToBase64String(Sign)
                 };
 
-                var  xml = parser.GetString(_TicketBai, namespaces);
+                var xml = parser.GetString(_TicketBaiTmp, namespaces);
 
                 _XmlDocSignatureValue = GetXmlDocument(xml);
 
@@ -493,7 +404,7 @@ namespace Batuz.TicketBai.Xades.Signer
 
                 _XmlSignatureValue = ClearAutoSelfClosedTagSpaces(_XmlSignatureValue);
 
-                _XmlSignatureValueCN14 = CanonicalizationMethod.GetCanonicalString(_XmlSignedInfoXmlNodeList);                
+                _XmlSignatureValueCN14 = CanonicalizationMethod.GetCanonicalString(_XmlSignedInfoXmlNodeList);
 
             }
             catch (Exception ex)
@@ -508,7 +419,7 @@ namespace Batuz.TicketBai.Xades.Signer
         /// Prepara SignedInfo para la firma.
         /// </summary>
         /// <param name="certificate">Certificado con el que realizar la firma.</param>
-        public void PrepareSignedInfo(X509Certificate2 certificate) 
+        private void PrepareSignedInfo(X509Certificate2 certificate)
         {
 
             var parser = new XmlParser();
@@ -519,7 +430,7 @@ namespace Batuz.TicketBai.Xades.Signer
                 { "ds",         "http://www.w3.org/2000/09/xmldsig#"},
             };
 
-            var xml = parser.GetString(_TicketBai, namespaces);
+            var xml = parser.GetString(_TicketBaiTmp, namespaces);
 
             _XmlDocSignedInfo = GetXmlDocument(xml);
             _XmlSignedInfoXmlNodeList = GetXmlNodeListByXPath(_XmlDocSignedInfo,
@@ -542,7 +453,7 @@ namespace Batuz.TicketBai.Xades.Signer
         /// </summary>
         /// <param name="xmlDoc">XmlDocument para el que se va a crear.</param>
         /// <returns>XmlNamespaceManager para un documento.</returns>
-        public XmlNamespaceManager GetDefaultXmlNamespaceManager(XmlDocument xmlDoc) 
+        private XmlNamespaceManager GetDefaultXmlNamespaceManager(XmlDocument xmlDoc)
         {
 
             XmlNamespaceManager result = new XmlNamespaceManager(xmlDoc.NameTable);
@@ -559,7 +470,7 @@ namespace Batuz.TicketBai.Xades.Signer
         /// </summary>
         /// <param name="xmlDoc">XmlDocument del que obtener el texto XML.</param>
         /// <returns>Texto XML del documento.</returns>
-        public string GetXmlText(XmlDocument xmlDoc)
+        private string GetXmlText(XmlDocument xmlDoc)
         {
 
             string result = null;
@@ -580,10 +491,10 @@ namespace Batuz.TicketBai.Xades.Signer
         /// Devuelve el XmlNode del TicketBai orígen para la firma.
         /// </summary>
         /// <returns>XmlNode del TicketBai orígen para la firma.</returns>
-        public XmlNode GetSourceTicketBai() 
+        private XmlNode GetSourceTicketBai()
         {
 
-            if(_XmlDocLoadedSource == null)
+            if (_XmlDocLoadedSource == null)
                 throw new Exception("No XmlDocLoadedSource found.");
 
             if (_XmlNamespaceManager == null)
@@ -603,7 +514,7 @@ namespace Batuz.TicketBai.Xades.Signer
         /// Borra el elmento Sginature del nodo TicketBai.
         /// </summary>
         /// <param name="ticketBai">Nodo TicketBai.</param>
-        public void DeleteSignature(XmlNode ticketBai) 
+        private void DeleteSignature(XmlNode ticketBai)
         {
 
             if (_XmlNamespaceManager == null)
@@ -620,10 +531,10 @@ namespace Batuz.TicketBai.Xades.Signer
         /// Devuelve el texto XML de la firma generada.
         /// </summary>
         /// <returns>Texto XML de la firma generada.</returns>
-        public string GetNewSignatureXmlText() 
+        private string GetNewSignatureXmlText()
         {
 
-            if (_TicketBai == null)
+            if (_TicketBaiTmp == null)
                 throw new Exception("No TicketBai found.");
 
             if (_XmlNamespaceManager == null)
@@ -631,7 +542,7 @@ namespace Batuz.TicketBai.Xades.Signer
 
             var parser = new XmlParser();
 
-            var xml = parser.GetString(_TicketBai, Namespaces.Items);
+            var xml = parser.GetString(_TicketBaiTmp, Namespaces.Items);
             XmlDocument xmlDocPreSigned = new XmlDocument();
             xmlDocPreSigned.PreserveWhitespace = true;
             xmlDocPreSigned.LoadXml(_XmlLoadedSource);
@@ -650,12 +561,12 @@ namespace Batuz.TicketBai.Xades.Signer
         /// <summary>
         /// Inserta una nueva firma en el documento XML orígen.
         /// </summary>
-        public void InsertSignatureInXmlDocLoadedSource() 
+        private void InsertSignatureInXmlDocLoadedSource()
         {
 
             var ticketBai = GetSourceTicketBai();
 
-            if (_TicketBai == null)
+            if (_TicketBaiTmp == null)
                 throw new Exception("No TicketBai found.");
 
             DeleteSignature(ticketBai);
@@ -673,7 +584,7 @@ namespace Batuz.TicketBai.Xades.Signer
         /// Actualiza los bloques de la firma canonicalizados para el digest
         /// con el xml utilizado antes de la canonicalización.
         /// </summary>
-        public void UpdateSignatureXml() 
+        private void UpdateSignatureXml()
         {
 
             // Incluyo los xml orígen
@@ -702,75 +613,18 @@ namespace Batuz.TicketBai.Xades.Signer
         }
 
         /// <summary>
-        /// Realiza las operaciones de preparación de la firma.
-        /// </summary>
-        /// <param name="certificate">Certificado con el que realizar la firma.</param>
-        public void Sign(X509Certificate2 certificate) 
-        {
-
-            _IdSignature = $"{Guid.NewGuid()}";
-            _IdObject = $"{Guid.NewGuid()}"; 
-
-            _TicketBai.Signature = GetEmptySignature(_XmlLoadedCanonical, certificate);
-
-            PrepareSignedProperties();
-
-            PrepareKeyInfo();
-
-            PrepareSignedInfo(certificate);
-
-            UpdateSignatureXml();
-
-        }
-
-        /// <summary>
-        /// Devuelve un mensaje con la validación de la firma.
-        /// </summary>
-        /// <returns>Devuelve un mensaje con la validación de la firma.</returns>
-        public bool Validate()
-        {
-
-            return ValidateTicketBaiRef() && 
-                ValidateSignaturePropertiesRef() && 
-                ValidateKeyInfoRef() && 
-                ValidateSignature();
-
-        }
-
-        /// <summary>
-        /// Devuelve un mensaje con la validación de la firma.
-        /// </summary>
-        /// <returns>Devuelve un mensaje con la validación de la firma.</returns>
-        public string GetValidateInfo() 
-        {
-
-            string result = "";
-
-            result += $"DIGEST DE LA REFERENCIA OBJETO " +( ValidateTicketBaiRef() ? "VALIDO" : "INVALIDO");
-
-            result += $"\nDIGEST DE LA REFERENCIA SIGNED PROPERTIES " + (ValidateSignaturePropertiesRef() ? "VALIDO" : "INVALIDO");
-
-            result += $"\nDIGEST DE LA REFERENCIA KEY INFO " + (ValidateKeyInfoRef() ? "VALIDO" : "INVALIDO"); 
-
-            result += $"\nFIRMA " + (ValidateSignature() ? "VALIDA" : "INVALIDA");
-
-            return result;
-
-        }
-
-        /// <summary>
         /// Valida la firma del xml cargado.
         /// </summary>
         /// <returns>Mensaje informando del resultado de la validación.</returns>
-        private bool ValidateSignature() 
+        private bool ValidateSignature()
         {
 
-            if (_TicketBai.Signature == null)
+            if (_TicketBaiTmp.Signature == null)
                 throw new InvalidOperationException("No Signature found");
 
-            var signature = Convert.FromBase64String(_TicketBai.Signature.SignatureValue.Value);
-            var modulus = Convert.FromBase64String(_TicketBai.Signature.KeyInfo.KeyValue.RSAKeyValue.Modulus);
-            var exponent = Convert.FromBase64String(_TicketBai.Signature.KeyInfo.KeyValue.RSAKeyValue.Exponent);
+            var signature = Convert.FromBase64String(_TicketBaiTmp.Signature.SignatureValue.Value);
+            var modulus = Convert.FromBase64String(_TicketBaiTmp.Signature.KeyInfo.KeyValue.RSAKeyValue.Modulus);
+            var exponent = Convert.FromBase64String(_TicketBaiTmp.Signature.KeyInfo.KeyValue.RSAKeyValue.Exponent);
 
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
 
@@ -804,7 +658,7 @@ namespace Batuz.TicketBai.Xades.Signer
         private bool ValidateSignaturePropertiesRef()
         {
 
-            if (_TicketBai.Signature == null)
+            if (_TicketBaiTmp.Signature == null)
                 throw new InvalidOperationException("No Signature found");
 
             var xmlSignedPropertiesXmlNodeList = GetXmlNodeListByXPath(_XmlDocLoadedSource,
@@ -820,7 +674,7 @@ namespace Batuz.TicketBai.Xades.Signer
 
             SignatureSignedInfoReference reference = null;
 
-            foreach (var currentRef in _TicketBai.Signature.SignedInfo.Reference)
+            foreach (var currentRef in _TicketBaiTmp.Signature.SignedInfo.Reference)
                 if (currentRef.Type == "http://uri.etsi.org/01903#SignedProperties")
                     reference = currentRef;
 
@@ -839,7 +693,7 @@ namespace Batuz.TicketBai.Xades.Signer
         private bool ValidateKeyInfoRef()
         {
 
-            if (_TicketBai.Signature == null)
+            if (_TicketBaiTmp.Signature == null)
                 throw new InvalidOperationException("No Signature found");
 
             var xmlKeyInfoXmlNodeList = GetXmlNodeListByXPath(_XmlDocLoadedSource,
@@ -855,8 +709,8 @@ namespace Batuz.TicketBai.Xades.Signer
 
             SignatureSignedInfoReference reference = null;
 
-            foreach (var currentRef in _TicketBai.Signature.SignedInfo.Reference)
-                if (currentRef.URI.EndsWith("KeyInfo"))                    
+            foreach (var currentRef in _TicketBaiTmp.Signature.SignedInfo.Reference)
+                if (currentRef.URI.EndsWith("KeyInfo"))
                     reference = currentRef;
 
             if (reference == null)
@@ -873,12 +727,12 @@ namespace Batuz.TicketBai.Xades.Signer
         private bool ValidateTicketBaiRef()
         {
 
-            if (_TicketBai.Signature == null)
+            if (_TicketBaiTmp.Signature == null)
                 throw new InvalidOperationException("No Signature found");
 
             SignatureSignedInfoReference reference = null;
 
-            foreach (var currentRef in _TicketBai.Signature.SignedInfo.Reference)
+            foreach (var currentRef in _TicketBaiTmp.Signature.SignedInfo.Reference)
                 if (currentRef.Type == "http://www.w3.org/2000/09/xmldsig#Object")
                     reference = currentRef;
 
@@ -892,8 +746,86 @@ namespace Batuz.TicketBai.Xades.Signer
 
         }
 
+        #endregion
 
+        #region Métodos Públicos de Instancia
 
+        /// <summary>
+        /// Carga el texto xml de un TicketBai
+        /// </summary>
+        /// <param name="xml"></param>
+        public void Load(string xml)
+        {
+
+            _XmlLoadedSource = xml;
+            _XmlLoadedCanonical = GetCanonical(_XmlLoadedSource);
+
+            XmlSerializer serializer = new XmlSerializer(typeof(TicketBai));
+
+            using (Stream reader = new MemoryStream(Encoding.UTF8.GetBytes(_XmlLoadedCanonical)))
+                _TicketBaiTmp = (TicketBai)serializer.Deserialize(reader);
+
+            _XmlDocLoadedSource = GetXmlDocument(_XmlLoadedSource);
+
+            _XmlNamespaceManager = GetDefaultXmlNamespaceManager(_XmlDocLoadedSource);
+
+        }
+
+        /// <summary>
+        /// Realiza las operaciones de preparación de la firma.
+        /// </summary>
+        /// <param name="certificate">Certificado con el que realizar la firma.</param>
+        public void Sign(X509Certificate2 certificate)
+        {
+
+            _IdSignature = $"{Guid.NewGuid()}";
+            _IdObject = $"{Guid.NewGuid()}";
+
+            _TicketBaiTmp.Signature = GetEmptySignature(_XmlLoadedCanonical, certificate);
+
+            PrepareSignedProperties();
+            PrepareKeyInfo();
+            PrepareSignedInfo(certificate);
+            UpdateSignatureXml();
+
+        }
+
+        /// <summary>
+        /// Devuelve un mensaje con la validación de la firma.
+        /// </summary>
+        /// <returns>Devuelve un mensaje con la validación de la firma.</returns>
+        public bool Validate()
+        {
+
+            return ValidateTicketBaiRef() &&
+                ValidateSignaturePropertiesRef() &&
+                ValidateKeyInfoRef() &&
+                ValidateSignature();
+
+        }
+
+        /// <summary>
+        /// Devuelve un mensaje con la validación de la firma.
+        /// </summary>
+        /// <returns>Devuelve un mensaje con la validación de la firma.</returns>
+        public string GetValidateInfo()
+        {
+
+            string result = "";
+
+            result += $"DIGEST DE LA REFERENCIA OBJETO " + (ValidateTicketBaiRef() ? "VALIDO" : "INVALIDO");
+
+            result += $"\nDIGEST DE LA REFERENCIA SIGNED PROPERTIES " + (ValidateSignaturePropertiesRef() ? "VALIDO" : "INVALIDO");
+
+            result += $"\nDIGEST DE LA REFERENCIA KEY INFO " + (ValidateKeyInfoRef() ? "VALIDO" : "INVALIDO");
+
+            result += $"\nFIRMA " + (ValidateSignature() ? "VALIDA" : "INVALIDA");
+
+            return result;
+
+        }
+
+        #endregion
 
     }
 }

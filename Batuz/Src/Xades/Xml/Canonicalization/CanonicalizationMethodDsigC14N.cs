@@ -1,5 +1,5 @@
 ﻿/*
-    This file is part of the Irene.Solutions.Xades (R) project.
+    This file is part of the Batuz (R) project.
     Copyright (c) 2021-2022 Irene Solutions SL
     Authors: Irene Solutions SL.
 
@@ -27,11 +27,11 @@
     
     You can be released from the requirements of the license by purchasing
     a commercial license. Buying such a license is mandatory as soon as you
-    develop commercial activities involving the Irene.Solutions.Xades software without
+    develop commercial activities involving the Batuz software without
     disclosing the source code of your own applications.
     These activities include: offering paid services to customers as an ASP,
-    serving Irene.Solutions.Xades services on the fly in a web application, 
-    shipping Irene.Solutions.Xades with a closed source product.
+    serving Batuz services on the fly in a web application, 
+    shipping Batuz with a closed source product.
     
     For more information, please contact Irene Solutions SL. at this
     address: info@irenesolutions.com
@@ -53,28 +53,17 @@ namespace Batuz.TicketBai.Xades.Xml.Canonicalization
     public class CanonicalizationMethodDsigC14N : ICanonicalizationMethod
     {
 
+        #region Variables Privadas de Instancia
+
         /// <summary>
         /// Url a incluir en el atributo 'Transform Algorithm'
         /// del elemento signature.
         /// </summary>
         string _TransformAlgorithmUrl = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
 
-        /// <summary>
-        /// Url a incluir en el atributo 'Transform Algorithm'
-        /// del elemento signature.
-        /// </summary>
-        public string TransformAlgorithmUrl 
-        { 
-            get 
-            { 
-                return _TransformAlgorithmUrl; 
-            }
-        }
+        #endregion
 
-        /// <summary>
-        /// Codificación de texto a utilizar. UTF8 por defecto.
-        /// </summary>
-        public Encoding Encoding { get; set; }
+        #region Construtores de Instancia
 
         /// <summary>
         /// Constructor.
@@ -86,12 +75,38 @@ namespace Batuz.TicketBai.Xades.Xml.Canonicalization
 
         }
 
+
+        #endregion
+
+        #region Propiedades Públicas de Instancia
+
+        /// <summary>
+        /// Url a incluir en el atributo 'Transform Algorithm'
+        /// del elemento signature.
+        /// </summary>
+        public string TransformAlgorithmUrl
+        {
+            get
+            {
+                return _TransformAlgorithmUrl;
+            }
+        }
+
+        /// <summary>
+        /// Codificación de texto a utilizar. UTF8 por defecto.
+        /// </summary>
+        public Encoding Encoding { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
         /// <summary>
         /// Devuelve el XML de entrada canonicalizado.
         /// </summary>
         /// <param name="xmlContent">XML a canonicalizar.</param>
         /// <returns>XML de entrada canonicalizado.</returns>
-        public string GetCanonicalString(string xmlContent) 
+        public string GetCanonicalString(string xmlContent)
         {
 
             XmlDocument xmlDoc = new XmlDocument();
@@ -118,7 +133,7 @@ namespace Batuz.TicketBai.Xades.Xml.Canonicalization
             xmlTransform.LoadInput(xmlDoc);
             MemoryStream ms = (MemoryStream)xmlTransform.GetOutput(typeof(MemoryStream));
 
-            return Encoding.UTF8.GetString(ms.ToArray());         
+            return Encoding.UTF8.GetString(ms.ToArray());
 
         }
 
@@ -168,6 +183,8 @@ namespace Batuz.TicketBai.Xades.Xml.Canonicalization
             return Encoding.UTF8.GetString(ms.ToArray());
 
         }
+
+        #endregion
 
 
     }
