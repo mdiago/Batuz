@@ -119,8 +119,30 @@ namespace Batuz
 
         }
 
+        /// <summary>
+        /// Obtiene una intancia de un tipo determinado
+        /// a partir de un string con un xml válido para 
+        /// la representación del tipo.
+        /// </summary>
+        /// <typeparam name="T">Tipo a deserializar.</typeparam>
+        /// <param name="xml">XNL de una instancia del tipo.</param>
+        /// <returns>Objeto del tipo obtenido del texto XML.</returns>
+        public T GetInstance<T>(string xml) 
+        {
 
+            T result = default(T);
 
+            XmlSerializer serializer =
+                new XmlSerializer(typeof(T));
+
+            var instance = new XmlSerializer(typeof(T));
+
+            using (TextReader reader = new StringReader(xml))
+                result = (T)serializer.Deserialize(reader);
+
+            return result;
+
+        }
 
     }
 }

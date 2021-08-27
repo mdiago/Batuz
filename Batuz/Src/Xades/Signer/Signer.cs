@@ -58,6 +58,17 @@ namespace Batuz.TicketBai.Xades.Signer
         #endregion
 
         #region Variables Privadas de Instancia
+
+        /// <summary>
+        /// Gestor de espacios de nombres por defecto.
+        /// </summary>
+        protected XmlNamespaceManager _XmlNamespaceManager;
+
+        /// <summary>
+        /// XmlDocument creado con el XML oríginal cargado.
+        /// </summary>
+        protected XmlDocument _XmlDocLoadedSource;
+
         #endregion
 
         #region Propiedades Privadas Estáticas
@@ -218,12 +229,7 @@ namespace Batuz.TicketBai.Xades.Signer
             xmlDoc.PreserveWhitespace = true;
             xmlDoc.LoadXml(xmlContent);
 
-            XmlNamespaceManager nm = new XmlNamespaceManager(xmlDoc.NameTable);
-
-            foreach (KeyValuePair<string, string> n in Namespaces.Items)
-                nm.AddNamespace(n.Key, n.Value);
-
-            var nodesSignature = xmlDoc.SelectNodes("//ds:Signature", nm);
+            var nodesSignature = xmlDoc.SelectNodes("//ds:Signature", _XmlNamespaceManager);
 
             if (nodesSignature.Count > 0)
                 if(nodesSignature[0].ParentNode != null)
