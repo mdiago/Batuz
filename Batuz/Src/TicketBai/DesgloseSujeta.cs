@@ -52,19 +52,19 @@ namespace Batuz.TicketBai
     /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true)]
-    public class FacturaTipoDesgloseDesgloseFacturaSujeta
+    public class DesgloseSujeta
     {
 
         /// <summary>
         /// Detalle información no exenta de IVA.
         /// </summary>
-        public FacturaTipoDesgloseDesgloseFacturaSujetaExenta Exenta { get; set; }
+        public DesgloseSujetaExenta Exenta { get; set; }
 
 
         /// <summary>
         /// Detalle información no exenta de IVA.
         /// </summary>
-        public FacturaTipoDesgloseDesgloseFacturaSujetaNoExenta NoExenta { get; set; }
+        public DesgloseSujetaNoExenta NoExenta { get; set; }
 
     }
 }

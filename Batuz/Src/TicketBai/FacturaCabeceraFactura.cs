@@ -79,6 +79,29 @@ namespace Batuz.TicketBai
         /// </summary>
         public string HoraExpedicionFactura { get; set; }
 
+        /// <summary>
+        /// Identificador que especifica si se trata de una
+        /// factura simplificada o una factura completa.Si no
+        /// se informa este campo se entenderá que tiene
+        /// valor «N», entendiéndose que se trata de una
+        /// factura completa.
+        /// </summary>
+        public string FacturaSimplificada { get; set; }
+
+        /// <summary>
+        /// Identificador que especifica si se trata de una
+        /// factura emitida en sustitución de una factura
+        /// simplificada.Si no se informa este campo se
+        /// entenderá que tiene valor «N».
+        /// </summary>
+        public string FacturaEmitidaSustitucionSimplificada { get; set; } 
+
+        /// <summary>
+        /// Datos factura rectificativa.
+        /// </summary>
+        public FacturaCabeceraFacturaFacturaRectificativa FacturaRectificativa { get; set; }
+
+
     }
 
 }

@@ -1,6 +1,6 @@
 ﻿/*
-    This file is part of the Batuz (R) project.
-    Copyright (c) 2021-2022 Irene Solutions SL
+    This file is part of the EasySII (R) project.
+    Copyright (c) 2017-2018 Irene Solutions SL
     Authors: Irene Solutions SL.
 
     This program is free software; you can redistribute it and/or modify
@@ -27,48 +27,48 @@
     
     You can be released from the requirements of the license by purchasing
     a commercial license. Buying such a license is mandatory as soon as you
-    develop commercial activities involving the Batuz software without
+    develop commercial activities involving the EasySII software without
     disclosing the source code of your own applications.
     These activities include: offering paid services to customers as an ASP,
-    serving Batuz services on the fly in a web application, 
-    shipping Batuz with a closed source product.
+    serving sii XML data on the fly in a web application, shipping EasySII
+    with a closed source product.
     
     For more information, please contact Irene Solutions SL. at this
     address: info@irenesolutions.com
  */
 
-using System;
-using System.Xml.Serialization;
+using System.Collections.Generic;
 
-namespace Batuz.TicketBai.Xades.Xml.Signature
+namespace Batuz.TicketBai
 {
 
     /// <summary>
-    /// Contiene información sobre qué es lo que se firma y cómo se firma, es decir, 
-    /// contiene la información necesaria para crear y validar la firma.
+    /// Datos factura rectificativa.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public class SignatureSignedInfo : XmlElementBase
+    public class FacturaCabeceraFacturaFacturaRectificativa
     {
 
         /// <summary>
-        /// Algoritmo de transformación de SignedInfo antes de realizar la firma digital.
+        /// Código que identifica el tipo de factura
+        /// rectificativa. Alfanumérico (2) L7.
         /// </summary>
-        public SignatureSignedInfoCanonicalizationMethod CanonicalizationMethod { get; set; }
+        public string Codigo { get; set; }
 
         /// <summary>
-        /// Algoritmo utilizado para calcular el valor de la firma digital.
+        /// Identifica si el tipo de factura rectificativa es por
+        /// sustitución o por diferencias. Alfanumérico (1) L8.
         /// </summary>
-        public SignatureSignedInfoSignatureMethod SignatureMethod { get; set; }
+        public string Tipo { get; set; }
 
         /// <summary>
-        /// Referencias a los objetos que se van a firmar que incluye además DigestMethod y DigestValue.
-        /// La validación de una firma requiere dos procesos que son la validación de la firma y la validación de
-        /// los resultados de las referencias.
+        /// Importes impuesto factura rectificativa.
         /// </summary>
-        [XmlElement("Reference")]
-        public SignatureSignedInfoReference[] Reference { get; set; }
+        public FacturaCabeceraFacturaFacturaRectificativaImporteRectificacionSustitutiva ImporteRectificacionSustitutiva { get; set; }
+
+        /// <summary>
+        /// Lista de facturas sustituidas.
+        /// </summary>
+        public List<FacturaCabeceraFacturaFacturaRectificativaIDFacturaRectificadaSustituida> FacturasRectificadasSustituidas { get; set; }
 
     }
 }

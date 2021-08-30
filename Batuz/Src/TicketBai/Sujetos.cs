@@ -76,6 +76,14 @@ namespace Batuz.TicketBai
         /// </summary>
         public string VariosDestinatarios { get; set; }
 
+        /// <summary>
+        /// Identificador que especifica si la factura ha sido
+        /// emitida por un tercero o una tercera o por el
+        /// destinatario o la destinataria.Si no se informa
+        /// este campo se entenderá que tiene valor «N».
+        /// </summary>
+        public string EmitidaPorTercerosODestinatario { get; set; }
+
     }
 
 }

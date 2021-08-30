@@ -57,7 +57,9 @@ namespace Batuz.TicketBai
     public class FacturaTipoDesglose
     {
 
-        /// <remarks/>
+        /// <summary>
+        /// Cuando la contraparte es un “nacional” o no existe contraparte.
+        /// </summary>
         public FacturaTipoDesgloseDesgloseFactura DesgloseFactura { get; set; }
 
     }

@@ -410,7 +410,9 @@ namespace Batuz.TicketBai.Xades.Signer
             catch (Exception ex)
             {
                 throw new Exception($"Error: {ex.Message}.\nUpdate CSP for SHA256 in your certificate:\n" +
-                    $"certutil -importPFX -csp \"Microsoft Enhanced RSA and AES Cryptographic Provider\" -v C:\\Path\\cert.pfx");
+                    $"certutil -importPFX -user -v -privatekey -p elefante090376 " +
+                    $"-csp \"Microsoft Enhanced RSA and AES Cryptographic Provider\"" +
+                    $" C:\\Users\\usuario\\Downloads\\cert.pfx");
             }
 
         }

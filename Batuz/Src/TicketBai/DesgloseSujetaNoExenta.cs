@@ -48,23 +48,17 @@ namespace Batuz.TicketBai
 {
 
     /// <summary>
-    /// Bloque de información de IVA sujera y no exenta.
+    /// Detalle de la información de IVA no exenta.
     /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true)]
-    public class FacturaTipoDesgloseDesgloseFacturaSujeta
+    public class DesgloseSujetaNoExenta
     {
 
         /// <summary>
-        /// Detalle información no exenta de IVA.
+        /// Detalle de la información de IVA no exenta.
         /// </summary>
-        public FacturaTipoDesgloseDesgloseFacturaSujetaExenta Exenta { get; set; }
-
-
-        /// <summary>
-        /// Detalle información no exenta de IVA.
-        /// </summary>
-        public FacturaTipoDesgloseDesgloseFacturaSujetaNoExenta NoExenta { get; set; }
+        public FacturaTipoDesgloseDesgloseFacturaSujetaNoExentaDetalleNoExenta DetalleNoExenta { get; set; }
 
     }
 }

@@ -61,9 +61,22 @@ namespace Batuz.TicketBai
         public string NIF { get; set; }
 
         /// <summary>
-        /// Nombre sujeto.
+        /// Cuando el identificador es distinto del NIF establece el tipo de identificador utilizado.
+        /// </summary>
+        public IDOtro IDOtro { get; set; }
+
+        /// <summary>
+        /// Apellidos y nombre o razón social o
+        /// denominación social completa del destinatario o
+        /// de la destinataria. Alfanumérico (120).
         /// </summary>
         public string ApellidosNombreRazonSocial { get; set; }
+
+        /// <summary>
+        /// Código postal del destinatario o de la destinataria.
+        /// Numérico (5).
+        /// </summary>
+        public string CodigoPostal { get; set; }
 
     }
 

@@ -61,7 +61,8 @@ namespace Batuz.TicketBai
         /// o una operación con trascendencia tributaria.
         /// Alfanumérico (2) L9.
         /// </summary>
-        public FacturaDatosFacturaClavesIDClave IDClave { get; set; }
+        [XmlElement("IDClave")]
+        public FacturaDatosFacturaClavesIDClave[] IDClave { get; set; }
 
     }
 

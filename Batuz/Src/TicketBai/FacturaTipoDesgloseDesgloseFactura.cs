@@ -60,5 +60,11 @@ namespace Batuz.TicketBai
         /// </summary>
         public FacturaTipoDesgloseDesgloseFacturaSujeta Sujeta { get; set; }
 
+        /// <summary>
+        /// Bloque de información sujeta a IVA.
+        /// </summary>
+        public FacturaTipoDesgloseDesgloseFacturaNoSujeta NoSujeta { get; set; }
+
+
     }
 }

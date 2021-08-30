@@ -56,6 +56,12 @@ namespace Batuz.TicketBai
     {
 
         /// <summary>
+        /// Fecha de operación de la factura.
+        /// Formato Fecha (10) (dd-mm-aaaa).
+        /// </summary>
+        public string FechaOperacion { get; set; }
+
+        /// <summary>
         /// Descripción general de las operaciones.
         /// Alfanumérico (250)
         /// </summary>
@@ -66,6 +72,18 @@ namespace Batuz.TicketBai
         /// Decimal (12,2).
         /// </summary>
         public decimal ImporteTotalFactura { get; set; }
+
+        /// <summary>
+        /// Retención soportada.
+        /// Decimal (12,2).
+        /// </summary>
+        public decimal RetencionSoportada { get; set; }
+
+        /// <summary>
+        /// Base imponible a coste (para grupos de IVA–nivel avanzado) 
+        /// Decimal (12,2).
+        /// </summary>
+        public decimal BaseImponibleACoste { get; set; }
 
         /// <summary>
         /// Clave que identificará el tipo de régimen del IVA

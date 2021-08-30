@@ -41,30 +41,25 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
-using System.Xml.Serialization;
-
 namespace Batuz.TicketBai
 {
 
     /// <summary>
-    /// Bloque de información de IVA sujera y no exenta.
+    /// Desglose de factura exenta.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class FacturaTipoDesgloseDesgloseFacturaSujeta
+    public class FacturaTipoDesgloseDesgloseFacturaSujetaExenta
     {
 
         /// <summary>
-        /// Detalle información no exenta de IVA.
+        /// Causa de la exención. Alfanumérico (2). L10. 
         /// </summary>
-        public FacturaTipoDesgloseDesgloseFacturaSujetaExenta Exenta { get; set; }
-
+        public string CausaExencion { get; set; }
 
         /// <summary>
-        /// Detalle información no exenta de IVA.
+        /// Base imponible exenta en euros correspondiente
+        /// a la causa de exención. Decimal (12,2).
         /// </summary>
-        public FacturaTipoDesgloseDesgloseFacturaSujetaNoExenta NoExenta { get; set; }
+        public decimal BaseImponible { get; set; }
 
     }
 }

@@ -1,6 +1,6 @@
 ﻿/*
-    This file is part of the Batuz (R) project.
-    Copyright (c) 2021-2022 Irene Solutions SL
+    This file is part of the EasySII (R) project.
+    Copyright (c) 2017-2018 Irene Solutions SL
     Authors: Irene Solutions SL.
 
     This program is free software; you can redistribute it and/or modify
@@ -27,48 +27,57 @@
     
     You can be released from the requirements of the license by purchasing
     a commercial license. Buying such a license is mandatory as soon as you
-    develop commercial activities involving the Batuz software without
+    develop commercial activities involving the EasySII software without
     disclosing the source code of your own applications.
     These activities include: offering paid services to customers as an ASP,
-    serving Batuz services on the fly in a web application, 
-    shipping Batuz with a closed source product.
+    serving sii XML data on the fly in a web application, shipping EasySII
+    with a closed source product.
     
     For more information, please contact Irene Solutions SL. at this
     address: info@irenesolutions.com
  */
 
-using System;
-using System.Xml.Serialization;
-
-namespace Batuz.TicketBai.Xades.Xml.Signature
+namespace Batuz.TicketBai
 {
 
     /// <summary>
-    /// Contiene información sobre qué es lo que se firma y cómo se firma, es decir, 
-    /// contiene la información necesaria para crear y validar la firma.
+    /// Lista L4  Tipos de Identificación en el país de residencia
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public class SignatureSignedInfo : XmlElementBase
+    public enum IDOtroType
     {
 
         /// <summary>
-        /// Algoritmo de transformación de SignedInfo antes de realizar la firma digital.
+        /// NIF-IVA
         /// </summary>
-        public SignatureSignedInfoCanonicalizationMethod CanonicalizationMethod { get; set; }
+        NifIva = 2,
 
         /// <summary>
-        /// Algoritmo utilizado para calcular el valor de la firma digital.
+        /// PASAPORTE
         /// </summary>
-        public SignatureSignedInfoSignatureMethod SignatureMethod { get; set; }
+        Pasaporte,
 
         /// <summary>
-        /// Referencias a los objetos que se van a firmar que incluye además DigestMethod y DigestValue.
-        /// La validación de una firma requiere dos procesos que son la validación de la firma y la validación de
-        /// los resultados de las referencias.
+        /// DOCUMENTO OFICIAL DE IDENTIFICACIÓN EXPEDIDO POR EL PAIS O TERRITORIO DE RESIDENCIA.
         /// </summary>
-        [XmlElement("Reference")]
-        public SignatureSignedInfoReference[] Reference { get; set; }
+        DocOficialPaisResidencia,
+
+        /// <summary>
+        /// CERTIFICADO DE RESIDENCIA
+        /// </summary>
+        CertificadoResidencia,
+
+        /// <summary>
+        /// OTRO DOCUMENTO PROBATORIO
+        /// </summary>
+        OtroDocProbatorio,
+
+        /// <summary>
+        /// NO CENSADO: Número Id: NIF no censado del receptor de la factura Apellidos y nombre: 
+        /// Nombre del no censado receptor de la factura. Siempre que se utilice esta clave de 
+        /// identificación 07 el registro quedará aceptado con errores
+        /// </summary>
+        NoCensado
 
     }
+
 }

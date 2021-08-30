@@ -41,30 +41,74 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
-using System.Xml.Serialization;
+using System.Reflection;
 
-namespace Batuz.TicketBai
+namespace Batuz.Info
 {
 
     /// <summary>
-    /// Bloque de información de IVA sujera y no exenta.
+    /// Información requerida por la ORDEN FORAL 1482/2020, de 9 de septiembre 
+    /// en su artículo 9.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class FacturaTipoDesgloseDesgloseFacturaSujeta
+    public static class VerificacionPresencial
     {
 
-        /// <summary>
-        /// Detalle información no exenta de IVA.
-        /// </summary>
-        public FacturaTipoDesgloseDesgloseFacturaSujetaExenta Exenta { get; set; }
-
+        #region Construtores Estáticos
 
         /// <summary>
-        /// Detalle información no exenta de IVA.
+        /// Constructor estático.
         /// </summary>
-        public FacturaTipoDesgloseDesgloseFacturaSujetaNoExenta NoExenta { get; set; }
+        static VerificacionPresencial()
+        {
+            SoftwareGaranteVersion = $"{Assembly.GetExecutingAssembly().GetName().Version}";
+        }
+
+        #endregion
+
+        #region Propiedades Públicas Estáticas
+
+        /// <summary>
+        /// Número de identificación fiscal 
+        /// de la persona o entidad desarrolladora del software garante utilizado desde
+        /// el dispositivo.
+        /// </summary>
+        public static readonly string EmpresaDesarrolladoraNif = "B12959755";
+
+        /// <summary>
+        /// apellidos y nombre o razón social 
+        /// de la persona o entidad desarrolladora del software garante utilizado desde
+        /// el dispositivo.
+        /// </summary>
+        public static readonly string EmpresaDesarrolladoraNombre = "IRENE SOLUTIONS SLU";
+
+        /// <summary>
+        /// Nombre del software garante utilizado desde el dispositivo.
+        /// </summary>
+        public static readonly string SoftwareGaranteNombre = "Irene.Solutions.Batuz";
+
+        /// <summary>
+        /// Versión del software garante utilizado desde el dispositivo.
+        /// </summary>
+        public static string SoftwareGaranteVersion { get; private set; }
+
+        #endregion
+
+        #region Métodos Públicos Estáticos
+
+        /// <summary>
+        /// Devuelve la información de verificación que requiere
+        /// la norma.
+        /// </summary>
+        /// <returns></returns>
+        private static string GetVerificacionPresencial() 
+        {
+            return  $"Empresa Desarrolladora (NIF): {EmpresaDesarrolladoraNif}\n" +
+                    $"EmpresaDesarrolladora (Nombre): {EmpresaDesarrolladoraNif}\n" +
+                    $"Software Garante (Nombre): {EmpresaDesarrolladoraNif}\n" +
+                    $"Software Garante (Version): {EmpresaDesarrolladoraNif}\n";
+        }
+
+        #endregion
 
     }
 }
