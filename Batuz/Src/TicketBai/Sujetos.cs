@@ -58,6 +58,8 @@ namespace Batuz.TicketBai
     public class Sujetos
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Información del emisor de la factura o justificante.
         /// </summary>
@@ -83,6 +85,29 @@ namespace Batuz.TicketBai
         /// este campo se entenderá que tiene valor «N».
         /// </summary>
         public string EmitidaPorTercerosODestinatario { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+
+            var result = "";
+
+            if (Destinatarios != null)
+                foreach (var destinatario in Destinatarios)
+                    result += $"{(result == "" ? "" : ", ")}{destinatario}";
+
+
+            return $"{Emisor}: {result}";
+        }
+
+        #endregion
 
     }
 

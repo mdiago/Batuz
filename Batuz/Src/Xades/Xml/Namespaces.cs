@@ -48,14 +48,20 @@ namespace Batuz.TicketBai.Xades.Xml
     public static class Namespaces
     {
 
+        #region Propiedades Públicas Estáticas
+
         /// <summary>
         /// Espacios de nombre utilizados.
         /// </summary>
-        public static Dictionary<string, string> Items = new Dictionary<string, string>() 
+        public static Dictionary<string, string> Items = new Dictionary<string, string>()
         {
                 { "T",          "urn:ticketbai:emision"},
                 { "ds",         "http://www.w3.org/2000/09/xmldsig#"},
                 { "xades",      "http://uri.etsi.org/01903/v1.3.2#"}
         };
+
+        #endregion
+
     }
+
 }

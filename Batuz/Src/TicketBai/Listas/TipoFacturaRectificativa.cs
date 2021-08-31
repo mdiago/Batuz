@@ -1,6 +1,6 @@
 ﻿/*
-    This file is part of the Batuz (R) project.
-    Copyright (c) 2021-2022 Irene Solutions SL
+    This file is part of the EasySII (R) project.
+    Copyright (c) 2017-2018 Irene Solutions SL
     Authors: Irene Solutions SL.
 
     This program is free software; you can redistribute it and/or modify
@@ -27,76 +27,37 @@
     
     You can be released from the requirements of the license by purchasing
     a commercial license. Buying such a license is mandatory as soon as you
-    develop commercial activities involving the Batuz software without
+    develop commercial activities involving the EasySII software without
     disclosing the source code of your own applications.
     These activities include: offering paid services to customers as an ASP,
-    serving Batuz services on the fly in a web application, 
-    shipping Batuz with a closed source product.
+    serving sii XML data on the fly in a web application, shipping EasySII
+    with a closed source product.
     
     For more information, please contact Irene Solutions SL. at this
     address: info@irenesolutions.com
  */
 
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Xml;
 using System.Xml.Serialization;
 
-namespace Batuz.TicketBai.Xades.Xml.Signature
+namespace Batuz.TicketBai.Listas
 {
 
     /// <summary>
-    /// Representa un elemento xml.
+    /// Tipo de factura rectificativa. L8.
     /// </summary>
-    public class XmlElementBase
+    public enum TipoFacturaRectificativa
     {
 
-        public XmlElementBase() 
-        {
-            Namespaces = new Dictionary<string, string>();
-        }
+        /// <summary>
+        /// Factura rectificativa por sustitución.
+        /// </summary>
+        [XmlEnum("S")]
+        PorSustitucion,
 
-        protected virtual Dictionary<string, string> Namespaces { get; set; }
-
-
-        public override string ToString()
-        {
-
-            XmlSerializer serializer = new XmlSerializer(GetType());            
-
-            var namespaces = new XmlQualifiedName[Namespaces.Count];
-            int count = 0;
-
-            foreach (KeyValuePair<string, string> ns in Namespaces)
-                namespaces[count++] = new XmlQualifiedName(ns.Key, ns.Value);
-
-            var xmlSerializerNamespaces = new XmlSerializerNamespaces(namespaces);  
-
-            var ms = new MemoryStream();
-            byte[] result = null;
-
-            var settings = new XmlWriterSettings
-            {
-                Indent = true,
-                IndentChars = " ",
-                Encoding = Encoding.UTF8,
-                OmitXmlDeclaration = true
-            };
-
-            using (var writer = new StreamWriter(ms))
-            {
-                using (var xmlWriter = XmlWriter.Create(writer, settings))
-                {
-
-                    serializer.Serialize(xmlWriter, this);
-                    result = ms.ToArray();
-
-                }
-            }
-
-            return Encoding.UTF8.GetString(result);
-
-        }
+        /// <summary>
+        /// Factura rectificativa por diferencias.
+        /// </summary>
+        [XmlEnum("I")]
+        PorDiferencias
     }
 }

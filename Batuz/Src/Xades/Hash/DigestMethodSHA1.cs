@@ -54,7 +54,7 @@ namespace Batuz.TicketBai.Xades.Hash
         /// Url a incluir en el atributo 'Digest Algorithm'
         /// del elemento signature.
         /// </summary>
-        string _DigestAlgorithmUrl = "http://www.w3.org/2000/09/xmldsig#sha1";
+        readonly string _DigestAlgorithmUrl = "http://www.w3.org/2000/09/xmldsig#sha1";
 
         #endregion
 

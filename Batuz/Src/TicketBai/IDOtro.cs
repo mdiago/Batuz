@@ -37,6 +37,7 @@
     address: info@irenesolutions.com
  */
 
+using Batuz.TicketBai.Listas;
 using System;
 using System.Xml.Serialization;
 
@@ -50,12 +51,20 @@ namespace Batuz.TicketBai
     [XmlRoot("IDOtro")]
     public class IDOtro
     {
+
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Código del país asociado al
         /// emisor de la factura.
         /// Alfanumérico(2) (ISO 3166-1 alpha-2 codes) L1.
         /// </summary>
-        public string CodigoPais { get; set; }
+        public CodigoPais CodigoPais { get; set; }
+
+        /// <summary>
+        /// Con false no serializa Código País.
+        /// </summary>
+        public bool CodigoPaisSpecified { get; set; }
 
         /// <summary>
         /// Clave para establecer el tipo de
@@ -65,10 +74,19 @@ namespace Batuz.TicketBai
         public IDOtroType IDType { get; set; }
 
         /// <summary>
+        /// Con false no serializa.
+        /// </summary>
+        public bool IDTypeSpecified { get; set; }
+
+        /// <summary>
         /// Número de identificación en el país de residencia.
         /// Alfanumérico(20).
         /// </summary>
         public string ID { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
 
         /// <summary>
         /// Representación textual de esta instancia de Parte.
@@ -76,9 +94,12 @@ namespace Batuz.TicketBai
         /// <returns></returns>
         public override string ToString()
         {
-            return (CodigoPais ?? "") + ($"{IDType}" ?? "") +
+            return ($"{CodigoPais}" ?? "") + ($"{IDType}" ?? "") +
                 ", " + (ID ?? "");
         }
+
+        #endregion
+
     }
 
 }

@@ -28,9 +28,7 @@ namespace Batuz.TicketBai.Xades.Signer
         /// para trabajar con los datos.
         /// </summary>
         TicketBai _TicketBaiTmp;
-
-
-        string _SignatureMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
+        readonly string _SignatureMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
 
         #endregion
 
@@ -468,121 +466,6 @@ namespace Batuz.TicketBai.Xades.Signer
         }
 
         /// <summary>
-        /// Obtiene el texto XML de un XmlDocument de entrada.
-        /// </summary>
-        /// <param name="xmlDoc">XmlDocument del que obtener el texto XML.</param>
-        /// <returns>Texto XML del documento.</returns>
-        private string GetXmlText(XmlDocument xmlDoc)
-        {
-
-            string result = null;
-
-            using (var stringWriter = new StringWriter())
-            using (var xmlTextWriter = XmlWriter.Create(stringWriter))
-            {
-                xmlDoc.WriteTo(xmlTextWriter);
-                xmlTextWriter.Flush();
-                result = stringWriter.GetStringBuilder().ToString();
-            }
-
-            return result;
-
-        }
-
-        /// <summary>
-        /// Devuelve el XmlNode del TicketBai orígen para la firma.
-        /// </summary>
-        /// <returns>XmlNode del TicketBai orígen para la firma.</returns>
-        private XmlNode GetSourceTicketBai()
-        {
-
-            if (_XmlDocLoadedSource == null)
-                throw new Exception("No XmlDocLoadedSource found.");
-
-            if (_XmlNamespaceManager == null)
-                throw new Exception("No XmlNamespaceManager found.");
-
-
-            var ticketBais = _XmlDocLoadedSource.SelectNodes(@"//T:TicketBai", _XmlNamespaceManager);
-
-            if (ticketBais.Count == 0)
-                throw new Exception("No T:TicketBai found.");
-
-            return _XmlDocLoadedSource.SelectNodes(@"//T:TicketBai", _XmlNamespaceManager)[0];
-
-        }
-
-        /// <summary>
-        /// Borra el elmento Sginature del nodo TicketBai.
-        /// </summary>
-        /// <param name="ticketBai">Nodo TicketBai.</param>
-        private void DeleteSignature(XmlNode ticketBai)
-        {
-
-            if (_XmlNamespaceManager == null)
-                throw new Exception("No XmlNamespaceManager found.");
-
-            var signatures = _XmlDocLoadedSource.SelectNodes(
-                @"//ds:Signature/descendant-or-self::node()|//ds:Signature//@*", _XmlNamespaceManager);
-
-            if (signatures.Count > 0)
-                ticketBai.RemoveChild(signatures[0]);
-        }
-
-        /// <summary>
-        /// Devuelve el texto XML de la firma generada.
-        /// </summary>
-        /// <returns>Texto XML de la firma generada.</returns>
-        private string GetNewSignatureXmlText()
-        {
-
-            if (_TicketBaiTmp == null)
-                throw new Exception("No TicketBai found.");
-
-            if (_XmlNamespaceManager == null)
-                throw new Exception("No XmlNamespaceManager found.");
-
-            var parser = new XmlParser();
-
-            var xml = parser.GetString(_TicketBaiTmp, Namespaces.Items);
-            XmlDocument xmlDocPreSigned = new XmlDocument();
-            xmlDocPreSigned.PreserveWhitespace = true;
-            xmlDocPreSigned.LoadXml(_XmlLoadedSource);
-
-            var signatures = xmlDocPreSigned.SelectNodes(@"//ds:Signature/descendant-or-self::node()|//ds:Signature//@*", _XmlNamespaceManager);
-            XmlNode newSignature = null;
-
-            if (signatures.Count > 0)
-                newSignature = signatures[0];
-
-
-            return newSignature.OuterXml;
-
-        }
-
-        /// <summary>
-        /// Inserta una nueva firma en el documento XML orígen.
-        /// </summary>
-        private void InsertSignatureInXmlDocLoadedSource()
-        {
-
-            var ticketBai = GetSourceTicketBai();
-
-            if (_TicketBaiTmp == null)
-                throw new Exception("No TicketBai found.");
-
-            DeleteSignature(ticketBai);
-
-            _XmlSignature = GetNewSignatureXmlText();
-
-            XmlDocumentFragment signature = _XmlDocLoadedSource.CreateDocumentFragment();
-            signature.InnerXml = _XmlSignature;
-
-            ticketBai.AppendChild(signature);
-
-        }
-
-        /// <summary>
         /// Actualiza los bloques de la firma canonicalizados para el digest
         /// con el xml utilizado antes de la canonicalización.
         /// </summary>
@@ -594,9 +477,17 @@ namespace Batuz.TicketBai.Xades.Signer
             signedProperties.InnerXml = Regex.Match(_XmlSignedProperties,
                 @"(?<=<(\w+:){0,1}SignedProperties[^>]*>)[\S\s]+(?=</(\w+:){0,1}SignedProperties>)").Value;
 
+            foreach (XmlAttribute att in signedProperties.Attributes)
+                if (att.Name.ToUpper() == "ID")
+                    att.InnerXml = _TicketBaiTmp.Signature.Object.QualifyingProperties.SignedProperties.Id;
+
             var keyInfo = _XmlDocLoadedSource.SelectNodes(@"//ds:KeyInfo", _XmlNamespaceManager)[0];
             keyInfo.InnerXml = Regex.Match(_XmlKeyInfo,
                 @"(?<=<(\w+:){0,1}KeyInfo[^>]*>)[\S\s]+(?=</(\w+:){0,1}KeyInfo>)").Value;
+
+            foreach(XmlAttribute att in keyInfo.Attributes)
+                if(att.Name.ToUpper()=="ID")
+                    att.InnerXml = _TicketBaiTmp.Signature.KeyInfo.Id;
 
             var signedInfo = _XmlDocLoadedSource.SelectNodes(@"//ds:SignedInfo", _XmlNamespaceManager)[0];
             signedInfo.InnerXml = Regex.Match(_XmlSignedInfo,
@@ -607,7 +498,7 @@ namespace Batuz.TicketBai.Xades.Signer
                 @"(?<=<(\w+:){0,1}SignatureValue[^>]*>)[\S\s]+(?=</(\w+:){0,1}SignatureValue>)").Value;
 
             // Convierto el XmlDocument en texto XML
-            _XmlSigned = GetXmlText(_XmlDocLoadedSource);
+            _XmlSigned = _XmlDocLoadedSource.OuterXml;
 
             // Limpio las etiquetas con autocierre de espaciós al final.
             _XmlSigned = ClearAutoSelfClosedTagSpaces(_XmlSigned);
@@ -630,20 +521,16 @@ namespace Batuz.TicketBai.Xades.Signer
 
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
 
-            RSAParameters RSAKeyInfo = new RSAParameters();
-
-            RSAKeyInfo.Modulus = modulus;
-            RSAKeyInfo.Exponent = exponent;
+            RSAParameters RSAKeyInfo = new RSAParameters
+            {
+                Modulus = modulus,
+                Exponent = exponent
+            };
 
             rsa.ImportParameters(RSAKeyInfo);
 
             var xmlSignedInfoXmlNodeList = GetXmlNodeListByXPath(_XmlDocLoadedSource,
                 "//ds:SignedInfo/descendant-or-self::node()|//ds:SignedInfo//@*");
-
-            var xmlSignedInfo = Regex.Match(_XmlLoadedSource,
-                @"<(\w+:){0,1}SignedInfo[^>]*>[\S\s]+</(\w+:){0,1}SignedInfo>").Value;
-
-            xmlSignedInfo = ClearAutoSelfClosedTagSpaces(xmlSignedInfo);
 
             var xmlSignedInfoCN14 = CanonicalizationMethod.GetCanonicalString(xmlSignedInfoXmlNodeList);
 
@@ -666,11 +553,6 @@ namespace Batuz.TicketBai.Xades.Signer
             var xmlSignedPropertiesXmlNodeList = GetXmlNodeListByXPath(_XmlDocLoadedSource,
                 "//xades:SignedProperties/descendant-or-self::node()|//xades:SignedProperties//@*");
 
-            var xmlSignedProperties = Regex.Match(_XmlLoadedSource,
-                @"<(\w+:){0,1}SignedProperties[^>]*>[\S\s]+</(\w+:){0,1}SignedProperties>").Value;
-
-            xmlSignedProperties = ClearAutoSelfClosedTagSpaces(xmlSignedProperties);
-
             var xmlSignedPropertiesCN14 = CanonicalizationMethod.GetCanonicalString(xmlSignedPropertiesXmlNodeList);
             var signedPropertiesHash = GetDigestValue(xmlSignedPropertiesCN14);
 
@@ -684,7 +566,6 @@ namespace Batuz.TicketBai.Xades.Signer
                 throw new InvalidOperationException("No 'KeyInfo' found.");
 
             return reference.DigestValue == signedPropertiesHash;
-
 
         }
 
@@ -700,11 +581,6 @@ namespace Batuz.TicketBai.Xades.Signer
 
             var xmlKeyInfoXmlNodeList = GetXmlNodeListByXPath(_XmlDocLoadedSource,
                 "//ds:KeyInfo/descendant-or-self::node()|//ds:KeyInfo//@*");
-
-            var xmlKeyInfo = Regex.Match(_XmlLoadedSource,
-                @"<(\w+:){0,1}KeyInfo[^>]*>[\S\s]+</(\w+:){0,1}KeyInfo>").Value;
-
-            xmlKeyInfo = ClearAutoSelfClosedTagSpaces(xmlKeyInfo);
 
             var xmlKeyInfoCN14 = CanonicalizationMethod.GetCanonicalString(xmlKeyInfoXmlNodeList);
             var keyInfoHash = GetDigestValue(xmlKeyInfoCN14);

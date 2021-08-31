@@ -46,22 +46,55 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai
 {
+
+    /// <summary>
+    /// Bloque de información que encadena la factura/justificante
+    /// actual con la anterior.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true)]
     public class HuellaTBAIEncadenamientoFacturaAnterior
     {
 
+        #region Propiedades Públicas de Instancia
 
+        /// <summary>
+        /// Serie que identifica a la factura anterior. Alfanumérico (20).
+        /// </summary>
         public string SerieFacturaAnterior { get; set; }
 
-
+        /// <summary>
+        /// Número de factura que identifica a la factura anterior. Alfanumérico (20).
+        /// </summary>
         public string NumFacturaAnterior { get; set; }
 
-
+        /// <summary>
+        /// Fecha de expedición de la factura anterior. Formato Fecha.
+        /// (10) (dd-mm-aaaa)
+        /// </summary>
         public string FechaExpedicionFacturaAnterior { get; set; }
 
-
+        /// <summary>
+        /// Primeros cien caracteres del campo
+        /// SignatureValue del fichero TicketBai de la factura
+        /// anterior. Alfanumérico (100)
+        /// </summary>
         public string SignatureValueFirmaFacturaAnterior { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{SerieFacturaAnterior} {NumFacturaAnterior} {FechaExpedicionFacturaAnterior}";
+        }
+
+        #endregion
 
     }
 }

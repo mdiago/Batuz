@@ -42,13 +42,36 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// Certificado X509.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public class SignatureKeyInfoX509Data : XmlElementBase
+    public class SignatureKeyInfoX509Data
     {
 
+        #region Propiedades Públicas de Instancia
 
+        /// <summary>
+        /// Certificado X509.
+        /// </summary>
         public string X509Certificate { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{base.ToString()}";
+        }
+
+        #endregion
 
     }
 }

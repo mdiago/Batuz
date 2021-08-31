@@ -41,30 +41,31 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
 using System.Xml.Serialization;
 
-namespace Batuz.TicketBai
+namespace Batuz.TicketBai.Listas
 {
 
     /// <summary>
-    /// Bloque de información de IVA sujera y no exenta.
+    /// Tipo de no exenta. 
+    /// <para>L11  Tipo no exenta:</para>
+    /// <para>'S1': Sin inversión del sujeto pasivo.</para>
+    /// <para>'S2': Con inversión del sujeto pasivo.</para>
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class FacturaTipoDesgloseDesgloseFacturaSujeta
+    [XmlType(IncludeInSchema = false)]
+    public enum TipoNoExenta
     {
 
         /// <summary>
-        /// Detalle información no exenta de IVA.
+        /// Sin inversión del sujeto pasivo.
         /// </summary>
-        public FacturaTipoDesgloseDesgloseFacturaSujetaExenta Exenta { get; set; }
-
+        [XmlEnum("S1")]
+        SinInversionSujetoPasivo,
 
         /// <summary>
-        /// Detalle información no exenta de IVA.
+        /// Con inversión del sujeto pasivo.
         /// </summary>
-        public FacturaTipoDesgloseDesgloseFacturaSujetaNoExenta NoExenta { get; set; }
-
+        [XmlEnum("S2")]
+        ConInversionSujetoPasivo
     }
 }

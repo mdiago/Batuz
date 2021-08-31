@@ -41,30 +41,22 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
 using System.Xml.Serialization;
 
-namespace Batuz.TicketBai
+namespace Batuz.TicketBai.Listas
 {
 
     /// <summary>
-    /// Tipo desglose factura.
+    /// Verisón TicketBai. Lista L0.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class FacturaTipoDesgloseDesgloseFactura
+    public enum IDVersionTBAI
     {
 
         /// <summary>
-        /// Bloque de información sujeta a IVA.
+        /// Versión 1.2.
         /// </summary>
-        public FacturaTipoDesgloseDesgloseFacturaSujeta Sujeta { get; set; }
-
-        /// <summary>
-        /// Bloque de información sujeta a IVA.
-        /// </summary>
-        public FacturaTipoDesgloseDesgloseFacturaNoSujeta NoSujeta { get; set; }
-
+        [XmlEnum("1.2")]
+        Version_1_2
 
     }
 }

@@ -55,6 +55,8 @@ namespace Batuz.TicketBai
     public class Desglose
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Bloque de información sujeta a IVA.
         /// </summary>
@@ -65,6 +67,20 @@ namespace Batuz.TicketBai
         /// </summary>
         public virtual DesgloseNoSujeta NoSujeta { get; set; }
 
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{Sujeta}{NoSujeta}";
+        }
+
+        #endregion
 
     }
 }

@@ -55,10 +55,27 @@ namespace Batuz.TicketBai
     public class DesgloseSujetaNoExenta
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Detalle de la información de IVA no exenta.
         /// </summary>
-        public FacturaTipoDesgloseDesgloseFacturaSujetaNoExentaDetalleNoExenta DetalleNoExenta { get; set; }
+        public DesgloseSujetaNoExentaDetalleNoExenta DetalleNoExenta { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{DetalleNoExenta}";
+        }
+
+        #endregion
 
     }
 }

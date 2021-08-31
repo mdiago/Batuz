@@ -59,7 +59,7 @@ namespace Batuz.TicketBai.Xades.Xml.Canonicalization
         /// Url a incluir en el atributo 'Transform Algorithm'
         /// del elemento signature.
         /// </summary>
-        string _TransformAlgorithmUrl = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
+        readonly string _TransformAlgorithmUrl = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
 
         #endregion
 
@@ -109,8 +109,10 @@ namespace Batuz.TicketBai.Xades.Xml.Canonicalization
         public string GetCanonicalString(string xmlContent)
         {
 
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.PreserveWhitespace = true;
+            XmlDocument xmlDoc = new XmlDocument
+            {
+                PreserveWhitespace = true
+            };
             xmlDoc.LoadXml(xmlContent);
 
             XmlDsigC14NTransform xmlTransform = new XmlDsigC14NTransform();
@@ -163,8 +165,10 @@ namespace Batuz.TicketBai.Xades.Xml.Canonicalization
         public string GetCanonicalString(string xmlContent, string xpath, Dictionary<string, string> namespaces = null)
         {
 
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.PreserveWhitespace = true;
+            XmlDocument xmlDoc = new XmlDocument
+            {
+                PreserveWhitespace = true
+            };
             xmlDoc.LoadXml(xmlContent);
 
             XmlNamespaceManager nm = new XmlNamespaceManager(xmlDoc.NameTable);

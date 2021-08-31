@@ -37,14 +37,19 @@
     address: info@irenesolutions.com
  */
 
+using System;
+
 namespace Batuz.TicketBai
 {
 
     /// <summary>
     /// Importes impuesto factura rectificativa.
     /// </summary>
+    [Serializable()]
     public class FacturaCabeceraFacturaFacturaRectificativaImporteRectificacionSustitutiva
     {
+
+        #region Propiedades Públicas de Instancia
 
         /// <summary>
         /// Base imponible de la factura sustituida.
@@ -63,6 +68,21 @@ namespace Batuz.TicketBai
         /// Decimal (12, 2).
         /// </summary>
         public decimal CuotaRecargoRectificada { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{BaseRectificada:#,##0.00}, {CuotaRectificada:#,##0.00}, {CuotaRecargoRectificada:#,##0.00}";
+        }
+
+        #endregion
 
     }
 }

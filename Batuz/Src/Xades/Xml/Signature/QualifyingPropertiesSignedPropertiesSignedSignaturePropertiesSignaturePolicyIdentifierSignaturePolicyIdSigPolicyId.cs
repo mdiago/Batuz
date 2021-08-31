@@ -42,18 +42,51 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// Identificador de la política de firma.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
-    public class QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifierSignaturePolicyIdSigPolicyId : XmlElementBase
+    public class QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifierSignaturePolicyIdSigPolicyId 
     {
 
+        #region Propiedades Públicas de Instancia
 
+        /// <summary>
+        /// Identificador.
+        /// </summary>
         public string Identifier { get; set; }
 
+        /// <summary>
+        /// Descripción.
+        /// </summary>
         public string Description { get; set; }
 
+        /// <summary>
+        /// En los ejemplos de la diputación se incluye una
+        /// etiqueta vacía. Para emular este comportamiento
+        /// utilizamos este flag en true y le pasamos al bloque
+        /// 'Descirpcíon' una cadena vacía.
+        /// </summary>
         [XmlIgnore]
         public bool DescriptionSpecified { get; set; }
 
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{Identifier}{(DescriptionSpecified ? Description : "")}";
+        }
+
+        #endregion
+
     }
+
 }

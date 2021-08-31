@@ -43,7 +43,7 @@
 
 using System.Xml.Serialization;
 
-namespace Batuz.TicketBai
+namespace Batuz.TicketBai.Listas
 {
 
     /// <summary>

@@ -37,68 +37,48 @@
     address: info@irenesolutions.com
  */
 
-using Batuz.TicketBai.Listas;
-using System;
-using System.Collections.Generic;
+using System.Xml.Serialization;
 
-namespace Batuz.TicketBai
+namespace Batuz.TicketBai.Listas
 {
 
     /// <summary>
-    /// Datos factura rectificativa.
+    /// Código de factura rectificativa. L7.
     /// </summary>
-    [Serializable()]
-    public class FacturaCabeceraFacturaFacturaRectificativa
+    public enum CodigoFacturaRectificativa
     {
 
-        #region Propiedades Públicas de Instancia
+        /// <summary>
+        /// Factura rectificativa: error fundado en derecho y artículo 80 Uno, Dos y Seis de la Norma
+        /// Foral del IVA.
+        /// </summary>
+        [XmlEnum("R1")]
+        ErrorFundadoEnDerechoArt80NormaForalIva,
 
         /// <summary>
-        /// Código que identifica el tipo de factura
-        /// rectificativa. Alfanumérico (2) L7.
+        /// Factura rectificativa: artículo 80 Tres de la Norma Foral del IVA.
         /// </summary>
-        public CodigoFacturaRectificativa Codigo { get; set; }
+        [XmlEnum("R2")]
+        Art80_3NormaForalIva,
 
         /// <summary>
-        /// True para incluir bloque 'Codigo'.
+        /// Factura rectificativa: artículo 80 Cuatro de la Norma Foral del IVA.
         /// </summary>
-        public bool CodigoSpecified { get; set; }
+        [XmlEnum("R3")]
+        Art80_4NormaForalIva,
 
         /// <summary>
-        /// Identifica si el tipo de factura rectificativa es por
-        /// sustitución o por diferencias. Alfanumérico (1) L8.
+        /// Factura rectificativa: Resto.
         /// </summary>
-        public TipoFacturaRectificativa Tipo { get; set; }
+        [XmlEnum("R4")]
+        Resto,
 
         /// <summary>
-        /// True para incluir bloque 'Tipo'.
+        /// Factura rectificativa en facturas simplificadas.
         /// </summary>
-        public bool TipoSpecified { get; set; }
-
-        /// <summary>
-        /// Importes impuesto factura rectificativa.
-        /// </summary>
-        public FacturaCabeceraFacturaFacturaRectificativaImporteRectificacionSustitutiva ImporteRectificacionSustitutiva { get; set; }
-
-        /// <summary>
-        /// Lista de facturas sustituidas.
-        /// </summary>
-        public List<FacturaCabeceraFacturaFacturaRectificativaIDFacturaRectificadaSustituida> FacturasRectificadasSustituidas { get; set; }
-
-        #endregion
-
-        #region Métodos Públicos de Instancia
-
-        /// <summary>
-        /// Representación textual de la instancia.
-        /// </summary>
-        /// <returns>Representación textual de la instancia.</returns>
-        public override string ToString()
-        {
-            return $"{base.ToString()}";
-        }
-
-        #endregion
+        [XmlEnum("R5")]
+        FacturasSimplificadas
 
     }
+
 }

@@ -14,20 +14,30 @@ namespace Batuz
     public class XmlParser
     {
 
-        /// <summary>
-        /// Codificación de texto a utilizar. UTF8 por defecto.
-        /// </summary>
-        public Encoding Encoding { get; set; }
+        #region Construtores de Instancia
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public XmlParser() 
+        public XmlParser()
         {
 
             Encoding = Encoding.GetEncoding("UTF-8");
 
         }
+
+        #endregion
+
+        #region Métodos Privados de Instancia
+
+        /// <summary>
+        /// Codificación de texto a utilizar. UTF8 por defecto.
+        /// </summary>
+        public Encoding Encoding { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
 
         /// <summary>
         /// Serializa el objeto como xml y lo devuelve
@@ -82,11 +92,11 @@ namespace Batuz
         /// <returns>string con el archivo xml.</returns>
         public byte[] GetBytes(object instance, Dictionary<string, string> namespaces, bool indent = false, bool omitXmlDeclaration = true)
         {
-            
+
             XmlSerializer serializer = new XmlSerializer(instance.GetType());
 
             var xmlSerializerNamespaces = new XmlSerializerNamespaces(new XmlQualifiedName[] {
-                new XmlQualifiedName("T", "urn:ticketbai:emision") 
+                new XmlQualifiedName("T", "urn:ticketbai:emision")
                 }
             );
 
@@ -106,9 +116,9 @@ namespace Batuz
 
             using (var writer = new StreamWriter(ms))
             {
-                using (var xmlWriter = XmlWriter.Create(writer, settings))  
+                using (var xmlWriter = XmlWriter.Create(writer, settings))
                 {
-                        
+
                     serializer.Serialize(xmlWriter, instance, xmlSerializerNamespaces);
                     result = ms.ToArray();
 
@@ -127,7 +137,7 @@ namespace Batuz
         /// <typeparam name="T">Tipo a deserializar.</typeparam>
         /// <param name="xml">XNL de una instancia del tipo.</param>
         /// <returns>Objeto del tipo obtenido del texto XML.</returns>
-        public T GetInstance<T>(string xml) 
+        public T GetInstance<T>(string xml)
         {
 
             T result = default(T);
@@ -143,6 +153,8 @@ namespace Batuz
             return result;
 
         }
+
+        #endregion
 
     }
 }

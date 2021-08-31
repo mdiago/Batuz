@@ -55,6 +55,8 @@ namespace Batuz.TicketBai
     public class FacturaCabeceraFactura
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Número de serie que identifica a la factura.
         /// Alfanumérico (20).
@@ -94,13 +96,27 @@ namespace Batuz.TicketBai
         /// simplificada.Si no se informa este campo se
         /// entenderá que tiene valor «N».
         /// </summary>
-        public string FacturaEmitidaSustitucionSimplificada { get; set; } 
+        public string FacturaEmitidaSustitucionSimplificada { get; set; }
 
         /// <summary>
         /// Datos factura rectificativa.
         /// </summary>
         public FacturaCabeceraFacturaFacturaRectificativa FacturaRectificativa { get; set; }
 
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{SerieFactura} {NumFactura} ({FechaExpedicionFactura})";
+        }
+
+        #endregion
 
     }
 

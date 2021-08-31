@@ -55,20 +55,63 @@ namespace Batuz.TicketBai
     public class DesgloseSujetaNoExentaDetalleNoExentaDetalleIVA
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Base imponible.
+        /// Decimal (12,2).
         /// </summary>
         public decimal BaseImponible { get; set; }
 
         /// <summary>
         /// Tipo impositivo.
+        /// Decimal (3,2).
         /// </summary>
         public decimal TipoImpositivo { get; set; }
 
         /// <summary>
         /// Cuota tipo impositivo.
+        /// Decimal (12,2).
         /// </summary>
         public decimal CuotaImpuesto { get; set; }
+
+        /// <summary>
+        /// Porcentaje asociado en función del tipo de IVA. 
+        /// Decimal (3,2).
+        /// </summary>
+        public decimal TipoRecargoEquivalencia { get; set; }
+
+        /// <summary>
+        /// Cuota resultante de aplicar a la base imponible el
+        /// tipo de recargo de equivalencia. Decimal (12,2).
+        /// </summary>
+        public decimal CuotaRecargoEquivalencia { get; set; }
+
+        /// <summary>
+        /// Identificador que especifica si se trata de una
+        /// factura expedida por un o una contribuyente en
+        /// régimen simplificado o en régimen de recargo de
+        /// equivalencia.Si no se informa este campo se
+        /// entenderá que tiene valor «N». Alfanumérico (1). L12. 
+        /// </summary>
+        public string OperacionEnRecargoDeEquivalenciaORegimenSimplificado { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{OperacionEnRecargoDeEquivalenciaORegimenSimplificado}, " +
+                        $"{BaseImponible:#,##0.00}, {TipoImpositivo:#,##0.00}, {CuotaImpuesto:#,##0.00}, " +
+                        $"{TipoRecargoEquivalencia:#,##0.00}, {CuotaRecargoEquivalencia:#,##0.00}"; ;
+        }
+
+        #endregion
 
     }
 

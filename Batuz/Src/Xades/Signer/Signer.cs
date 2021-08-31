@@ -243,8 +243,10 @@ namespace Batuz.TicketBai.Xades.Signer
         protected XmlDocument GetXmlDocument(string xmlContent, bool preserveWhitespace = true)
         {
 
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.PreserveWhitespace = preserveWhitespace;
+            XmlDocument xmlDoc = new XmlDocument
+            {
+                PreserveWhitespace = preserveWhitespace
+            };
             xmlDoc.LoadXml(xmlContent);
 
             return xmlDoc;
@@ -317,10 +319,10 @@ namespace Batuz.TicketBai.Xades.Signer
         protected string GetXmlDocumentDigestValue(string xmlContent)
         {
 
-            var xml = xmlContent;
-
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.PreserveWhitespace = true;
+            XmlDocument xmlDoc = new XmlDocument
+            {
+                PreserveWhitespace = true
+            };
             xmlDoc.LoadXml(xmlContent);
 
             var nodesSignature = xmlDoc.SelectNodes("//ds:Signature", _XmlNamespaceManager);

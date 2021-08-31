@@ -42,17 +42,47 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// Hash de la política y método de cálculo
+    /// utilizado.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
-    public class QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifierSignaturePolicyIdSigPolicyHash : XmlElementBase
+    public class QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifierSignaturePolicyIdSigPolicyHash 
     {
 
+        #region Propiedades Públicas de Instancia
+
+        /// <summary>
+        /// Método de cálculo.
+        /// </summary>
         [XmlElement(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
         public DigestMethod DigestMethod { get; set; }
 
 
+        /// <summary>
+        /// Valor del Digest de al política de firma.
+        /// </summary>
         [XmlElement(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
         public string DigestValue { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{DigestMethod} = {DigestValue}";
+        }
+
+        #endregion
+
+
 
     }
 }

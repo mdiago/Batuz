@@ -41,25 +41,52 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
+using Batuz.TicketBai.Listas;
+using System;
+
 namespace Batuz.TicketBai
 {
 
     /// <summary>
     /// Desglose de factura exenta.
     /// </summary>
+    [Serializable()]
     public class DesgloseSujetaExenta
     {
+
+        #region Propiedades Públicas de Instancia
 
         /// <summary>
         /// Causa de la exención. Alfanumérico (2). L10. 
         /// </summary>
-        public string CausaExencion { get; set; }
+        public CausaExencion CausaExencion { get; set; }
+
+        /// <summary>
+        /// True para incluir en la serialización el
+        /// bloque 'CausaExencion'.
+        /// </summary>
+        public bool CausaExencionSpecified { get; set; }
 
         /// <summary>
         /// Base imponible exenta en euros correspondiente
         /// a la causa de exención. Decimal (12,2).
         /// </summary>
         public decimal BaseImponible { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{CausaExencion}: {BaseImponible:#,##0.00}";
+        }
+
+        #endregion
 
     }
 }

@@ -42,12 +42,37 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// Datos de la clave pública de la firma realizada
+    /// utilizando RSA.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public class SignatureKeyInfoKeyValue : XmlElementBase
+    public class SignatureKeyInfoKeyValue
     {
 
+        #region Propiedades Públicas de Instancia
+
+        /// <summary>
+        /// Datos de la clave pública.
+        /// </summary>
         public SignatureKeyInfoKeyValueRSAKeyValue RSAKeyValue { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{RSAKeyValue}";
+        }
+
+        #endregion
 
     }
 }

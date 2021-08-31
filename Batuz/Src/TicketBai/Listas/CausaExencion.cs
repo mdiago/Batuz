@@ -41,18 +41,54 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
 using System.Xml.Serialization;
 
-namespace Batuz.TicketBai
+namespace Batuz.TicketBai.Listas
 {
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class HuellaTBAISoftwareEntidadDesarrolladora
+
+    /// <summary>
+    /// Causas de no sujeción. L10.
+    /// </summary>
+    public enum CausaExencion
     {
 
+        /// <summary>
+        /// Exenta por el artículo 20 de la Norma Foral del IVA.
+        /// </summary>
+        [XmlEnum("E1")]
+        Articulo20NormaForalIva,
 
-        public string NIF { get; set; }
+        /// <summary>
+        /// Exenta por el artículo 21 de la Norma Foral del IVA.
+        /// </summary>
+        [XmlEnum("E2")]
+        Articulo21NormaForalIva,
+
+        /// <summary>
+        /// Exenta por el artículo 22 de la Norma Foral del IVA.
+        /// </summary>
+        [XmlEnum("E3")]
+        Articulo22NormaForalIva,
+
+
+        /// <summary>
+        /// Exenta por el artículo 23 y 24 de la Norma Foral del IVA.
+        /// </summary>
+        [XmlEnum("E4")]
+        Articulo23y24NormaForalIva,
+
+        /// <summary>
+        /// Exenta por el artículo 25 de la Norma Foral del IVA.
+        /// </summary>
+        [XmlEnum("E5")]
+        Articulo25NormaForalIva,
+
+        /// <summary>
+        /// Exenta por otra causa.
+        /// </summary>
+        [XmlEnum("E6")]
+        Otras
 
     }
+
 }

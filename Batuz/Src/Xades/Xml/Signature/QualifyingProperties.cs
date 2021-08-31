@@ -51,24 +51,8 @@ namespace Batuz.TicketBai.Xades.Xml.Signature
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
     [XmlRoot(Namespace = "http://uri.etsi.org/01903/v1.3.2#", IsNullable = false)]
-    public class QualifyingProperties : XmlElementBase
+    public class QualifyingProperties
     {
-
-        #region Construtores de Instancia
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public QualifyingProperties()
-        {
-
-            Namespaces = new Dictionary<string, string>()
-            {
-                { "xades", "http://uri.etsi.org/01903/v1.3.2#"}
-            };
-        }
-
-        #endregion
 
         #region Propiedades Públicas de Instancia
 

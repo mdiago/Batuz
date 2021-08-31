@@ -42,19 +42,48 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// Identificador de la política de firma y digest
+    /// de la misma.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
-    public class QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifierSignaturePolicyId : XmlElementBase
+    public class QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifierSignaturePolicyId 
     {
 
+        #region Propiedades Públicas de Instancia
 
+        /// <summary>
+        /// Identificador de la política de firma.
+        /// </summary>
         public QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifierSignaturePolicyIdSigPolicyId SigPolicyId { get; set; }
 
-
+        /// <summary>
+        /// Digest de la política de firma.
+        /// </summary>
         public QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifierSignaturePolicyIdSigPolicyHash SigPolicyHash { get; set; }
 
-
+        /// <summary>
+        /// Calificadores de la politica de firma.
+        /// </summary>
         public QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifierSignaturePolicyIdSigPolicyQualifiers SigPolicyQualifiers { get; set; }
 
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{SigPolicyId}, {SigPolicyQualifiers}";
+        }
+
+        #endregion        
+
     }
+
 }

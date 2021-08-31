@@ -42,17 +42,51 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// Información de la clave pública para poder verificar la firma.
+    /// Este bloque es opcional.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public class SignatureKeyInfo :  XmlElementBase
+    public class SignatureKeyInfo 
     {
 
+        #region Propiedades Públicas de Instancia
+
+        /// <summary>
+        /// Datos del certificado.
+        /// </summary>
         public SignatureKeyInfoX509Data X509Data { get; set; }
 
+        /// <summary>
+        /// Valor de la clave pública para poder realizar la comprobación
+        /// de la firma. Se utiliza la clave para descifrar el hash del
+        /// bloque SingnedInfo y ver si coincide y el documento no ha sido
+        /// alterado.
+        /// </summary>
         public SignatureKeyInfoKeyValue KeyValue { get; set; }
 
+        /// <summary>
+        /// Identificador del bloque KeyInfo.
+        /// </summary>
         [XmlAttribute()]
         public string Id { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{Id}";
+        }
+
+        #endregion
 
     }
 }

@@ -57,10 +57,32 @@ namespace Batuz.TicketBai
     public class FacturaTipoDesglose
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Cuando la contraparte es un “nacional” o no existe contraparte.
         /// </summary>
-        public FacturaTipoDesgloseDesgloseFactura DesgloseFactura { get; set; }
+        public Desglose DesgloseFactura { get; set; }
+
+        /// <summary>
+        /// Contraparte no nacional.
+        /// </summary>
+        public FacturaTipoDesgloseDesgloseTipoOperacion DesgloseTipoOperacion { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{DesgloseFactura}, {DesgloseTipoOperacion}";
+        }
+
+        #endregion
 
     }
 

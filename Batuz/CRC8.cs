@@ -7,10 +7,12 @@
     public static class CRC8
     {
 
+        #region Variables Privadas Estáticas
+
         /// <summary>
         /// Datos cálculo.
         /// </summary>
-        static byte[] _Table =
+        static readonly byte[] _Table =
         {
             0, 94, 188, 226, 97, 63, 221, 131, 194, 156, 126,
             32, 163, 253, 31, 65, 157, 195, 33, 127, 252, 162,
@@ -38,6 +40,10 @@
             10, 84, 215, 137, 107, 53
         };
 
+        #endregion
+
+        #region Métodos Públicos Estáticos
+
         /// <summary>
         /// Calcula el Checksum.
         /// </summary>
@@ -52,6 +58,8 @@
 
             return crc;
         }
+
+        #endregion
 
     }
 }

@@ -55,6 +55,8 @@ namespace Batuz.TicketBai
     public class Sujeto
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Número de identificación fiscal del sujeto.
         /// </summary>
@@ -77,6 +79,21 @@ namespace Batuz.TicketBai
         /// Numérico (5).
         /// </summary>
         public string CodigoPostal { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{base.ToString()}";
+        }
+
+        #endregion
 
     }
 

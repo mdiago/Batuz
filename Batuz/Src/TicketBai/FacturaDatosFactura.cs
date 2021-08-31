@@ -55,6 +55,8 @@ namespace Batuz.TicketBai
     public class FacturaDatosFactura
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Fecha de operación de la factura.
         /// Formato Fecha (10) (dd-mm-aaaa).
@@ -91,6 +93,21 @@ namespace Batuz.TicketBai
         /// Alfanumérico (2) L9.
         /// </summary>
         public FacturaDatosFacturaClaves Claves { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{FechaOperacion}, {DescripcionFactura}, {ImporteTotalFactura}";
+        }
+
+        #endregion
 
     }
 }

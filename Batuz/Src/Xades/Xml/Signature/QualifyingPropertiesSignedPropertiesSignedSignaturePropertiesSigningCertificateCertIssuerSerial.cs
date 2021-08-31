@@ -42,16 +42,43 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
-    public class QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSigningCertificateCertIssuerSerial : XmlElementBase
+    public class QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSigningCertificateCertIssuerSerial 
     {
 
+        #region Propiedades Públicas de Instancia
+
+        /// <summary>
+        /// Nombre del emisor.
+        /// </summary>
         [XmlElement(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
         public string X509IssuerName { get; set; }
 
+        /// <summary>
+        /// Número de serie asignado.
+        /// </summary>
         [XmlElement(Namespace = "http://www.w3.org/2000/09/xmldsig#", DataType = "integer")]
         public string X509SerialNumber { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{base.ToString()}";
+        }
+
+        #endregion
 
     }
 }

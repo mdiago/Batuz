@@ -42,18 +42,28 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// Propiedades de la firma.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
-    public class QualifyingPropertiesSignedPropertiesSignedSignatureProperties : XmlElementBase
+    public class QualifyingPropertiesSignedPropertiesSignedSignatureProperties
     {
 
-
+        /// <summary>
+        /// Hora de la firma.
+        /// </summary>
         public string SigningTime { get; set; }
 
-
+        /// <summary>
+        /// Datos del certificado utilizado.
+        /// </summary>
         public QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSigningCertificate SigningCertificate { get; set; }
 
-
+        /// <summary>
+        /// Datos de la política de firma utilizada.
+        /// </summary>
         public QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifier SignaturePolicyIdentifier { get; set; }
 
     }

@@ -41,25 +41,29 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
 using System.Xml.Serialization;
 
-namespace Batuz.TicketBai
+namespace Batuz.TicketBai.Listas
 {
 
     /// <summary>
-    /// Bloque de información de IVA no sujeta.
+    /// Causas de no sujeción. L13.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class FacturaTipoDesgloseDesgloseFacturaNoSujeta
+    public enum CausaNoSujecion
     {
 
         /// <summary>
-        /// Detalle información no exenta de IVA.
+        /// No sujeto por el artículo 7 de la Norma Foral de IVA
+        /// Otros supuestos de no sujeción
         /// </summary>
-        public FacturaTipoDesgloseDesgloseFacturaNoSujetaDetalleNoSujeta DetalleNoSujeta { get; set; }
+        [XmlEnum("OT")]
+        Articulo7NormaForalIva,
 
+        /// <summary>
+        /// No sujeto por reglas de localización
+        /// </summary>
+        [XmlEnum("RL")]
+        ReglasLocalizacion
 
     }
 }

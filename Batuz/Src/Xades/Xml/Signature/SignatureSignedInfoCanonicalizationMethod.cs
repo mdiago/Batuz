@@ -42,15 +42,39 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// Método de canonicalización utilizado para normalizar el XML
+    /// antes de la firma.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public class SignatureSignedInfoCanonicalizationMethod : XmlElementBase
+    public class SignatureSignedInfoCanonicalizationMethod
     {
 
+        #region Propiedades Públicas de Instancia
 
-
+        /// <summary>
+        /// Algoritmo de canonicalización utilizado.
+        /// </summary>
         [XmlAttribute()]
         public string Algorithm { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{base.ToString()}";
+        }
+
+        #endregion
+
 
     }
 }

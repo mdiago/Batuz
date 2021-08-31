@@ -41,6 +41,8 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
+using Batuz.TicketBai.Listas;
+
 namespace Batuz.TicketBai
 {
 
@@ -50,10 +52,18 @@ namespace Batuz.TicketBai
     public class DesgloseNoSujetaDetalleNoSujeta
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
-        /// Causa de la no sujeción. Alfanumérico (2). L10. 
+        /// Causa de la no sujeción. Alfanumérico (2). L13. 
         /// </summary>
-        public string Causa { get; set; }
+        public CausaNoSujecion Causa { get; set; }
+
+        /// <summary>
+        /// True para serializar el bloque
+        /// 'Causa'.
+        /// </summary>
+        public bool CausaSpecified { get; set; }
 
         /// <summary>
         /// Importe en euros correspondiente a la operación
@@ -61,5 +71,21 @@ namespace Batuz.TicketBai
         /// </summary>
         public decimal Importe { get; set; }
 
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{Causa}:{Importe:#,##0.00}";
+        }
+
+        #endregion
+
     }
+
 }

@@ -57,6 +57,8 @@ namespace Batuz.TicketBai
     public class HuellaTBAI
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Datos factura/justificante anterior.
         /// </summary>
@@ -73,6 +75,21 @@ namespace Batuz.TicketBai
         /// Alfanumérico (30).
         /// </summary>
         public string NumSerieDispositivo { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{Software} {NumSerieDispositivo} {EncadenamientoFacturaAnterior}";
+        }
+
+        #endregion
 
     }
 }

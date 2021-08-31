@@ -48,7 +48,7 @@ namespace Batuz.TicketBai.Xades.Xml.Signature
     /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
-    public class QualifyingPropertiesSignedPropertiesSignedDataObjectPropertiesDataObjectFormat : XmlElementBase
+    public class QualifyingPropertiesSignedPropertiesSignedDataObjectPropertiesDataObjectFormat
     {
 
         #region Propiedades Públicas de Instancia

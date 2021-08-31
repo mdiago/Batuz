@@ -42,18 +42,45 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// Valor de la firma.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public class SignatureSignatureValue : XmlElementBase
+    public class SignatureSignatureValue
     {
 
+        #region Propiedades Públicas de Instancia
 
+        /// <summary>
+        /// Identificador asociado a la firma.
+        /// </summary>
         [XmlAttribute()]
         public string Id { get; set; }
 
-
+        /// <summary>
+        /// Valor de la firma. Es el resultado de aplicar la función
+        /// hash establecida al bloque SignedInfo y firmar dicho hash.
+        /// </summary>
         [XmlText()]
         public string Value { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{base.ToString()}";
+        }
+
+        #endregion
+
 
     }
 }

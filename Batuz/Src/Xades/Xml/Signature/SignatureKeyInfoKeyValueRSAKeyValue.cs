@@ -42,15 +42,45 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// Valores de la clave pública para descifrar la
+    /// firma. Se utilizan las propiedades de los 
+    /// números primos respecto a las congruencias
+    /// para obtener el mensaje original mediante el
+    /// la el módulo y el exponente.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public class SignatureKeyInfoKeyValueRSAKeyValue : XmlElementBase
+    public class SignatureKeyInfoKeyValueRSAKeyValue 
     {
 
+        #region Propiedades Públicas de Instancia
+
+        /// <summary>
+        /// Módulo.
+        /// </summary>
         public string Modulus { get; set; }
 
-
+        /// <summary>
+        /// Exponente.
+        /// </summary>
         public string Exponent { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{base.ToString()}";
+        }
+
+        #endregion
 
     }
 

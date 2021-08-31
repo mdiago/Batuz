@@ -42,13 +42,37 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// Propiedades de la firma.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public class SignatureObject : XmlElementBase
+    public class SignatureObject
     {
 
+        #region Propiedades Públicas de Instancia
+
+        /// <summary>
+        /// Propiedades de la firma.
+        /// </summary>
         [XmlElement(Namespace = "http://uri.etsi.org/01903/v1.3.2#")]
         public QualifyingProperties QualifyingProperties { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{base.ToString()}";
+        }
+
+        #endregion
 
     }
 }

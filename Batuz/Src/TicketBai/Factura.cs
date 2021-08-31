@@ -56,6 +56,8 @@ namespace Batuz.TicketBai
     public class Factura
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Representa la cabecera de la factura.
         /// </summary>
@@ -70,6 +72,21 @@ namespace Batuz.TicketBai
         /// Desglose de IVA de la factura.
         /// </summary>
         public FacturaTipoDesglose TipoDesglose { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{CabeceraFactura}: {DatosFactura}";
+        }
+
+        #endregion
 
     }
 

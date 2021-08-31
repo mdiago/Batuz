@@ -41,6 +41,7 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
+using Batuz.TicketBai.Listas;
 using System;
 using System.Xml.Serialization;
 
@@ -56,11 +57,28 @@ namespace Batuz.TicketBai
     public class Cabecera
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Identificación de la versión del esquema utilizado.
         /// Alfanumérico (5) L0
         /// </summary>
-        public string IDVersionTBAI { get; set; }
+        public IDVersionTBAI IDVersionTBAI { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{IDVersionTBAI}";
+        }
+
+        #endregion
 
     }
 }

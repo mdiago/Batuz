@@ -48,8 +48,10 @@ namespace Batuz.TicketBai.Xades.Xml.Signature
     /// </summary>
     [Serializable()]
     [XmlRoot(Namespace = "http://www.w3.org/2000/09/xmldsig#", IsNullable = false)]
-    public class Signature : XmlElementBase
+    public class Signature
     {
+
+        #region Propiedades Públicas de Instancia
 
         /// <summary>
         /// Contiene información sobre qué es lo que se firma y cómo se firma, es decir, 
@@ -71,12 +73,31 @@ namespace Batuz.TicketBai.Xades.Xml.Signature
         /// </summary>
         public SignatureKeyInfo KeyInfo { get; set; }
 
-
+        /// <summary>
+        /// Datos del objeto firmado.
+        /// </summary>
         public SignatureObject Object { get; set; }
 
-
+        /// <summary>
+        /// Identificador del objeto.
+        /// </summary>
         [XmlAttribute()]
         public string Id { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{Id}";
+        }
+
+        #endregion
 
     }
 }

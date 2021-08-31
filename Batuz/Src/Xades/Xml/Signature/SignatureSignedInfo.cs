@@ -49,8 +49,10 @@ namespace Batuz.TicketBai.Xades.Xml.Signature
     /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public class SignatureSignedInfo : XmlElementBase
+    public class SignatureSignedInfo
     {
+
+        #region Propiedades Públicas de Instancia
 
         /// <summary>
         /// Algoritmo de transformación de SignedInfo antes de realizar la firma digital.
@@ -69,6 +71,21 @@ namespace Batuz.TicketBai.Xades.Xml.Signature
         /// </summary>
         [XmlElement("Reference")]
         public SignatureSignedInfoReference[] Reference { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{CanonicalizationMethod}";
+        }
+
+        #endregion
 
     }
 }

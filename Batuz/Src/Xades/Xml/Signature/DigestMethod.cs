@@ -50,7 +50,7 @@ namespace Batuz.TicketBai.Xades.Xml.Signature
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
     [XmlRoot(Namespace = "http://www.w3.org/2000/09/xmldsig#", IsNullable = false)]
-    public class DigestMethod : XmlElementBase
+    public class DigestMethod
     { 
 
         #region Propiedades Públicas de Instancia

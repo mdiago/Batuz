@@ -56,6 +56,8 @@ namespace Batuz.TicketBai
     public class FacturaDatosFacturaClaves
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Clave que identificará el tipo de régimen del IVA
         /// o una operación con trascendencia tributaria.
@@ -63,6 +65,29 @@ namespace Batuz.TicketBai
         /// </summary>
         [XmlElement("IDClave")]
         public FacturaDatosFacturaClavesIDClave[] IDClave { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+
+            var result = "";
+
+            if(IDClave != null)
+                foreach (var id in IDClave)
+                    result += $"{((result=="") ? "" : ", ")}{id}";
+
+            return $"{result}";
+
+        }
+
+        #endregion
 
     }
 

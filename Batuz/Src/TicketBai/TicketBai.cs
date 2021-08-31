@@ -54,7 +54,9 @@ namespace Batuz.TicketBai
     [XmlRoot(Namespace = "urn:ticketbai:emision", IsNullable = false)]
     public class TicketBai
     {
-        
+
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Cabecera de TicketBai.
         /// </summary>
@@ -86,6 +88,21 @@ namespace Batuz.TicketBai
         /// </summary>
         [XmlElement(Namespace = "http://www.w3.org/2000/09/xmldsig#")]
         public Signature Signature { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{Cabecera}";
+        }
+
+        #endregion
 
     }
 }

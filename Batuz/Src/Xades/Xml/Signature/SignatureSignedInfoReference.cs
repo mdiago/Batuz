@@ -42,32 +42,69 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Xml.Signature
 {
+
+    /// <summary>
+    /// Referencia de la firma. Además del has del propio objeto
+    /// a firmar, se inclye el hash de otros elementos con información
+    /// relacionada con la firma, como el hash del bloque SignatureProperties,
+    /// por ejemplo, o en su caso, el del bloque KeyInfo.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true, Namespace = "http://www.w3.org/2000/09/xmldsig#")]
-    public class SignatureSignedInfoReference : XmlElementBase
+    public class SignatureSignedInfoReference
     {
 
+        #region Propiedades Públicas de Instancia
 
+        /// <summary>
+        /// Transformaciones aplicadas al bloque antes de aplicarle
+        /// la función hash.
+        /// </summary>
         [XmlArrayItem("Transform", IsNullable = false)]
         public SignatureSignedInfoReferenceTransform[] Transforms { get; set; }
 
-
+        /// <summary>
+        /// Fución hash utilizada.
+        /// </summary>
         public SignatureSignedInfoReferenceDigestMethod DigestMethod { get; set; }
 
-
+        /// <summary>
+        /// Valor del hash.
+        /// </summary>
         public string DigestValue { get; set; }
 
-
+        /// <summary>
+        /// Identificador del elemento.
+        /// </summary>
         [XmlAttribute()]
         public string Id { get; set; }
 
-
+        /// <summary>
+        /// Tipo.
+        /// </summary>
         [XmlAttribute()]
         public string Type { get; set; }
 
-
+        /// <summary>
+        /// Uri de referencia.
+        /// </summary>
         [XmlAttribute()]
         public string URI { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{Id}, {Type}";
+        }
+
+        #endregion
 
     }
 }

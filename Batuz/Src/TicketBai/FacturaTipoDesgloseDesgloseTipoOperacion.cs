@@ -48,17 +48,42 @@ namespace Batuz.TicketBai
 {
 
     /// <summary>
-    /// Tipo desglose factura.
+    /// DesgloseFactura (Cuando la contraparte es un
+    /// “nacional” o no
+    /// existe contraparte)
     /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true)]
     public class FacturaTipoDesgloseDesgloseTipoOperacion
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
-        /// Bloque de información sujeta a IVA.
+        /// Prestación de servicios.
         /// </summary>
-        public FacturaTipoDesgloseDesgloseTipoOperacionPrestacionServicios Sujeta { get; set; }
+        public Desglose PrestacionServicios { get; set; }
+
+        /// <summary>
+        /// Entrega.
+        /// </summary>
+        public Desglose Entrega { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{PrestacionServicios}{Entrega}";
+        }
+
+        #endregion
 
     }
+
 }

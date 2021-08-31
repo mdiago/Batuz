@@ -46,22 +46,59 @@ using System.Xml.Serialization;
 
 namespace Batuz.TicketBai
 {
+
+    /// <summary>
+    /// Información sobre el software garante.
+    /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true)]
     public class HuellaTBAISoftware
     {
 
+        #region Propiedades Públicas de Instancia
 
+        /// <summary>
+        /// Código de licencia asignado por la
+        /// Administración tributaria en el acuerdo de
+        /// inscripción en el registro de software garante
+        /// TicketBai. Alfanumérico (20).
+        /// </summary>
         public string LicenciaTBAI { get; set; }
 
+        /// <summary>
+        /// datos de la entidad desarrolladora
+        /// asociado a la inscripción en el registro de
+        /// software garante de TicketBai.
+        /// </summary>
+        public Sujeto EntidadDesarrolladora { get; set; }
 
-        public HuellaTBAISoftwareEntidadDesarrolladora EntidadDesarrolladora { get; set; }
-
-
+        /// <summary>
+        /// Nombre del software de facturación
+        /// Dato asociado a la inscripción en el registro de
+        /// software garante de TicketBai.
+        /// </summary>
         public string Nombre { get; set; }
 
-
+        /// <summary>
+        /// dentificación de la versión del Software de
+        /// facturación utilizado.
+        /// </summary>
         public string Version { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{Nombre}, {LicenciaTBAI}, {EntidadDesarrolladora}";
+        }
+
+        #endregion
 
     }
 
