@@ -41,60 +41,67 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
-using System.Xml.Serialization;
+using iText.Html2pdf;
+using iText.IO.Font;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Layout.Font;
+using System.IO;
 
-namespace Batuz.TicketBai
+namespace Batuz.TicketBai.Pdf
 {
 
     /// <summary>
-    /// Información emisor factura.
+    /// Se encarga de realizar los trabajos de generación de 
+    /// dpocumentos pdf.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class Sujeto
+    public class PdfManager
     {
 
-        #region Propiedades Públicas de Instancia
-
         /// <summary>
-        /// Número de identificación fiscal del sujeto.
+        /// Convierte texto html de entrada en un archivo pdf.
         /// </summary>
-        public string NIF { get; set; }
+        /// <param name="html">Html a convertir en pdf.</param>
+        /// <param name="orientation">Orientación.</param>
+        /// <param name="fontData">Byte content of the font program file.</param>
+        /// <returns>Datos binarios del pdf.</returns>
+        public byte[] GetPdfFormHtml(string html, 
+            string orientation = "PORTRAIT", byte[] fontData = null)
+        {            
 
-        /// <summary>
-        /// Cuando el identificador es distinto del NIF establece el tipo de identificador utilizado.
-        /// </summary>
-        public IDOtro IDOtro { get; set; }
+            ConverterProperties properties = new ConverterProperties();
+            properties.SetTagWorkerFactory(new QRCodeTagWorkerFactory());
+            properties.SetTagWorkerFactory(new QRCodeTagWorkerFactory());
+            properties.SetCssApplierFactory(new QRCodeTagCssApplierFactory());
 
-        /// <summary>
-        /// Apellidos y nombre o razón social o
-        /// denominación social completa del destinatario o
-        /// de la destinataria. Alfanumérico (120).
-        /// </summary>
-        public string ApellidosNombreRazonSocial { get; set; }
+            if(fontData != null) 
+            {
 
-        /// <summary>
-        /// Código postal del destinatario o de la destinataria.
-        /// Numérico (5).
-        /// </summary>
-        public string CodigoPostal { get; set; }
+                FontProvider fontProvider = new FontProvider();
+                fontProvider.AddFont(fontData, PdfEncodings.IDENTITY_H);
 
-        #endregion
+                properties.SetFontProvider(fontProvider);
 
-        #region Métodos Públicos de Instancia
+            }
 
-        /// <summary>
-        /// Representación textual de la instancia.
-        /// </summary>
-        /// <returns>Representación textual de la instancia.</returns>
-        public override string ToString()
-        {
-            return $"({NIF}) {ApellidosNombreRazonSocial}";
+            byte[] result = null;
+
+            using (var ms = new MemoryStream())
+            {
+                using (var pdfDocument = new PdfDocument(new PdfWriter(ms)))
+                {
+
+                    if (orientation.ToUpper() == "LANDSCAPE")
+                        pdfDocument.SetDefaultPageSize(PageSize.A4.Rotate());
+
+                    HtmlConverter.ConvertToPdf(html, pdfDocument, properties);
+                    result = ms.ToArray();
+                }
+            }
+
+            return result;
+
         }
 
-        #endregion
-
     }
-
 }

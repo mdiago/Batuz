@@ -42,43 +42,32 @@
  */
 
 using System;
-using System.Xml.Serialization;
 
-namespace Batuz.TicketBai
+namespace Batuz.Negocio.Documento
 {
 
     /// <summary>
-    /// Información emisor factura.
+    /// Representa un vencimiento de un documento.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class Sujeto
+    public class DocumentoVencimiento
     {
 
         #region Propiedades Públicas de Instancia
 
         /// <summary>
-        /// Número de identificación fiscal del sujeto.
+        /// Método de pago.
         /// </summary>
-        public string NIF { get; set; }
+        public string ViaPago { get; set; }
 
         /// <summary>
-        /// Cuando el identificador es distinto del NIF establece el tipo de identificador utilizado.
+        /// Importe a pagar.
         /// </summary>
-        public IDOtro IDOtro { get; set; }
+        public string Importe { get; set; }
 
         /// <summary>
-        /// Apellidos y nombre o razón social o
-        /// denominación social completa del destinatario o
-        /// de la destinataria. Alfanumérico (120).
+        /// Fecha de vencimiento.
         /// </summary>
-        public string ApellidosNombreRazonSocial { get; set; }
-
-        /// <summary>
-        /// Código postal del destinatario o de la destinataria.
-        /// Numérico (5).
-        /// </summary>
-        public string CodigoPostal { get; set; }
+        public DateTime FechaPago { get; set; }
 
         #endregion
 
@@ -90,7 +79,7 @@ namespace Batuz.TicketBai
         /// <returns>Representación textual de la instancia.</returns>
         public override string ToString()
         {
-            return $"({NIF}) {ApellidosNombreRazonSocial}";
+            return $"({FechaPago}:{ViaPago}) {Importe}";
         }
 
         #endregion

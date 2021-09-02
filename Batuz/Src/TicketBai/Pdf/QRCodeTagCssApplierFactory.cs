@@ -1,4 +1,7 @@
-﻿/*
+﻿using iText.Html2pdf.Css.Apply;
+using iText.Html2pdf.Css.Apply.Impl;
+using iText.StyledXmlParser.Node;
+/*
     Este archivo forma parte del proyecto Batuz(R).
     Copyright (c) 2021 Irene Solutions SL
     Autores: Manuel Diago García, Juan Bautista Garcia Traver.
@@ -41,60 +44,32 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
-using System.Xml.Serialization;
 
-namespace Batuz.TicketBai
+namespace Batuz.TicketBai.Pdf
 {
 
     /// <summary>
-    /// Información emisor factura.
+    /// Example of a custom CssApplier factory for pdfHTML
+    /// The tag qr is mapped on a BlockCssApplier. Every other tag is mapped to the default.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class Sujeto
+    public class QRCodeTagCssApplierFactory : DefaultCssApplierFactory
     {
 
-        #region Propiedades Públicas de Instancia
-
         /// <summary>
-        /// Número de identificación fiscal del sujeto.
+        /// Gets a custom CSS applier.
+        /// This is a hook method. Users wanting to provide a custom mapping or introduce
+        /// their own ITagWorkers should implement this method.
         /// </summary>
-        public string NIF { get; set; }
-
-        /// <summary>
-        /// Cuando el identificador es distinto del NIF establece el tipo de identificador utilizado.
-        /// </summary>
-        public IDOtro IDOtro { get; set; }
-
-        /// <summary>
-        /// Apellidos y nombre o razón social o
-        /// denominación social completa del destinatario o
-        /// de la destinataria. Alfanumérico (120).
-        /// </summary>
-        public string ApellidosNombreRazonSocial { get; set; }
-
-        /// <summary>
-        /// Código postal del destinatario o de la destinataria.
-        /// Numérico (5).
-        /// </summary>
-        public string CodigoPostal { get; set; }
-
-        #endregion
-
-        #region Métodos Públicos de Instancia
-
-        /// <summary>
-        /// Representación textual de la instancia.
-        /// </summary>
-        /// <returns>Representación textual de la instancia.</returns>
-        public override string ToString()
+        /// <param name="tag"> the tag</param>
+        /// <returns>the custom tag worker</returns>
+        public override ICssApplier GetCustomCssApplier(IElementNode tag)
         {
-            return $"({NIF}) {ApellidosNombreRazonSocial}";
+            if (tag.Name().Equals("qr"))
+            {
+                return new BlockCssApplier();
+            }
+            return null;
         }
 
-        #endregion
-
     }
-
 }

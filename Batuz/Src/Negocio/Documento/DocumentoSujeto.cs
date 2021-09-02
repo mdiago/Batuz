@@ -41,44 +41,52 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
-using System.Xml.Serialization;
-
-namespace Batuz.TicketBai
+namespace Batuz.Negocio.Documento
 {
 
     /// <summary>
-    /// Información emisor factura.
+    /// Represesnta un emisor o receptor de un
+    /// documento.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class Sujeto
+    public class DocumentoSujeto
     {
 
         #region Propiedades Públicas de Instancia
 
         /// <summary>
-        /// Número de identificación fiscal del sujeto.
+        /// Código ISO2 pais.
         /// </summary>
-        public string NIF { get; set; }
+        public string Pais { get; set; }
 
         /// <summary>
-        /// Cuando el identificador es distinto del NIF establece el tipo de identificador utilizado.
+        /// Tipo de identificador.
         /// </summary>
-        public IDOtro IDOtro { get; set; }
+        public string IdentficadorFiscalTipos { get; set; }
 
         /// <summary>
-        /// Apellidos y nombre o razón social o
-        /// denominación social completa del destinatario o
-        /// de la destinataria. Alfanumérico (120).
+        /// Identificador fiscal del sujeto.
         /// </summary>
-        public string ApellidosNombreRazonSocial { get; set; }
+        public string IdentficadorFiscal { get; set; }
 
         /// <summary>
-        /// Código postal del destinatario o de la destinataria.
-        /// Numérico (5).
+        /// Nombre o razón social.
         /// </summary>
-        public string CodigoPostal { get; set; }
+        public string Nombre { get; set; }
+
+        /// <summary>
+        /// Dirección de correo eletrónico.
+        /// </summary>
+        public string CorreoElectronico { get; set; }
+
+        /// <summary>
+        /// Teléfono.
+        /// </summary>
+        public string Telefono { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DocumentoDomicilio Domicilio { get; set; }
 
         #endregion
 
@@ -90,7 +98,7 @@ namespace Batuz.TicketBai
         /// <returns>Representación textual de la instancia.</returns>
         public override string ToString()
         {
-            return $"({NIF}) {ApellidosNombreRazonSocial}";
+            return $"({IdentficadorFiscal}) {Nombre}";
         }
 
         #endregion

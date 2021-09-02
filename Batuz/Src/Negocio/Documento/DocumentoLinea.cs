@@ -41,44 +41,87 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
-using System.Xml.Serialization;
-
-namespace Batuz.TicketBai
+namespace Batuz.Negocio.Documento
 {
 
     /// <summary>
-    /// Información emisor factura.
+    /// Representa un línea de factura.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class Sujeto
+    public class DocumentoLinea
     {
 
         #region Propiedades Públicas de Instancia
 
         /// <summary>
-        /// Número de identificación fiscal del sujeto.
+        /// Código producto o servicio.
         /// </summary>
-        public string NIF { get; set; }
+        public string ProductoIdentificador { get; set; }
 
         /// <summary>
-        /// Cuando el identificador es distinto del NIF establece el tipo de identificador utilizado.
+        /// Unidades producto o servicio.
         /// </summary>
-        public IDOtro IDOtro { get; set; }
+        public string ProductoDescripcion { get; set; }
 
         /// <summary>
-        /// Apellidos y nombre o razón social o
-        /// denominación social completa del destinatario o
-        /// de la destinataria. Alfanumérico (120).
+        /// Cantidad producto o servicio.
         /// </summary>
-        public string ApellidosNombreRazonSocial { get; set; }
+        public decimal Cantidad { get; set; }
 
         /// <summary>
-        /// Código postal del destinatario o de la destinataria.
-        /// Numérico (5).
+        /// Precio producto o servicio.
         /// </summary>
-        public string CodigoPostal { get; set; }
+        public decimal Precio { get; set; }
+
+        /// <summary>
+        /// Porcentaje de descuento.
+        /// </summary>
+        public decimal Descuento { get; set; }
+
+        /// <summary>
+        /// Total neto línea sin impuestos.
+        /// </summary>
+        public decimal TotalSinImpuestos { get; set; }
+
+        /// <summary>
+        /// Código de impuesto del impuesto soportado.
+        /// </summary>
+        public string IdentificadorImpuestosSoportados { get; set; }
+
+        /// <summary>
+        /// Tipo impositivo impuestos soportados.
+        /// </summary>
+        public decimal TipoImpuestosSoportados { get; set; }
+
+        /// <summary>
+        /// Cuata impositiva impuestos soportados.
+        /// </summary>
+        public decimal CuotaImpuestosSoportados { get; set; }
+
+        /// <summary>
+        /// Código de impuesto del impuesto retenido.
+        /// </summary>
+        public string IdentificadorImpuestosRetenidos { get; set; }
+
+        /// <summary>
+        /// Tipo impositivo impuestos retenidos.
+        /// </summary>
+        public decimal TipoImpuestosRetenidos { get; set; }
+
+        /// <summary>
+        /// Cuota impositiva impuestos retenidos.
+        /// </summary>
+        public decimal CuotaImpuestosRetenidos { get; set; }
+
+        /// <summary>
+        /// Total neto línea sin impuestos.
+        /// </summary>
+        public decimal TotalConImpuestos 
+        {
+            get 
+            {
+                return TotalSinImpuestos + CuotaImpuestosSoportados - CuotaImpuestosRetenidos; 
+            } 
+        }
 
         #endregion
 
@@ -90,11 +133,11 @@ namespace Batuz.TicketBai
         /// <returns>Representación textual de la instancia.</returns>
         public override string ToString()
         {
-            return $"({NIF}) {ApellidosNombreRazonSocial}";
+            return $"({ProductoDescripcion}) {TotalSinImpuestos}";
         }
 
         #endregion
 
-    }
 
+    }
 }

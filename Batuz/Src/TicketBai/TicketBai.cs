@@ -41,6 +41,7 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
+using Batuz.TicketBai.Identificador;
 using Batuz.TicketBai.Xades.Xml.Signature;
 using System.Xml;
 using System.Xml.Serialization;
@@ -55,7 +56,38 @@ namespace Batuz.TicketBai
     public class TicketBai
     {
 
-        #region Propiedades Públicas de Instancia
+        #region Construtores de Instancia
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public TicketBai() 
+        {
+            CodigoIdentificativo = new CodigoIdentificativo(this);
+            CodigoQR = new CodigoQR(this);
+        }
+
+        #endregion
+
+        #region Propiedades Públicas de Instancia  
+
+        /// <summary>
+        /// Código de identificativo de factura o justificante 
+        /// generados por el software garante. Según lo estaablecido 
+        /// en el artículo 6 de la presente Orden Foral será un dígito
+        /// de 39 posiciones 36 + 3 digito de control.
+        /// TBAI-NNNNNNNNN-DDMMAA-FFFFFFFFFFFFF-CRC
+        /// </summary>
+        [XmlIgnore]
+        public CodigoIdentificativo CodigoIdentificativo { get; private set; }
+
+        /// <summary>
+        /// Código QR identifica a la factura o justificante generado
+        /// mediante la utilización del software garante y asegura su 
+        /// relación con su correspondiente fichero de alta.
+        /// </summary>
+        [XmlIgnore]
+        public CodigoQR CodigoQR { get; private set; }
 
         /// <summary>
         /// Cabecera de TicketBai.

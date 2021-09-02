@@ -35,9 +35,49 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\..\Irene.Solutions.Edi.Babel.Test\packages\Portable.BouncyCastle.1.8.9\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\..\Irene.Solutions.Edi.Babel.Test\packages\Common.Logging.3.4.1\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\..\Irene.Solutions.Edi.Babel.Test\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.barcodes, Version=7.1.16.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\Irene.Solutions.Edi.Babel.Test\packages\itext7.7.1.16\lib\net45\itext.barcodes.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.forms, Version=7.1.16.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\Irene.Solutions.Edi.Babel.Test\packages\itext7.7.1.16\lib\net45\itext.forms.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.html2pdf, Version=3.0.5.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\Irene.Solutions.Edi.Babel.Test\packages\itext7.pdfhtml.3.0.5\lib\net45\itext.html2pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.io, Version=7.1.16.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\Irene.Solutions.Edi.Babel.Test\packages\itext7.7.1.16\lib\net45\itext.io.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.kernel, Version=7.1.16.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\Irene.Solutions.Edi.Babel.Test\packages\itext7.7.1.16\lib\net45\itext.kernel.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.layout, Version=7.1.16.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\Irene.Solutions.Edi.Babel.Test\packages\itext7.7.1.16\lib\net45\itext.layout.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.pdfa, Version=7.1.16.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\Irene.Solutions.Edi.Babel.Test\packages\itext7.7.1.16\lib\net45\itext.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.sign, Version=7.1.16.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\Irene.Solutions.Edi.Babel.Test\packages\itext7.7.1.16\lib\net45\itext.sign.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.styledxmlparser, Version=7.1.16.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\Irene.Solutions.Edi.Babel.Test\packages\itext7.7.1.16\lib\net45\itext.styledxmlparser.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.svg, Version=7.1.16.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\Irene.Solutions.Edi.Babel.Test\packages\itext7.7.1.16\lib\net45\itext.svg.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,7 +86,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CRC8.cs" />
+    <Compile Include="Src\Negocio\Documento\Documento.cs" />
+    <Compile Include="Src\Negocio\Documento\DocumentoDomicilio.cs" />
+    <Compile Include="Src\Negocio\Documento\DocumentoImpuesto.cs" />
+    <Compile Include="Src\Negocio\Documento\DocumentoSujeto.cs" />
+    <Compile Include="Src\Negocio\Documento\DocumentoCabecera.cs" />
+    <Compile Include="Src\Negocio\Documento\DocumentoLinea.cs" />
+    <Compile Include="Src\Negocio\Documento\DocumentoTipo.cs" />
+    <Compile Include="Src\Negocio\Documento\DocumentoVencimiento.cs" />
+    <Compile Include="Src\TicketBai\Identificador\CodigoIdentificativo.cs" />
+    <Compile Include="Src\TicketBai\Identificador\CodigoQR.cs" />
+    <Compile Include="Src\TicketBai\Identificador\CRC8.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Src\Info\VerificacionPresencial.cs" />
     <Compile Include="Src\TicketBai\Listas\CausaExencion.cs" />
@@ -79,6 +129,11 @@
     <Compile Include="Src\TicketBai\Listas\IDOtroType.cs" />
     <Compile Include="Src\TicketBai\Listas\CodigoPais.cs" />
     <Compile Include="Src\TicketBai\Listas\IDVersionTBAI.cs" />
+    <Compile Include="Src\TicketBai\Pdf\PdfManager.cs" />
+    <Compile Include="Src\TicketBai\Pdf\QRCodeTagCssApplierFactory.cs" />
+    <Compile Include="Src\TicketBai\Pdf\QRCodeTagWorker.cs" />
+    <Compile Include="Src\TicketBai\Pdf\QRCodeTagWorkerFactory.cs" />
+    <Compile Include="Src\TicketBai\Pdf\RenderizadorHtml.cs" />
     <Compile Include="Src\TicketBai\Sujetos.cs" />
     <Compile Include="Src\TicketBai\SujetosDestinatarios.cs" />
     <Compile Include="Src\TicketBai\SujetosDestinatariosIDDestinatario.cs" />
@@ -129,6 +184,12 @@
     <Compile Include="Src\Xades\Xml\Signature\SignatureSignedInfoSignatureMethod.cs" />
     <Compile Include="Src\XmlParser.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Src\TicketBai\Pdf\factura.html" />
+    <Content Include="Src\TicketBai\Pdf\invoice.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

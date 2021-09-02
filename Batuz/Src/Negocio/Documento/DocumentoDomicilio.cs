@@ -41,44 +41,36 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
-using System.Xml.Serialization;
-
-namespace Batuz.TicketBai
+namespace Batuz.Negocio.Documento
 {
 
     /// <summary>
-    /// Información emisor factura.
+    /// Representa un domicilio de un sujeto.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class Sujeto
+    public class DocumentoDomicilio
     {
 
         #region Propiedades Públicas de Instancia
 
         /// <summary>
-        /// Número de identificación fiscal del sujeto.
+        /// Dirección.
         /// </summary>
-        public string NIF { get; set; }
+        public string Direccion { get; set; }
 
         /// <summary>
-        /// Cuando el identificador es distinto del NIF establece el tipo de identificador utilizado.
+        /// Municipio.
         /// </summary>
-        public IDOtro IDOtro { get; set; }
+        public string Municipio { get; set; }
 
         /// <summary>
-        /// Apellidos y nombre o razón social o
-        /// denominación social completa del destinatario o
-        /// de la destinataria. Alfanumérico (120).
-        /// </summary>
-        public string ApellidosNombreRazonSocial { get; set; }
-
-        /// <summary>
-        /// Código postal del destinatario o de la destinataria.
-        /// Numérico (5).
+        /// Código postal.
         /// </summary>
         public string CodigoPostal { get; set; }
+
+        /// <summary>
+        /// Provincia.
+        /// </summary>
+        public string Provincia { get; set; }
 
         #endregion
 
@@ -90,11 +82,10 @@ namespace Batuz.TicketBai
         /// <returns>Representación textual de la instancia.</returns>
         public override string ToString()
         {
-            return $"({NIF}) {ApellidosNombreRazonSocial}";
+            return $"{Direccion} ({Municipio})";
         }
 
         #endregion
 
     }
-
 }

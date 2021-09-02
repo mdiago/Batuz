@@ -41,60 +41,104 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
-using System.Xml.Serialization;
+using System.Collections.Generic;
 
-namespace Batuz.TicketBai
+namespace Batuz.Negocio.Documento
 {
 
     /// <summary>
-    /// Información emisor factura.
+    /// Representa un factura o un justificante.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class Sujeto
+    public class Documento : DocumentoCabecera
     {
 
         #region Propiedades Públicas de Instancia
 
         /// <summary>
-        /// Número de identificación fiscal del sujeto.
+        /// Total neto línea sin impuestos.
         /// </summary>
-        public string NIF { get; set; }
-
-        /// <summary>
-        /// Cuando el identificador es distinto del NIF establece el tipo de identificador utilizado.
-        /// </summary>
-        public IDOtro IDOtro { get; set; }
-
-        /// <summary>
-        /// Apellidos y nombre o razón social o
-        /// denominación social completa del destinatario o
-        /// de la destinataria. Alfanumérico (120).
-        /// </summary>
-        public string ApellidosNombreRazonSocial { get; set; }
-
-        /// <summary>
-        /// Código postal del destinatario o de la destinataria.
-        /// Numérico (5).
-        /// </summary>
-        public string CodigoPostal { get; set; }
-
-        #endregion
-
-        #region Métodos Públicos de Instancia
-
-        /// <summary>
-        /// Representación textual de la instancia.
-        /// </summary>
-        /// <returns>Representación textual de la instancia.</returns>
-        public override string ToString()
+        public decimal TotalSinImpuestos 
         {
-            return $"({NIF}) {ApellidosNombreRazonSocial}";
+            get 
+            {
+                
+                decimal totalSinImpuestos = 0;
+
+                foreach (var linea in DocumentoLineas)
+                    totalSinImpuestos += linea.TotalSinImpuestos;
+
+                return totalSinImpuestos;
+            }  
         }
 
-        #endregion
+        /// <summary>
+        /// Cuota impositiva impuestos soportados.
+        /// </summary>
+        public decimal CuotaImpuestosSoportados
+        {
+            get
+            {
+
+                decimal cuotaImpuestosSoportados = 0;
+
+                foreach (var linea in DocumentoLineas)
+                    cuotaImpuestosSoportados += linea.CuotaImpuestosSoportados;
+
+                return cuotaImpuestosSoportados;
+            }
+        }
+
+        /// <summary>
+        /// Cuota impositiva impuestos retenidos.
+        /// </summary>
+        public decimal CuotaImpuestosRetenidos
+        {
+            get
+            {
+
+                decimal cuotaImpuestosRetenidos = 0;
+
+                foreach (var linea in DocumentoLineas)
+                    cuotaImpuestosRetenidos += linea.CuotaImpuestosRetenidos;
+
+                return cuotaImpuestosRetenidos;
+            }
+        }
+
+        /// <summary>
+        /// Total factura.
+        /// </summary>
+        public decimal TotalFactura
+        {
+            get
+            {
+
+                return TotalSinImpuestos + CuotaImpuestosSoportados - CuotaImpuestosRetenidos;
+            }
+        }
+
+        /// <summary>
+        /// Líneas de detalle del documento.
+        /// </summary>
+        public List<DocumentoLinea> DocumentoLineas { get; set; }
+
+        /// <summary>
+        /// Impuestos soportados.
+        /// </summary>
+        public List<DocumentoImpuesto> DocumentoImpuestosSoportados { get; set; }
+
+        /// <summary>
+        /// Impuestos retenidos.
+        /// </summary>
+        public List<DocumentoImpuesto> DocumentoImpuestosRetenidos { get; set; }
+
+        /// <summary>
+        /// Vencimientos.
+        /// </summary>
+        public List<DocumentoVencimiento> DocumentoVencimientos { get; set; }
+
+        #endregion        
+
 
     }
-
 }

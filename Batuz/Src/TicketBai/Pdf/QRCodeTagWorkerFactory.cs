@@ -41,60 +41,37 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
-using System.Xml.Serialization;
 
-namespace Batuz.TicketBai
+using iText.Html2pdf.Attach;
+using iText.Html2pdf.Attach.Impl;
+using iText.StyledXmlParser.Node;
+
+namespace Batuz.TicketBai.Pdf
 {
 
     /// <summary>
-    /// Información emisor factura.
+    /// Custom tagworkerfactory for pdfHTML for tag qr.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class Sujeto
+    public class QRCodeTagWorkerFactory : DefaultTagWorkerFactory
     {
 
-        #region Propiedades Públicas de Instancia
-
         /// <summary>
-        /// Número de identificación fiscal del sujeto.
+        /// Custom tagworkerfactory for pdfHTML
+        /// The tag /<qr/> is mapped on a QRCode tagworker. Every other tag is mapped to the default.
+        /// This is a hook method. Users wanting to provide a custom mapping or introduce
+        /// their own ITagWorkers should implement this method.
         /// </summary>
-        public string NIF { get; set; }
-
-        /// <summary>
-        /// Cuando el identificador es distinto del NIF establece el tipo de identificador utilizado.
-        /// </summary>
-        public IDOtro IDOtro { get; set; }
-
-        /// <summary>
-        /// Apellidos y nombre o razón social o
-        /// denominación social completa del destinatario o
-        /// de la destinataria. Alfanumérico (120).
-        /// </summary>
-        public string ApellidosNombreRazonSocial { get; set; }
-
-        /// <summary>
-        /// Código postal del destinatario o de la destinataria.
-        /// Numérico (5).
-        /// </summary>
-        public string CodigoPostal { get; set; }
-
-        #endregion
-
-        #region Métodos Públicos de Instancia
-
-        /// <summary>
-        /// Representación textual de la instancia.
-        /// </summary>
-        /// <returns>Representación textual de la instancia.</returns>
-        public override string ToString()
+        /// <param name="tag"> the tag</param>
+        /// <param name="context"> the context</param>
+        /// <returns>the custom tag worker</returns>
+        public override ITagWorker GetCustomTagWorker(IElementNode tag, ProcessorContext context)
         {
-            return $"({NIF}) {ApellidosNombreRazonSocial}";
+            
+            if (tag.Name().Equals("qr"))
+                return new QRCodeTagWorker(tag, context);
+
+            return null;
         }
 
-        #endregion
-
     }
-
 }

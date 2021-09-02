@@ -42,43 +42,77 @@
  */
 
 using System;
-using System.Xml.Serialization;
 
-namespace Batuz.TicketBai
+namespace Batuz.Negocio.Documento
 {
 
     /// <summary>
-    /// Información emisor factura.
+    /// Representa una cabecera de documento.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class Sujeto
+    public class DocumentoCabecera
     {
 
         #region Propiedades Públicas de Instancia
 
         /// <summary>
-        /// Número de identificación fiscal del sujeto.
+        /// Tipo de documento.
         /// </summary>
-        public string NIF { get; set; }
+        public DocumentoTipo DocumentoTipo { get; set; }
 
         /// <summary>
-        /// Cuando el identificador es distinto del NIF establece el tipo de identificador utilizado.
+        /// Emisor del documento.
         /// </summary>
-        public IDOtro IDOtro { get; set; }
+        public DocumentoSujeto Emisor { get; set; }
 
         /// <summary>
-        /// Apellidos y nombre o razón social o
-        /// denominación social completa del destinatario o
-        /// de la destinataria. Alfanumérico (120).
+        /// Destinatario del documento.
         /// </summary>
-        public string ApellidosNombreRazonSocial { get; set; }
+        public DocumentoSujeto Destinatario { get; set; }
 
         /// <summary>
-        /// Código postal del destinatario o de la destinataria.
-        /// Numérico (5).
+        /// Número de serie que identifica a la factura.
+        /// Alfanumérico (20).
         /// </summary>
-        public string CodigoPostal { get; set; }
+        public string SerieFactura { get; set; }
+
+        /// <summary>
+        /// Número de factura que identifica a la factura.
+        /// Alfanumérico (20).
+        /// </summary>
+        public string NumFactura { get; set; }
+
+        /// <summary>
+        /// Fecha de expedición de la factura.
+        /// Formato Fecha (10) (dd-mm-aaaa).
+        /// </summary>
+        public DateTime FechaExpedicionFactura { get; set; }
+
+        /// <summary>
+        /// Descripción operación.
+        /// </summary>
+        public string DescripcionFactura { get; set; }
+
+        /// <summary>
+        /// Identificador que especifica si se trata de una
+        /// factura simplificada o una factura completa.Si no
+        /// se informa este campo se entenderá que tiene
+        /// valor «N», entendiéndose que se trata de una
+        /// factura completa.
+        /// </summary>
+        public bool FacturaSimplificada { get; set; }
+
+        /// <summary>
+        /// Identificador que especifica si se trata de una
+        /// factura emitida en sustitución de una factura
+        /// simplificada.Si no se informa este campo se
+        /// entenderá que tiene valor «N».
+        /// </summary>
+        public bool FacturaEmitidaSustitucionSimplificada { get; set; }
+
+        /// <summary>
+        /// Código ISO divisa.
+        /// </summary>
+        public string Moneda { get; set; }
 
         #endregion
 
@@ -90,11 +124,12 @@ namespace Batuz.TicketBai
         /// <returns>Representación textual de la instancia.</returns>
         public override string ToString()
         {
-            return $"({NIF}) {ApellidosNombreRazonSocial}";
+            return $"({DocumentoTipo}) {SerieFactura}-{NumFactura} {FechaExpedicionFactura}";
         }
 
         #endregion
 
-    }
 
+
+    }
 }
