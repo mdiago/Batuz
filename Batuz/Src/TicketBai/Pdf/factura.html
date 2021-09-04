@@ -174,26 +174,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td align="right">1,000.00</td>
-                                        <td align="right">21</td>
-                                        <td align="right">210.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td align="right">1,000.00</td>
-                                        <td align="right">10</td>
-                                        <td align="right">100.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td align="right">1,000.00</td>
-                                        <td align="right">4</td>
-                                        <td align="right">40</td>
+                                    <!--PLANTILLA LÍNEA IMPUESTO SOPORTADO-->
+                                    <tr tbaicollection="DocumentoImpuestosSoportados">
+                                        <td align="right">{BaseImpuestos:#,##0.00}</td>
+                                        <td align="right">{TipoImpuestos:#,##0.00}</td>
+                                        <td align="right">{CuotaImpuestos:#,##0.00}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <td colspan="2" align="right" style="font-weight: bold; font-size: 1rem;">Total IVA</td>
-                                        <td align="right" style="font-weight: bold; font-size: 1rem;">348.00</td>
+                                        <td align="right" style="font-weight: bold; font-size: 1rem;">{CuotaImpuestosSoportados:#,##0.00}</td>
                                     </tr>
                                 </tfoot>
                             </table>

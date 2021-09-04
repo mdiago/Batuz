@@ -89,6 +89,23 @@ namespace Batuz.Negocio.Documento
         }
 
         /// <summary>
+        /// Cuota impositiva impuestos soportados recargo.
+        /// </summary>
+        public decimal CuotaImpuestosSoportadosRecargo
+        {
+            get
+            {
+
+                decimal cuotaImpuestosSoportadosRecargo = 0;
+
+                foreach (var linea in DocumentoLineas)
+                    cuotaImpuestosSoportadosRecargo += linea.CuotaImpuestosSoportadosRecargo;
+
+                return cuotaImpuestosSoportadosRecargo;
+            }
+        }
+
+        /// <summary>
         /// Cuota impositiva impuestos retenidos.
         /// </summary>
         public decimal CuotaImpuestosRetenidos
@@ -113,7 +130,8 @@ namespace Batuz.Negocio.Documento
             get
             {
 
-                return TotalSinImpuestos + CuotaImpuestosSoportados - CuotaImpuestosRetenidos;
+                return TotalSinImpuestos + CuotaImpuestosSoportados + 
+                    CuotaImpuestosSoportadosRecargo - CuotaImpuestosRetenidos;
             }
         }
 
@@ -137,8 +155,91 @@ namespace Batuz.Negocio.Documento
         /// </summary>
         public List<DocumentoVencimiento> DocumentoVencimientos { get; set; }
 
-        #endregion        
+        #endregion
 
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Calcula los totales de impuestos.
+        /// </summary>
+        public void CalcularImpuestos() 
+        {
+
+            DocumentoImpuestosSoportados = new List<DocumentoImpuesto>();
+            Dictionary<decimal, DocumentoImpuesto> totalPorTipoSoportados = new Dictionary<decimal, DocumentoImpuesto>();
+
+            foreach (var linea in DocumentoLineas) 
+            {
+
+                if (totalPorTipoSoportados.ContainsKey(linea.TipoImpuestosSoportados)) 
+                {
+                    
+                    totalPorTipoSoportados[linea.TipoImpuestosSoportados].BaseImpuestos += linea.TotalSinImpuestos;
+                    totalPorTipoSoportados[linea.TipoImpuestosSoportados].CuotaImpuestos += linea.CuotaImpuestosSoportados;
+                    totalPorTipoSoportados[linea.TipoImpuestosSoportados].CuotaImpuestosRecargo += linea.CuotaImpuestosSoportadosRecargo;
+
+                }
+                else 
+                {
+
+                    var impuesto = new DocumentoImpuesto()
+                    {
+
+                        BaseImpuestos = linea.TotalSinImpuestos,
+                        TipoImpuestos = linea.TipoImpuestosSoportados,
+                        CuotaImpuestos = linea.CuotaImpuestosSoportados,
+                        TipoImpuestosRecargo = linea.TipoImpuestosSoportadosRecargo,
+                        CuotaImpuestosRecargo = linea.CuotaImpuestosSoportadosRecargo
+
+                    };
+
+                    DocumentoImpuestosSoportados.Add(impuesto);
+
+                    totalPorTipoSoportados.Add(linea.TipoImpuestosSoportados, impuesto);
+                }
+
+            }
+
+            DocumentoImpuestosRetenidos = new List<DocumentoImpuesto>();
+            Dictionary<decimal, DocumentoImpuesto> totalPorTipoRetenidos = new Dictionary<decimal, DocumentoImpuesto>();
+
+            foreach (var linea in DocumentoLineas)
+            {
+
+                if (linea.CuotaImpuestosRetenidos != 0)
+                {
+
+                    if (totalPorTipoRetenidos.ContainsKey(linea.TipoImpuestosRetenidos))
+                    {
+
+                        totalPorTipoRetenidos[linea.TipoImpuestosRetenidos].BaseImpuestos += linea.TotalSinImpuestos;
+                        totalPorTipoRetenidos[linea.TipoImpuestosRetenidos].CuotaImpuestos += linea.CuotaImpuestosRetenidos;
+
+                    }
+                    else
+                    {
+
+                        var impuesto = new DocumentoImpuesto()
+                        {
+
+                            BaseImpuestos = linea.TotalSinImpuestos,
+                            TipoImpuestos = linea.TipoImpuestosRetenidos,
+                            CuotaImpuestos = linea.CuotaImpuestosRetenidos,
+
+                        };
+
+                        DocumentoImpuestosRetenidos.Add(impuesto);
+
+                        totalPorTipoRetenidos.Add(linea.TipoImpuestosRetenidos, impuesto);
+
+                    }
+
+                }
+            }
+
+        }
+
+        #endregion
 
     }
 }

@@ -15,19 +15,30 @@
         public string IdentificadorImpuestos { get; set; }
 
         /// <summary>
-        /// Tipo impositivo impuestos soportados.
+        /// Tipo impositivo impuestos.
         /// </summary>
         public decimal BaseImpuestos { get; set; }
 
         /// <summary>
-        /// Tipo impositivo impuestos retenidos.
+        /// Tipo impositivo impuestos.
         /// </summary>
         public decimal TipoImpuestos { get; set; }
 
         /// <summary>
-        /// Tipo impositivo impuestos retenidos.
+        /// Tipo impositivo impuestos.
         /// </summary>
         public decimal CuotaImpuestos { get; set; }
+
+        /// <summary>
+        /// Tipo impositivo impuestos.
+        /// </summary>
+        public decimal TipoImpuestosRecargo { get; set; }
+
+        /// <summary>
+        /// Tipo impositivo impuestos.
+        /// </summary>
+        public decimal CuotaImpuestosRecargo { get; set; }
+
 
         #endregion
 
