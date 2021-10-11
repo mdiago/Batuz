@@ -73,7 +73,5 @@ namespace Batuz.TicketBai.Xades.Xml.Signature
 
         #endregion
 
-
-
     }
 }

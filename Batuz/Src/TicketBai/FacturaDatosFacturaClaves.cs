@@ -48,7 +48,7 @@ namespace Batuz.TicketBai
 {
 
     /// <summary>
-    /// Calves que indentifican los tipos
+    /// Claves que indentifican los tipos
     /// de régimen de IVA de la factura/justificante.
     /// </summary>
     [Serializable()]

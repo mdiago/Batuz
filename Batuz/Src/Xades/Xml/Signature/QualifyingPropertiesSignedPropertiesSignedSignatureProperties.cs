@@ -51,6 +51,8 @@ namespace Batuz.TicketBai.Xades.Xml.Signature
     public class QualifyingPropertiesSignedPropertiesSignedSignatureProperties
     {
 
+        #region Propiedades Públicas de Instancia
+
         /// <summary>
         /// Hora de la firma.
         /// </summary>
@@ -65,6 +67,21 @@ namespace Batuz.TicketBai.Xades.Xml.Signature
         /// Datos de la política de firma utilizada.
         /// </summary>
         public QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSignaturePolicyIdentifier SignaturePolicyIdentifier { get; set; }
+
+        #endregion
+
+        #region Métodos Públicos de Instancia
+
+        /// <summary>
+        /// Representación textual de la instancia.
+        /// </summary>
+        /// <returns>Representación textual de la instancia.</returns>
+        public override string ToString()
+        {
+            return $"{SigningCertificate}, {SignaturePolicyIdentifier}";
+        }
+
+        #endregion
 
     }
 }

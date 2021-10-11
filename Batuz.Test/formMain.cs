@@ -1,17 +1,17 @@
-﻿using Batuz.TicketBai;
+﻿using Batuz.Negocio;
+using Batuz.Negocio.Configuracion;
+using Batuz.Negocio.Documento;
+using Batuz.Test.Properties;
+using Batuz.TicketBai.Pdf;
+using Batuz.TicketBai.Xades.Hash;
+using Batuz.TicketBai.Xades.Xml;
+using Batuz.TicketBai.Xades.Xml.Canonicalization;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace Batuz.Test
 {
@@ -22,136 +22,216 @@ namespace Batuz.Test
             InitializeComponent();
         }
 
-        private void formMain_Load(object sender, EventArgs e)
+        private void btCrearPdfTicketBai_Click(object sender, EventArgs e)
+        {
+            CrearFacturaPdfTicketBai();
+        }
+
+        private void btCrearTicketBai_Click(object sender, EventArgs e)
+        {
+            CrearTicketBai();
+        }
+
+        private void btCrearTicketBaiFirmado_Click(object sender, EventArgs e)
+        {
+            CrearTicketBaiFirmado();
+        }
+
+        private void btValidar_Click(object sender, EventArgs e)
         {
 
 
-            // Factura de ejemplo
-            var ticketBai = new TicketBai.TicketBai() 
+            var xmlPath = $"{Parametros.Actual.ParametrosAlmacen.RutaArchivosTemporales}TicketBai.Firmado.xml";
+            var txtPath = $"{Parametros.Actual.ParametrosAlmacen.RutaArchivosTemporales}TicketBai.Firmado.txt";
+
+            if (File.Exists(xmlPath))
             {
-                Cabecera = new Cabecera() 
-                { 
-                    IDVersionTBAI = "1.2"
-                },
-                Sujetos = new Sujetos() 
-                { 
-                    Emisor = new SujetosEmisor() 
-                    { 
-                        NIF = "B00000034",
-                        ApellidosNombreRazonSocial = "HOTEL ADIBIDEZ"
-                    },
-                    Destinatarios = new List<SujetosDestinatarios>() 
-                    { 
-                        new SujetosDestinatarios()
-                        { 
-                            IDDestinatario = new SujetosDestinatariosIDDestinatario()
-                            { 
-                                NIF = "B26248146",
-                                ApellidosNombreRazonSocial = "EMPRESA LANTEGIA"
-                            }
-                        }
-                    }
-                },
-                Factura = new Factura() 
-                { 
-                    CabeceraFactura = new FacturaCabeceraFactura() 
-                    { 
-                        SerieFactura = "B2022",
-                        NumFactura = "0100",
-                        FechaExpedicionFactura = "30-01-2022",
-                        HoraExpedicionFactura = "18:00:17"
-                    },
-                    DatosFactura = new FacturaDatosFactura() 
-                    {
-                        DescripcionFactura = "Servicios Hotel",
-                        ImporteTotalFactura = 2343.00m,
-                        Claves = new FacturaDatosFacturaClaves() 
-                        { 
-                            IDClave = new FacturaDatosFacturaClavesIDClave() 
-                            { 
-                                 ClaveRegimenIvaOpTrascendencia = ClaveRegimenIvaOpTrascendencia.RegimenGeneral
-                            }
-                        }
-                    },
-                    TipoDesglose = new FacturaTipoDesglose() 
-                    { 
-                        DesgloseFactura = new FacturaTipoDesgloseDesgloseFactura() 
-                        { 
-                            Sujeta = new FacturaTipoDesgloseDesgloseFacturaSujeta() 
-                            { 
-                                NoExenta = new FacturaTipoDesgloseDesgloseFacturaSujetaNoExenta() 
-                                { 
-                                    DetalleNoExenta = new FacturaTipoDesgloseDesgloseFacturaSujetaNoExentaDetalleNoExenta() 
-                                    { 
-                                        TipoNoExenta= TipoNoExenta.S1,
-                                        DesgloseIVA = new FacturaTipoDesgloseDesgloseFacturaSujetaNoExentaDetalleNoExentaDetalleIVA[2] 
-                                        {
-                                            new FacturaTipoDesgloseDesgloseFacturaSujetaNoExentaDetalleNoExentaDetalleIVA()
-                                            { 
-                                                BaseImponible = 300.00m,
-                                                TipoImpositivo = 21.00m,
-                                                CuotaImpuesto = 63.00m
-                                            },
-                                            new FacturaTipoDesgloseDesgloseFacturaSujetaNoExentaDetalleNoExentaDetalleIVA()
-                                            {
-                                                BaseImponible = 1800.00m,
-                                                TipoImpositivo = 10.00m,
-                                                CuotaImpuesto = 180.00m
-                                            }
 
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }                    
-                },
-                HuellaTBAI = new HuellaTBAI() 
-                {
-                    EncadenamientoFacturaAnterior = new HuellaTBAIEncadenamientoFacturaAnterior()
-                    {
-                        SerieFacturaAnterior = "B2022",
-                        NumFacturaAnterior = "0099",
-                        FechaExpedicionFacturaAnterior = "29-01-2022",
-                        SignatureValueFirmaFacturaAnterior = "BeMkKwXaFsxHQec65SKpVP7EU9o4nUXOx7SAftIToFsxH+2j2tXPXhpBUnS26dhdSpiMl2DlTuqRsFdZfWyYazaGHgSRQHZZAnFt",
-                    },
-                    Software = new HuellaTBAISoftware() 
-                    {
-                        LicenciaTBAI = "TBAIPRUEBA",
-                        EntidadDesarrolladora = new HuellaTBAISoftwareEntidadDesarrolladora() 
-                        { 
-                            NIF = "A48119820"
-                        },
-                        Nombre = "DFBTBAI",
-                        Version = "1.04.00"
-                    },
-                    NumSerieDispositivo = "GP4FC5J"
-                }
-            };
+                var xmlTicketBai = File.ReadAllText(xmlPath);
 
-            var xmlParser = new XmlParser();
+                var signer = new Batuz.TicketBai.Xades.Signer.TicketBaiSigner(new CanonicalizationMethodDsigC14N(),
+                    new DigestMethodSHA512(), new SHA256Managed());
 
-            var ns = new Dictionary<string, string>() {
-            };
 
-            var xml = xmlParser.GetCanonicalString(ticketBai, ns);
+                signer.Load(xmlTicketBai);
 
-            var hash = new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(xml));
-            var b64 = Convert.ToBase64String(hash);
+                var valid = signer.Validate();                
 
-            var xmlPath = @"C:\Users\usuario\Downloads\TicketBAI\test.xml";
+                File.WriteAllText(txtPath, signer.GetValidateInfo());
 
-            File.WriteAllText(xmlPath, xml);
+            }
+            else 
+            {
+                File.WriteAllText(txtPath, "No existe xml que validar.");
+            }
 
-            //XmlDocument xmlDocument = new XmlDocument();
-
-            //XmlSerializer xmlSerializer = new XmlSerializer(ticketBai.GetType());
-
-            //using (StreamWriter sw = new StreamWriter(xmlPath, false, Encoding.GetEncoding("UTF-8")))
-            //{
-            //    xmlSerializer.Serialize(sw, ticketBai);
-            //}
+            wBr.Navigate(txtPath);
 
         }
+
+        /// <summary>
+        /// Crea un documento de ejemplo.
+        /// </summary>
+        /// <returns>Documento de ejemplo</returns>
+        private Documento CrearDocumentoEjemplo()
+        {
+            return new Documento()
+            {
+                DocumentoTipo = DocumentoTipo.Factura,
+                SerieFactura = "2021",
+                NumFactura = "0000034",
+                Moneda = "EUR",
+                FechaExpedicionFactura = DateTime.Now,
+                Emisor = new DocumentoSujeto()
+                {
+                    Nombre = "WEFINZ SOLUTIONS SL",
+                    IdentficadorFiscal = "B44531218",
+                    Pais = "ES",
+                    CorreoElectronico = "info@wefinz.com",
+                    Telefono = "964679395",
+                    Domicilio = new DocumentoDomicilio()
+                    {
+                        Direccion = "AV CAMI DONDA 25",
+                        CodigoPostal = "12530",
+                        Provincia = "CASTELLON",
+                        Municipio = "BURRIANA"
+                    }
+                },
+                Destinatario = new DocumentoSujeto()
+                {
+                    Nombre = "MAC ORGANIZACION SL",
+                    IdentficadorFiscal = "B12756474",
+                    Pais = "ES",
+                    CorreoElectronico = "mac@arteroconsultores.com",
+                    Telefono = "964256545",
+                    Domicilio = new DocumentoDomicilio()
+                    {
+                        Direccion = "CL POETA GUIMERA, 7 2ºA",
+                        CodigoPostal = "12001",
+                        Provincia = "CASTELLON",
+                        Municipio = "CASTELLON"
+                    }
+                },
+                DocumentoLineas = new List<DocumentoLinea>()
+                {
+                    {
+                        new DocumentoLinea()
+                        {
+                            ProductoIdentificador = "P00001",
+                            ProductoDescripcion = "MANTENIMIENTO SISTEMAS",
+                            Cantidad = 1,
+                            Precio = 183.25m,
+                            TotalSinImpuestos = 183.25m,
+                            TipoImpuestosSoportados = 10m,
+                            CuotaImpuestosSoportados = 18.33m
+                        }
+                    },
+                    {
+                        new DocumentoLinea()
+                        {
+                            ProductoIdentificador = "P00002",
+                            ProductoDescripcion = "SOFTWARE GESTIÓN DOCUMENTAL",
+                            Cantidad = 1,
+                            Precio = 183.25m,
+                            TotalSinImpuestos = 2135.18m,
+                            TipoImpuestosSoportados = 21m,
+                            CuotaImpuestosSoportados = 448.38M
+                        }
+                    }
+                }
+
+            };
+        }
+
+        /// <summary>
+        /// Ejemplo de creación de un pdf de factura TicketBai.
+        /// </summary>
+        private void CrearFacturaPdfTicketBai()
+        {
+
+            Documento doc = CrearDocumentoEjemplo();
+
+            var pdfMan = new PdfManager();
+
+            var html = Resources.factura;
+
+            doc.CalcularImpuestos();
+            RenderizadorHtml renderizadorHtml = new RenderizadorHtml(doc, html);
+
+            html = renderizadorHtml.Renderiza();
+
+            var pdf = pdfMan.GetPdfFormHtml(html, "", (byte[])Resources.seguiemj);
+
+            var pdfPath = $"{Parametros.Actual.ParametrosAlmacen.RutaArchivosTemporales}TicketBai.pdf";
+
+            File.WriteAllBytes(pdfPath, pdf);
+
+            wBr.Navigate(pdfPath);
+
+        }
+
+        /// <summary>
+        /// Ejemplo de creación de un archivo TicketBai.
+        /// </summary>
+        private void CrearTicketBai()
+        {
+
+            Documento doc = CrearDocumentoEjemplo();
+            var ticketBai = TicketBaiFactory.GetTicketBai(doc);
+            var xmlParser = new XmlParser();
+
+            var xmlPath = $"{Parametros.Actual.ParametrosAlmacen.RutaArchivosTemporales}TicketBai.xml";
+            File.WriteAllText(xmlPath, xmlParser.GetString(ticketBai, Namespaces.Items));
+
+            wBr.Navigate(xmlPath);
+
+        }
+
+        /// <summary>
+        /// Carga un certificado para la firma.
+        /// </summary>
+        /// <returns>Certificado para la firma.</returns>
+        private X509Certificate2 CargaCertificado()
+        {
+
+            var store = new X509Store(StoreLocation.CurrentUser);
+            store.Open(OpenFlags.ReadOnly);
+            return store.Certificates[23];
+
+        }
+
+        /// <summary>
+        /// Crea un TicketBai firmado.
+        /// </summary>
+        private void CrearTicketBaiFirmado()
+        {
+
+            Documento doc = CrearDocumentoEjemplo();
+            var ticketBai = TicketBaiFactory.GetTicketBai(doc);
+            var xmlParser = new XmlParser();
+
+            var signer = new TicketBai.Xades.Signer.TicketBaiSigner(new CanonicalizationMethodDsigC14N(),
+                new DigestMethodSHA512(), new SHA256Managed());
+
+            var xml = xmlParser.GetString(ticketBai, new Dictionary<string, string>()
+            {
+                    { "T",          "urn:ticketbai:emision"},
+            });
+
+            signer.Load(xml);
+
+            var certificado = CargaCertificado();
+
+            signer.Sign(certificado);
+
+            var xmlPath = $"{Parametros.Actual.ParametrosAlmacen.RutaArchivosTemporales}TicketBai.Firmado.xml";
+
+            File.WriteAllText(xmlPath, signer.XmlSigned);
+
+            wBr.Navigate(xmlPath);
+
+        }
+
+
     }
 }

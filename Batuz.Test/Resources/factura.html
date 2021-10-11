@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <!-- TITULO -->
+    <h2 style="font-weight: bold; font-family: Arial, Helvetica, sans-serif;">📃 {DocumentoTipo} {SerieFactura} - {NumFactura}</h2>
+    <!-- LOGO -->
+    <img src="https://www.irenesolutions.com/archive/img/logo-irene-solutions-transparent.png" style="width: 16rem; position: absolute; top:-2rem; right:-2rem;"/>
+    <!-- DOCUMENTO -->
+    <table style="width: 100%;">
+        <!-- ENCABEZADO -->
+        <tr>
+            <td style="border-bottom: 1px solid gray;">
+                <!-- SUJETOS -->
+                <table style="width: 100%;">
+                    <tr>
+                        <!--EMISOR-->
+                        <td>
+                            <table style="width: 100%; font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem;">
+                                <tr>
+                                    <td style="font-weight: bold; font-size: 1rem;">EMISOR:</td>
+                                </tr>
+                                <tr>
+                                    <td>{Emisor.Nombre}</td>
+                                </tr>
+                                <tr>
+                                    <td>{Emisor.IdentficadorFiscal}</td>
+                                </tr>
+                                <tr>
+                                    <td>{Emisor.Domicilio.Direccion}</td>
+                                </tr>
+                                <tr>
+                                    <td>{Emisor.Domicilio.CodigoPostal} {Emisor.Domicilio.Municipio}</td>
+                                </tr>
+                                <tr>
+                                    <td>({Emisor.Domicilio.Provincia}) {Emisor.Pais}</td>
+                                </tr>
+                                <tr>
+                                    <td>📧 {Emisor.CorreoElectronico}</td>
+                                </tr>
+                                <tr>
+                                    <td>☎ {Emisor.Telefono}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <!--SEPARADOR CENTRAL-->
+                        <td style="width: 5rem;">
+                        </td>
+                        <!--RECEPTOR-->
+                        <td>
+                            <table style="width: 100%; font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem;">
+                                <tr>
+                                    <td style="font-weight: bold; font-size: 1rem;">RECEPTOR:</td>
+                                </tr>
+                                <tr>
+                                    <td>{Destinatario.Nombre}</td>
+                                </tr>
+                                <tr>
+                                    <td>{Destinatario.IdentficadorFiscal}</td>
+                                </tr>
+                                <tr>
+                                    <td>{Destinatario.Domicilio.Direccion}</td>
+                                </tr>
+                                <tr>
+                                    <td>{Destinatario.Domicilio.CodigoPostal} {Emisor.Domicilio.Municipio}</td>
+                                </tr>
+                                <tr>
+                                    <td>({Destinatario.Domicilio.Provincia}) {Destinatario.Pais}</td>
+                                </tr>
+                                <tr>
+                                    <td>📧 {Destinatario.CorreoElectronico}</td>
+                                </tr>
+                                <tr>
+                                    <td>☎ {Destinatario.Telefono}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!-- CUERPO -->
+        <tr>
+            <td style="width:100%; padding:1.1rem; height:30rem;" valign="top">
+                <table cellspacing="0" style="width: 100%;">
+                    <!-- ENCABEZADO LINEAS -->
+                    <thead style="height: 2rem;">
+                        <tr style="font-weight: bold; font-family: Arial, Helvetica, sans-serif; font-size: 0.6rem;">
+                            <td style="width: 14%; overflow: hidden;">Producto</td>
+                            <td style="width: 34%; overflow: hidden;">Descripcion</td>
+                            <td style="width: 8%; overflow: hidden;" align="right">Cantidad</td>
+                            <td style="width: 8%; overflow: hidden;" align="right">Precio</td>
+                            <td style="width: 8%; overflow: hidden;" align="right">Descuento</td>
+                            <td style="width: 16%; overflow: hidden;" align="right">Total neto</td>
+                            <td style="width: 6%; overflow: hidden;">Cod.IVA</td>
+                            <td style="width: 6%; overflow: hidden;">Cod.IRPF</td>
+                        </tr>
+                    </thead>
+                    <tbody style="height: 26rem; vertical-align: top; font-family: Arial, Helvetica, sans-serif; font-size: 0.6rem;">
+                        <tr>
+                            <td colspan="8">
+                                <div style="height:26rem; border: 1px solid gray;">
+                                    <!-- LINEAS DE FACTURA -->
+                                    <table style="width:100%;">
+                                        <!--PLANTILLA LÍNEA FACTURA-->
+                                        <tr style="height: 1rem;" tbaicollection="DocumentoLineas">
+                                            <td style="width: 14%; overflow: hidden;">{ProductoIdentificador}</td>
+                                            <td style="width: 30%; overflow:hidden;">{ProductoDescripcion}</td>
+                                            <td style="width: 8%; overflow: hidden;" align="right">{Cantidad:#,##0.00}</td>
+                                            <td style="width: 8%; overflow: hidden;" align="right">{Precio:#,##0.00}</td>
+                                            <td style="width: 8%; overflow: hidden;" align="right">{Descuento:#,##0.00}</td>
+                                            <td style="width: 16%; overflow: hidden;" align="right">{TotalSinImpuestos:#,##0.00}</td>
+                                            <td style="width: 5%; overflow: hidden;">{IdentificadorImpuestosSoportados}</td>
+                                            <td style="width: 5%; overflow: hidden;">{IdentificadorImpuestosRetenidos}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot style="height: 3rem; border-top: 1px solid gray;">
+                        <!-- TOTAL NETO -->
+                        <tr style="font-weight: 900; font-family: Arial, Helvetica, sans-serif; font-size: 0.9rem; height:10rem;">
+                            <td></td>
+                            <td colspan="3" align="right">Total Neto</td>
+                            <td colspan="2" align="right">{TotalSinImpuestos:#,##0.00} {Moneda}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <!-- TOTAL IVA -->
+                        <tr style="font-weight: 900; font-family: Arial, Helvetica, sans-serif; font-size: 0.9rem; height:10rem;">
+                            <td></td>
+                            <td colspan="3" align="right">Total IVA</td>
+                            <td colspan="2" align="right">{CuotaImpuestosSoportados:#,##0.00} {Moneda}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <!-- TOTAL RETENCION -->
+                        <tr style="font-weight: 900; font-family: Arial, Helvetica, sans-serif; font-size: 0.9rem; height:10rem;">
+                            <td></td>
+                            <td colspan="3" align="right">Total Retención</td>
+                            <td colspan="2" align="right">{CuotaImpuestosRetenidos:#,##0.00} {Moneda}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <!-- TOTAL FACTURA -->
+                        <tr style="font-weight: 900; font-family: Arial, Helvetica, sans-serif; font-size: 1.1rem; height:10rem;">
+                            <td style="border-top: 1px solid gray;"></td>
+                            <td style="border-top: 1px solid gray;" colspan="3" align="right">Total Factura</td>
+                            <td style="border-top: 1px solid gray;" colspan="2" align="right">{TotalFactura:#,##0.00} {Moneda}</td>
+                            <td style="border-top: 1px solid gray;"></td>
+                            <td style="border-top: 1px solid gray;"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </td>
+        </tr>
+        <!-- PIE -->
+        <tr>
+            <td>
+                <table style="width:100%;">
+                    <tr>
+                        <td valign="top" style="width: 40%;">
+                            <!-- LÍNEAS IVA -->
+                            <table style="width: 100%; font-size: 0.7rem; border: 1px solid gray;">
+                                <thead>
+                                    <tr>
+                                        <td align="right">Base</td>
+                                        <td align="right">Tipo</td>
+                                        <td align="right">Cuota</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--PLANTILLA LÍNEA IMPUESTO SOPORTADO-->
+                                    <tr tbaicollection="DocumentoImpuestosSoportados">
+                                        <td align="right">{BaseImpuestos:#,##0.00}</td>
+                                        <td align="right">{TipoImpuestos:#,##0.00}</td>
+                                        <td align="right">{CuotaImpuestos:#,##0.00}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2" align="right" style="font-weight: bold; font-size: 1rem;">Total IVA</td>
+                                        <td align="right" style="font-weight: bold; font-size: 1rem;">{CuotaImpuestosSoportados:#,##0.00}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </td>
+                        <!-- CODIGO QR -->
+                        <td style="width: 60%;">
+                            <div style="overflow: hidden; width: 11rem; float:right;">
+                                <div style="float: right; font-size: 0.5rem;">TBAI-00000006Y-251019-btFpwP8dcLGAF-237</div>
+                                <div style="float: right;">
+                                    <qr charset='ISO-8859-1' errorcorrection='Q'>https://batuz.eus/QRTBAI/?id=TBAI-00000006Y-251019-btFpwP8dcLGAF-237&s=T&nf=27174&i=4.70&cr=007</qr>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+    </table>
+
+
+
+
+
+</body>
+</html>

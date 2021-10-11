@@ -513,38 +513,71 @@ namespace Batuz.TicketBai.Xades.Signer
         /// con el xml utilizado antes de la canonicalización.
         /// </summary>
         private void UpdateSignatureXml()
-        {
+        {        
 
             // Incluyo los xml orígen
             var signedProperties = _XmlDocLoadedSource.SelectNodes(@"//xades:SignedProperties", _XmlNamespaceManager)[0];
-            signedProperties.InnerXml = Regex.Match(_XmlSignedProperties,
-                @"(?<=<(\w+:){0,1}SignedProperties[^>]*>)[\S\s]+(?=</(\w+:){0,1}SignedProperties>)").Value;
 
-            foreach (XmlAttribute att in signedProperties.Attributes)
-                if (att.Name.ToUpper() == "ID")
-                    att.InnerXml = _TicketBaiTmp.Signature.Object.QualifyingProperties.SignedProperties.Id;
+            if (signedProperties != null)
+            {
+                signedProperties.InnerXml = Regex.Match(_XmlSignedProperties,
+                    @"(?<=<(\w+:){0,1}SignedProperties[^>]*>)[\S\s]+(?=</(\w+:){0,1}SignedProperties>)").Value;
+
+                foreach (XmlAttribute att in signedProperties.Attributes)
+                    if (att.Name.ToUpper() == "ID")
+                        att.InnerXml = _TicketBaiTmp.Signature.Object.QualifyingProperties.SignedProperties.Id;
+            }
 
             var keyInfo = _XmlDocLoadedSource.SelectNodes(@"//ds:KeyInfo", _XmlNamespaceManager)[0];
-            keyInfo.InnerXml = Regex.Match(_XmlKeyInfo,
-                @"(?<=<(\w+:){0,1}KeyInfo[^>]*>)[\S\s]+(?=</(\w+:){0,1}KeyInfo>)").Value;
+
+            if (keyInfo != null)
+            {
+                keyInfo.InnerXml = Regex.Match(_XmlKeyInfo,
+                    @"(?<=<(\w+:){0,1}KeyInfo[^>]*>)[\S\s]+(?=</(\w+:){0,1}KeyInfo>)").Value;            
 
             foreach(XmlAttribute att in keyInfo.Attributes)
                 if(att.Name.ToUpper()=="ID")
                     att.InnerXml = _TicketBaiTmp.Signature.KeyInfo.Id;
 
+            }
+
             var signedInfo = _XmlDocLoadedSource.SelectNodes(@"//ds:SignedInfo", _XmlNamespaceManager)[0];
-            signedInfo.InnerXml = Regex.Match(_XmlSignedInfo,
-                @"(?<=<(\w+:){0,1}SignedInfo[^>]*>)[\S\s]+(?=</(\w+:){0,1}SignedInfo>)").Value;
+
+            if (signedInfo != null)
+                signedInfo.InnerXml = Regex.Match(_XmlSignedInfo,
+                    @"(?<=<(\w+:){0,1}SignedInfo[^>]*>)[\S\s]+(?=</(\w+:){0,1}SignedInfo>)").Value;
 
             var signatureValue = _XmlDocLoadedSource.SelectNodes(@"//ds:SignatureValue", _XmlNamespaceManager)[0];
-            signatureValue.InnerXml = Regex.Match(_XmlSignatureValue,
-                @"(?<=<(\w+:){0,1}SignatureValue[^>]*>)[\S\s]+(?=</(\w+:){0,1}SignatureValue>)").Value;
 
-            // Convierto el XmlDocument en texto XML
-            _XmlSigned = _XmlDocLoadedSource.OuterXml;
+            if (signatureValue != null)
+            {
+                signatureValue.InnerXml = Regex.Match(_XmlSignatureValue,
+                    @"(?<=<(\w+:){0,1}SignatureValue[^>]*>)[\S\s]+(?=</(\w+:){0,1}SignatureValue>)").Value;
 
-            // Limpio las etiquetas con autocierre de espaciós al final.
-            _XmlSigned = ClearAutoSelfClosedTagSpaces(_XmlSigned);
+                // Convierto el XmlDocument en texto XML
+                _XmlSigned = _XmlDocLoadedSource.OuterXml;
+
+                // Limpio las etiquetas con autocierre de espaciós al final.
+                _XmlSigned = ClearAutoSelfClosedTagSpaces(_XmlSigned);
+
+            }
+            else 
+            {
+                // El xml a fimar no tenía firma previa
+                var parser = new XmlParser();
+                var xmlSignature = parser.GetString(_TicketBaiTmp.Signature, new Dictionary<string, string>()
+                {
+                        { "T",          "urn:ticketbai:emision"},
+                        { "ds",         "http://www.w3.org/2000/09/xmldsig#"},
+                });
+
+                xmlSignature = Regex.Replace(xmlSignature, @"<(\w+:){0,1}KeyInfo[^>]*>[\S\s]+</(\w+:){0,1}KeyInfo>", _XmlKeyInfo);
+                var xmlQualifyingProperties = parser.GetString(_TicketBaiTmp.Signature.Object.QualifyingProperties, Namespaces.Items);
+                xmlSignature =  Regex.Replace(xmlSignature, @"<(\w+:){0,1}QualifyingProperties[^>]*>[\S\s]+</(\w+:){0,1}QualifyingProperties>", xmlQualifyingProperties);
+
+                _XmlSigned = _XmlLoadedSource.Replace("</T:TicketBai>", $"{xmlSignature}</T:TicketBai>");
+
+            }
 
         }
 

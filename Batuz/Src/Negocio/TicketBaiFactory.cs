@@ -41,6 +41,7 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
+using Batuz.Info;
 using Batuz.TicketBai;
 using System.Collections.Generic;
 
@@ -48,7 +49,7 @@ namespace Batuz.Negocio
 {
 
     /// <summary>
-    /// Gestiona la creación de instancias de TicketBai,
+    /// Gestiona la creación de instancias de TicketBai.
     /// </summary>
     public class TicketBaiFactory
     {
@@ -57,12 +58,16 @@ namespace Batuz.Negocio
         /// Devuelve una instancia de TicketBai
         /// a partir de un documento.
         /// </summary>
-        /// <param name="documento"></param>
-        /// <returns></returns>
+        /// <param name="documento">Factura o justificante del cual se
+        /// va a generar el TicketBai.</param>
+        /// <returns>TicketBai que representa la factura o jusficante facilitados
+        /// como argumento.</returns>
         public static TicketBai.TicketBai GetTicketBai(Documento.Documento documento) 
         {
 
-            var result = new TicketBai.TicketBai()
+            documento.CalcularImpuestos();
+
+            TicketBai.TicketBai result = new TicketBai.TicketBai()
             {
                 Cabecera = new Cabecera() 
                 { 
@@ -91,11 +96,102 @@ namespace Batuz.Negocio
                 },
                 Factura = new Factura() 
                 { 
-                
+                    CabeceraFactura = new FacturaCabeceraFactura() 
+                    { 
+                        SerieFactura = documento.SerieFactura,
+                        NumFactura = documento.NumFactura,
+                        FechaExpedicionFactura = $"{documento.FechaExpedicionFactura:dd-MM-yyyy}",
+                        HoraExpedicionFactura = $"{documento.FechaExpedicionFactura:HH:mm:ss}",
+                    },
+                    DatosFactura = new FacturaDatosFactura() 
+                    { 
+                        DescripcionFactura = documento.DescripcionFactura,
+                        ImporteTotalFactura = documento.TotalFactura,
+                        Claves = new FacturaDatosFacturaClaves() 
+                        { 
+                            IDClave = new FacturaDatosFacturaClavesIDClave[1] 
+                            { 
+                                new FacturaDatosFacturaClavesIDClave()
+                                { 
+                                     ClaveRegimenIvaOpTrascendencia = TicketBai.Listas.ClaveRegimenIvaOpTrascendencia.RegimenGeneral
+                                }
+                            }
+                        }
+                    },
+                    TipoDesglose = new FacturaTipoDesglose() 
+                    {
+                        DesgloseFactura = new Desglose() 
+                        { 
+                             Sujeta = new DesgloseSujeta() 
+                             {                                 
+                             }
+                        }
+                    }
+                },
+                HuellaTBAI = new HuellaTBAI() 
+                { 
+                     EncadenamientoFacturaAnterior = new HuellaTBAIEncadenamientoFacturaAnterior() 
+                     { 
+                         SerieFacturaAnterior = null,
+                         NumFacturaAnterior = null,
+                         FechaExpedicionFacturaAnterior = null,
+                         SignatureValueFirmaFacturaAnterior = null
+                     },
+                     Software = new HuellaTBAISoftware() 
+                     { 
+                        LicenciaTBAI = "TBAIPRUEBA",
+                        EntidadDesarrolladora = new Sujeto() 
+                        { 
+                            NIF = VerificacionPresencial.EmpresaDesarrolladoraNif
+                        },
+                        Nombre  = VerificacionPresencial.EmpresaDesarrolladoraNombre,
+                        Version = VerificacionPresencial.SoftwareGaranteVersion
+                     }
                 }
             };
 
-            return null;
+            if (documento.CuotaImpuestosRetenidos != 0)
+                result.Factura.DatosFactura.RetencionSoportada = documento.CuotaImpuestosRetenidos;
+
+            foreach (var iva in documento.DocumentoImpuestosSoportados) 
+            {
+                if (iva.TipoImpuestos == 0) 
+                {                    
+
+                    if (result.Factura.TipoDesglose.DesgloseFactura.Sujeta.Exenta == null)
+                        result.Factura.TipoDesglose.DesgloseFactura.Sujeta.Exenta = new DesgloseSujetaExenta();
+
+                    var exenta = result.Factura.TipoDesglose.DesgloseFactura.Sujeta.Exenta;
+
+                    exenta.BaseImponible = iva.BaseImpuestos;
+                    exenta.CausaExencion = TicketBai.Listas.CausaExencion.Articulo20NormaForalIva;
+
+                } 
+                else 
+                {
+                    
+                    if (result.Factura.TipoDesglose.DesgloseFactura.Sujeta.NoExenta == null)
+                        result.Factura.TipoDesglose.DesgloseFactura.Sujeta.NoExenta = new DesgloseSujetaNoExenta() {
+                            DetalleNoExenta = new DesgloseSujetaNoExentaDetalleNoExenta()
+                            {
+                                TipoNoExenta = TicketBai.Listas.TipoNoExenta.SinInversionSujetoPasivo,
+                                DesgloseIVA = new List<DesgloseSujetaNoExentaDetalleNoExentaDetalleIVA>()
+                            }
+                };
+
+                    var desgloseIVA = result.Factura.TipoDesglose.DesgloseFactura.Sujeta.NoExenta.DetalleNoExenta.DesgloseIVA;
+
+                    desgloseIVA.Add(new DesgloseSujetaNoExentaDetalleNoExentaDetalleIVA() {
+                        BaseImponible = iva.BaseImpuestos,
+                        TipoImpositivo = iva.TipoImpuestos,
+                        CuotaImpuesto = iva.CuotaImpuestos
+                    });
+
+                }
+            }
+
+            return result;
+
         }
 
     }

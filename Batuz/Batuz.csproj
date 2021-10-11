@@ -86,6 +86,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Src\Negocio\Almacen\AlmacenEmpresa.cs" />
+    <Compile Include="Src\Negocio\Configuracion\Parametros.cs" />
+    <Compile Include="Src\Negocio\Configuracion\ParametrosAlmacen.cs" />
     <Compile Include="Src\Negocio\Documento\Documento.cs" />
     <Compile Include="Src\Negocio\Documento\DocumentoDomicilio.cs" />
     <Compile Include="Src\Negocio\Documento\DocumentoImpuesto.cs" />
@@ -191,5 +194,6 @@
   <ItemGroup>
     <Content Include="Src\TicketBai\Pdf\factura.html" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

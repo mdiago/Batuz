@@ -43,6 +43,7 @@
 
 using Batuz.TicketBai.Listas;
 using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace Batuz.TicketBai
@@ -70,7 +71,7 @@ namespace Batuz.TicketBai
         /// DetalleIVA (1 a 6, una agrupación de datos por tipo).
         /// </summary>
         [XmlArrayItem("DetalleIVA", IsNullable = false)]
-        public DesgloseSujetaNoExentaDetalleNoExentaDetalleIVA[] DesgloseIVA { get; set; }
+        public List<DesgloseSujetaNoExentaDetalleNoExentaDetalleIVA> DesgloseIVA { get; set; }
 
         #endregion
 
