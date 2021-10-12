@@ -21,7 +21,7 @@ Es la definición del sistema informático garante de la trazabilidad e inviolab
 
 La biblioteca Batuz permite mediante su componente TicketBAI:
 
-* Emitir facturas o justificantes de venta según las especificaciones
+* [Emitir facturas o justificantes de venta en PDF](https://github.com/mdiago/Batuz/wiki/TicketBAI---00001-Ejemplo-emisi%C3%B3n-factura-en-PDF) según las especificaciones
 * Emitir documentos xml TicketBAI
 * Firmar documentos xml TicketBAI según las especificaciones
 * Validar la firma de documentos TicketBAI según las especificaciones
