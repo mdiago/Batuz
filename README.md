@@ -31,6 +31,11 @@ Para realizar estas operaciones, partiremos del objeto Batuz.Negocio.Documento.D
 
 ![image](https://user-images.githubusercontent.com/22330809/136928401-4c652a4f-0f7c-435e-94f2-04b933866b24.png)
 
+En el proyecto Batuz.Test que encontramos en el repositorio podemos encontrar un ejemplo de generación de pdf de factura mediante el cual obtendremos el siguiente resultado:
+
+![image](https://user-images.githubusercontent.com/22330809/136931578-d1551dbf-2545-4af4-9f30-b461258e2024.png)
+
+Editando la plantilla html utilizada para la emisión de la factura, podemos personalizar nuestras facturas y justificantes de venta con el formato y los datos que deseemos.
 
 
 
