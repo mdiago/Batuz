@@ -13,7 +13,7 @@ El papel del software, los certificados electrónicos y los dispositivos de fact
 
 ## TicketBAI
 
-Es la definición del sistema informático garante de la trazabilidad e inviolabilidad de los registros que documenten las entregas de bienes y prestaciones de servicios, mediante el uso de:
+Es la definición del sistema informático garante de la **trazabilidad e inviolabilidad** de los registros que documenten las entregas de bienes y prestaciones de servicios, mediante el uso de:
 
 * Firma eletrónica
 * Código QR
