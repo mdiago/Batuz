@@ -19,4 +19,12 @@ Es la definición del sistema informático garante de la trazabilidad e inviolab
 * Código QR
 * Blockchain
 
+La biblioteca Batuz permite mediante su componente TicketBAI:
+
+* Emitir facturas o justificantes de venta según las especificaciones
+* Emitir documentos xml TicketBAI
+* Firmar documentos xml TicketBAI según las especificaciones
+* Validar la firma de documentos TicketBAI según las especificaciones
+* Validar la secuencia Blockchain de una serie de documentos xml de facturas o justificantes firmados.
+
 
