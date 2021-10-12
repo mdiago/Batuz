@@ -27,4 +27,8 @@ La biblioteca Batuz permite mediante su componente TicketBAI:
 * Validar la firma de documentos TicketBAI según las especificaciones
 * Validar la secuencia Blockchain de una serie de documentos xml de facturas o justificantes firmados.
 
+Para realizar estas operaciones, partiremos del objeto Batuz.Negocio.Documento.Documento, el cual utilizaremos como parámetro de entrada para la generación de los pdf de factura, documentos xml ...
+
+
+
 
