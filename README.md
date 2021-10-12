@@ -10,3 +10,13 @@ El papel del software, los certificados electrónicos y los dispositivos de fact
 
 * Los **libros contables**: Ventas e ingresos, Compras y gastos, Bienes de inversión. La información de los cuales debe transmitirse a las autoridades fiscales.
 * **TicketBAI**: Estandard que aplica la tecnología blockchain para la emisión de facturas o justificantes de ventas.
+
+## TicketBAI
+
+Es la definición del sistema informático garante de la trazabilidad e inviolabilidad de los registros que documenten las entregas de bienes y prestaciones de servicios, mediante el uso de:
+
+* Firma eletrónica
+* Código QR
+* Blockchain
+
+
