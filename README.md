@@ -1,5 +1,6 @@
 # Batuz
-Batuz Bizkaia
+
+Nuevo modelo para la tributación de los rendimientos empresariales implementado por las autoridades fiscales Vascas.
 
 ## Aplicación de la tecnología blockchain en el ámbito fiscal
 
