@@ -29,6 +29,9 @@ La biblioteca Batuz permite mediante su componente TicketBAI:
 
 Para realizar estas operaciones, partiremos del objeto Batuz.Negocio.Documento.Documento, el cual utilizaremos como parámetro de entrada para la generación de los pdf de factura, documentos xml ...
 
+![image](https://user-images.githubusercontent.com/22330809/136928401-4c652a4f-0f7c-435e-94f2-04b933866b24.png)
+
+
 
 
 
