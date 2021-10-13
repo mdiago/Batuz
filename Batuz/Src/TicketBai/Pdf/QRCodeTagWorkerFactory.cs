@@ -56,6 +56,11 @@ namespace Batuz.TicketBai.Pdf
     {
 
         /// <summary>
+        /// The custom tag worker.
+        /// </summary>
+        public QRCodeTagWorker QRCodeTagWorker { get; private set; }
+
+        /// <summary>
         /// Custom tagworkerfactory for pdfHTML
         /// The tag /<qr/> is mapped on a QRCode tagworker. Every other tag is mapped to the default.
         /// This is a hook method. Users wanting to provide a custom mapping or introduce
@@ -66,9 +71,12 @@ namespace Batuz.TicketBai.Pdf
         /// <returns>the custom tag worker</returns>
         public override ITagWorker GetCustomTagWorker(IElementNode tag, ProcessorContext context)
         {
-            
+
             if (tag.Name().Equals("qr"))
-                return new QRCodeTagWorker(tag, context);
+            {
+                QRCodeTagWorker = new QRCodeTagWorker(tag, context);
+                return QRCodeTagWorker;
+            }
 
             return null;
         }

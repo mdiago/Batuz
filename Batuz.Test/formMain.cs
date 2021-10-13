@@ -149,22 +149,25 @@ namespace Batuz.Test
         private void CrearFacturaPdfTicketBai()
         {
 
-            Documento doc = CrearDocumentoEjemplo();
+            // Creamos y preparamos un documento de ejemplo
+            Documento documento = CrearDocumentoEjemplo();
+            documento.CalcularImpuestos();            
 
-            var pdfMan = new PdfManager();
+            // Texto html de plantilla de factura
+            var plantillaFacturaHtml = Resources.factura;            
+            RenderizadorHtml renderizadorHtml = new RenderizadorHtml(documento, 
+                plantillaFacturaHtml);
+            // Texto html completado con los datos del documento
+            var facturaHtml = renderizadorHtml.Renderiza();
 
-            var html = Resources.factura;
+            // Mediante el texto html obtenemos el pdf de factura
+            var pdfManager = new PdfManager();
+            var facturaPdf = pdfManager.GetPdfFormHtml(facturaHtml, "", 
+                (byte[])Resources.seguiemj);
 
-            doc.CalcularImpuestos();
-            RenderizadorHtml renderizadorHtml = new RenderizadorHtml(doc, html);
-
-            html = renderizadorHtml.Renderiza();
-
-            var pdf = pdfMan.GetPdfFormHtml(html, "", (byte[])Resources.seguiemj);
-
+            // Guardamos el pdf
             var pdfPath = $"{Parametros.Actual.ParametrosAlmacen.RutaArchivosTemporales}TicketBai.pdf";
-
-            File.WriteAllBytes(pdfPath, pdf);
+            File.WriteAllBytes(pdfPath, facturaPdf);
 
             wBr.Navigate(pdfPath);
 

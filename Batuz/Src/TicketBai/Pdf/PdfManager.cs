@@ -43,8 +43,10 @@
 
 using iText.Html2pdf;
 using iText.IO.Font;
+using iText.IO.Image;
 using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
+using iText.Layout.Element;
 using iText.Layout.Font;
 using System.IO;
 
@@ -59,6 +61,11 @@ namespace Batuz.TicketBai.Pdf
     {
 
         /// <summary>
+        ///  Custom tagworkerfactory for pdfHTML for tag qr.
+        /// </summary>
+        public QRCodeTagWorkerFactory QRCodeTagWorkerFactory { get; private set; }
+
+        /// <summary>
         /// Convierte texto html de entrada en un archivo pdf.
         /// </summary>
         /// <param name="html">Html a convertir en pdf.</param>
@@ -67,11 +74,12 @@ namespace Batuz.TicketBai.Pdf
         /// <returns>Datos binarios del pdf.</returns>
         public byte[] GetPdfFormHtml(string html, 
             string orientation = "PORTRAIT", byte[] fontData = null)
-        {            
+        {
+
+            QRCodeTagWorkerFactory = new QRCodeTagWorkerFactory();
 
             ConverterProperties properties = new ConverterProperties();
-            properties.SetTagWorkerFactory(new QRCodeTagWorkerFactory());
-            properties.SetTagWorkerFactory(new QRCodeTagWorkerFactory());
+            properties.SetTagWorkerFactory(QRCodeTagWorkerFactory);
             properties.SetCssApplierFactory(new QRCodeTagCssApplierFactory());
 
             if(fontData != null) 
@@ -103,5 +111,15 @@ namespace Batuz.TicketBai.Pdf
 
         }
 
+        /// <summary>
+        /// Devuelve el código QR como una imágen
+        /// de itext.
+        /// </summary>
+        /// <returns>Código QR como una imágen de itext.</returns>
+        public Image GetQrCodeAsImage() 
+        {
+            return QRCodeTagWorkerFactory?.QRCodeTagWorker?.GetElementResult() as Image;
+        }
+    
     }
 }
