@@ -122,7 +122,7 @@ namespace Batuz.Test
                             Cantidad = 1,
                             Precio = 183.25m,
                             TotalSinImpuestos = 183.25m,
-                            IdentificadorImpuestos = "",
+                            IdentificadorImpuestos = IdentificadorImpuestos.IRAC2100,
                             TipoImpuestos = 10m,
                             CuotaImpuestos = 18.33m
                         }
@@ -135,7 +135,7 @@ namespace Batuz.Test
                             Cantidad = 1,
                             Precio = 183.25m,
                             TotalSinImpuestos = 2135.18m,
-                            IdentificadorImpuestos = "",
+                            IdentificadorImpuestos = IdentificadorImpuestos.IRAC2100,
                             TipoImpuestos = 21m,
                             CuotaImpuestos = 448.38M
                         }

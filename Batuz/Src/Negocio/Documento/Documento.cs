@@ -166,17 +166,20 @@ namespace Batuz.Negocio.Documento
         {
 
             DocumentoImpuestos = new List<DocumentoImpuesto>();
-            Dictionary<decimal, DocumentoImpuesto> totalPorTipoSoportados = new Dictionary<decimal, DocumentoImpuesto>();
+            Dictionary<string, DocumentoImpuesto> totalPorTipoSoportados = new Dictionary<string, DocumentoImpuesto>();
 
             foreach (var linea in DocumentoLineas) 
             {
 
-                if (totalPorTipoSoportados.ContainsKey(linea.TipoImpuestos)) 
+                var key = $"{linea.TipoImpuestos}.{linea.IdentificadorImpuestos}" +
+                    $".{linea.TipoImpuestosRecargo}.{linea.IdentificadorImpuestosRecargo}";
+
+                if (totalPorTipoSoportados.ContainsKey(key)) 
                 {
                     
-                    totalPorTipoSoportados[linea.TipoImpuestos].BaseImpuestos += linea.TotalSinImpuestos;
-                    totalPorTipoSoportados[linea.TipoImpuestos].CuotaImpuestos += linea.CuotaImpuestos;
-                    totalPorTipoSoportados[linea.TipoImpuestos].CuotaImpuestosRecargo += linea.CuotaImpuestosRecargo;
+                    totalPorTipoSoportados[key].BaseImpuestos += linea.TotalSinImpuestos;
+                    totalPorTipoSoportados[key].CuotaImpuestos += linea.CuotaImpuestos;
+                    totalPorTipoSoportados[key].CuotaImpuestosRecargo += linea.CuotaImpuestosRecargo;
 
                 }
                 else 
@@ -186,8 +189,10 @@ namespace Batuz.Negocio.Documento
                     {
 
                         BaseImpuestos = linea.TotalSinImpuestos,
+                        IdentificadorImpuestos = linea.IdentificadorImpuestos,
                         TipoImpuestos = linea.TipoImpuestos,
                         CuotaImpuestos = linea.CuotaImpuestos,
+                        IdentificadorImpuestosRecargo = linea.IdentificadorImpuestosRecargo,
                         TipoImpuestosRecargo = linea.TipoImpuestosRecargo,
                         CuotaImpuestosRecargo = linea.CuotaImpuestosRecargo
 
@@ -195,7 +200,8 @@ namespace Batuz.Negocio.Documento
 
                     DocumentoImpuestos.Add(impuesto);
 
-                    totalPorTipoSoportados.Add(linea.TipoImpuestos, impuesto);
+                    totalPorTipoSoportados.Add(key, impuesto);
+
                 }
 
             }
@@ -223,6 +229,7 @@ namespace Batuz.Negocio.Documento
                         {
 
                             BaseImpuestos = linea.TotalSinImpuestos,
+                            IdentificadorImpuestos = linea.IdentificadorImpuestosRetenidos,
                             TipoImpuestos = linea.TipoImpuestosRetenidos,
                             CuotaImpuestos = linea.CuotaImpuestosRetenidos,
 

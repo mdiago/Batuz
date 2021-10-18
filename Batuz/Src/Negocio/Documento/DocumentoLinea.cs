@@ -50,6 +50,22 @@ namespace Batuz.Negocio.Documento
     public class DocumentoLinea
     {
 
+        #region Construtores de Instancia
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public DocumentoLinea() 
+        {
+
+            IdentificadorImpuestos = IdentificadorImpuestos.SINVALOR;
+            IdentificadorImpuestosRecargo = IdentificadorImpuestos.SINVALOR;
+            IdentificadorImpuestosRetenidos = IdentificadorImpuestos.SINVALOR;
+
+        }
+
+        #endregion
+
         #region Propiedades Públicas de Instancia
 
         /// <summary>
@@ -85,7 +101,7 @@ namespace Batuz.Negocio.Documento
         /// <summary>
         /// Código de impuesto del impuesto valor añadido.
         /// </summary>
-        public string IdentificadorImpuestos { get; set; }
+        public IdentificadorImpuestos IdentificadorImpuestos { get; set; }
 
         /// <summary>
         /// Tipo impositivo impuestos valor añadido.
@@ -98,19 +114,27 @@ namespace Batuz.Negocio.Documento
         public decimal CuotaImpuestos { get; set; }
 
         /// <summary>
-        /// Tipo impositivo impuestos valor añadido.
+        /// Código de impuesto del impuesto valor añadidoo 
+        /// con recargo de equivalencia.
+        /// </summary>
+        public IdentificadorImpuestos IdentificadorImpuestosRecargo { get; set; }
+
+        /// <summary>
+        /// Tipo impositivo impuestos valor añadido 
+        /// con recargo de equivalencia.
         /// </summary>
         public decimal TipoImpuestosRecargo { get; set; }
 
         /// <summary>
-        /// Cuata impositiva impuestos valor añadido.
+        /// Cuata impositiva impuestos valor añadidoo 
+        /// con recargo de equivalencia.
         /// </summary>
         public decimal CuotaImpuestosRecargo { get; set; }
 
         /// <summary>
         /// Código de impuesto del impuesto retenido.
         /// </summary>
-        public string IdentificadorImpuestosRetenidos { get; set; }
+        public IdentificadorImpuestos IdentificadorImpuestosRetenidos { get; set; }
 
         /// <summary>
         /// Tipo impositivo impuestos retenidos.
@@ -148,7 +172,6 @@ namespace Batuz.Negocio.Documento
         }
 
         #endregion
-
 
     }
 }

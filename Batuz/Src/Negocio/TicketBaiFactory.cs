@@ -41,8 +41,8 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using Batuz.Info;
-using Batuz.TicketBai;
+using Batuz.Negocio.Serializadores;
+using System;
 using System.Collections.Generic;
 
 namespace Batuz.Negocio
@@ -64,6 +64,95 @@ namespace Batuz.Negocio
     public class TicketBaiFactory
     {
 
+        #region Variables Privadas Estáticas
+
+        /// <summary>
+        /// Serializador básico.
+        /// </summary>
+        static Serializadores.Basico _Basico = new Serializadores.Basico();
+
+        /// <summary>
+        /// Diccionario de serializadores por cadena de acceso.
+        /// </summary>
+        static Dictionary<string, ISerializador> _Serializadores = new Dictionary<string, ISerializador>()
+        {
+
+            // Regimen general
+            {"IRAC0400.SINVALOR",       _Basico},
+            {"IRAC1000.SINVALOR",       _Basico},
+            {"IRAC2100.SINVALOR",       _Basico},
+
+            // Recargo de equivalencia
+            {"IRAC0400.IRAD0050",       _Basico},
+            {"IRAC1000.IRAD0140",       _Basico},
+            {"IRAC2100.IRAD0520",       _Basico},
+
+            // Recargo de equivalencia tabaco
+            {"IRAC2100.IRAD0175",       _Basico},
+
+        };
+
+        #endregion
+
+        #region Métodos Privados Estáticos
+
+        /// <summary>
+        /// Devuelve un serializador para una cadena de acceso
+        /// utilizada como clave en el diccionario de serializadores.
+        /// La cadena de acceso consiste en la concatenación de los
+        /// indentificadores de impuestos.
+        /// </summary>
+        /// <param name="documento">Documento a serializar.</param>
+        /// <returns>Serializador para el documento.</returns>
+        private static ISerializador GetSerializador(Documento.Documento documento)
+        {
+
+            if (documento.DocumentoImpuestos == null)
+                throw new Exception($"El documento no tiene impuestos calculados.");
+
+            ISerializador serializador = null;
+            string keys = "";
+
+            foreach (var iva in documento.DocumentoImpuestos)
+            {
+
+                var key = $"{iva.IdentificadorImpuestos}.{iva.IdentificadorImpuestosRecargo}";
+                keys = $"\n{key}";
+
+                if (_Serializadores.ContainsKey(key))
+                {
+
+                    var candidato = _Serializadores[key];
+
+                    if (serializador != null)
+                    {
+                        if (!serializador.Equals(candidato))
+                            throw new InvalidOperationException($"En el documento conviven" +
+                                $" indentificadores de impuestos que determinan serializadores" +
+                                $" diferentes. {candidato.GetType().FullName}" +
+                                $" and {serializador.GetType().FullName}");
+                    }
+                    else
+                    {
+                        serializador = _Serializadores[key];
+                    }
+
+                }
+
+            }
+
+            if (serializador == null)
+                throw new Exception($"No se encontró serializador para las claves:{keys}");
+
+            return serializador;
+
+
+        }
+
+        #endregion
+
+        #region Métodos Públicos Estáticos
+
         /// <summary>
         /// Devuelve una instancia de TicketBai
         /// a partir de un documento.
@@ -72,137 +161,15 @@ namespace Batuz.Negocio
         /// va a generar el TicketBai.</param>
         /// <returns>TicketBai que representa la factura o jusficante facilitados
         /// como argumento.</returns>
-        public static TicketBai.TicketBai GetTicketBai(Documento.Documento documento) 
+        public static TicketBai.TicketBai GetTicketBai(Documento.Documento documento)
         {
 
-            documento.CalcularImpuestos();
-
-            TicketBai.TicketBai result = new TicketBai.TicketBai()
-            {
-                Cabecera = new Cabecera() 
-                { 
-                    IDVersionTBAI = TicketBai.Listas.IDVersionTBAI.Version_1_2
-                },
-                Sujetos = new Sujetos() 
-                { 
-                    Emisor = new SujetosEmisor() 
-                    { 
-                        NIF = documento.Emisor.IdentficadorFiscal,
-                        ApellidosNombreRazonSocial = documento.Emisor.Nombre
-                    },
-                    Destinatarios = new List<SujetosDestinatarios>() 
-                    {
-                        { 
-                            new SujetosDestinatarios()
-                            { 
-                                IDDestinatario = new SujetosDestinatariosIDDestinatario()
-                                { 
-                                    NIF = documento.Destinatario.IdentficadorFiscal,
-                                    ApellidosNombreRazonSocial = documento.Destinatario.Nombre
-                                }
-                            }
-                        }
-                    },
-                },
-                Factura = new Factura() 
-                { 
-                    CabeceraFactura = new FacturaCabeceraFactura() 
-                    { 
-                        SerieFactura = documento.SerieFactura,
-                        NumFactura = documento.NumFactura,
-                        FechaExpedicionFactura = $"{documento.FechaExpedicionFactura:dd-MM-yyyy}",
-                        HoraExpedicionFactura = $"{documento.FechaExpedicionFactura:HH:mm:ss}",
-                    },
-                    DatosFactura = new FacturaDatosFactura() 
-                    { 
-                        DescripcionFactura = documento.DescripcionFactura,
-                        ImporteTotalFactura = documento.TotalFactura,
-                        Claves = new FacturaDatosFacturaClaves() 
-                        { 
-                            IDClave = new FacturaDatosFacturaClavesIDClave[1] 
-                            { 
-                                new FacturaDatosFacturaClavesIDClave()
-                                { 
-                                     ClaveRegimenIvaOpTrascendencia = TicketBai.Listas.ClaveRegimenIvaOpTrascendencia.RegimenGeneral
-                                }
-                            }
-                        }
-                    },
-                    TipoDesglose = new FacturaTipoDesglose() 
-                    {
-                        DesgloseFactura = new Desglose() 
-                        { 
-                             Sujeta = new DesgloseSujeta() 
-                             {                                 
-                             }
-                        }
-                    }
-                },
-                HuellaTBAI = new HuellaTBAI() 
-                { 
-                     EncadenamientoFacturaAnterior = new HuellaTBAIEncadenamientoFacturaAnterior() 
-                     { 
-                         SerieFacturaAnterior = null,
-                         NumFacturaAnterior = null,
-                         FechaExpedicionFacturaAnterior = null,
-                         SignatureValueFirmaFacturaAnterior = null
-                     },
-                     Software = new HuellaTBAISoftware() 
-                     { 
-                        LicenciaTBAI = "TBAIPRUEBA",
-                        EntidadDesarrolladora = new Sujeto() 
-                        { 
-                            NIF = VerificacionPresencial.EmpresaDesarrolladoraNif
-                        },
-                        Nombre  = VerificacionPresencial.EmpresaDesarrolladoraNombre,
-                        Version = VerificacionPresencial.SoftwareGaranteVersion
-                     }
-                }
-            };
-
-            if (documento.CuotaImpuestosRetenidos != 0)
-                result.Factura.DatosFactura.RetencionSoportada = documento.CuotaImpuestosRetenidos;
-
-            foreach (var iva in documento.DocumentoImpuestos) 
-            {
-                if (iva.TipoImpuestos == 0) 
-                {                    
-
-                    if (result.Factura.TipoDesglose.DesgloseFactura.Sujeta.Exenta == null)
-                        result.Factura.TipoDesglose.DesgloseFactura.Sujeta.Exenta = new DesgloseSujetaExenta();
-
-                    var exenta = result.Factura.TipoDesglose.DesgloseFactura.Sujeta.Exenta;
-
-                    exenta.BaseImponible = iva.BaseImpuestos;
-                    exenta.CausaExencion = TicketBai.Listas.CausaExencion.Articulo20NormaForalIva;
-
-                } 
-                else 
-                {
-                    
-                    if (result.Factura.TipoDesglose.DesgloseFactura.Sujeta.NoExenta == null)
-                        result.Factura.TipoDesglose.DesgloseFactura.Sujeta.NoExenta = new DesgloseSujetaNoExenta() {
-                            DetalleNoExenta = new DesgloseSujetaNoExentaDetalleNoExenta()
-                            {
-                                TipoNoExenta = TicketBai.Listas.TipoNoExenta.SinInversionSujetoPasivo,
-                                DesgloseIVA = new List<DesgloseSujetaNoExentaDetalleNoExentaDetalleIVA>()
-                            }
-                };
-
-                    var desgloseIVA = result.Factura.TipoDesglose.DesgloseFactura.Sujeta.NoExenta.DetalleNoExenta.DesgloseIVA;
-
-                    desgloseIVA.Add(new DesgloseSujetaNoExentaDetalleNoExentaDetalleIVA() {
-                        BaseImponible = iva.BaseImpuestos,
-                        TipoImpositivo = iva.TipoImpuestos,
-                        CuotaImpuesto = iva.CuotaImpuestos
-                    });
-
-                }
-            }
-
-            return result;
+            ISerializador serializador = GetSerializador(documento);
+            return serializador.GetTicketBai(documento);
 
         }
+
+        #endregion
 
     }
 }

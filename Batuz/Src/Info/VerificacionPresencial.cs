@@ -91,6 +91,11 @@ namespace Batuz.Info
         /// </summary>
         public static string SoftwareGaranteVersion { get; private set; }
 
+        /// <summary>
+        /// Licencia TBAI.
+        /// </summary>
+        public static string LicenciaTBAI = "TBAIPRUEBA";
+
         #endregion
 
         #region Métodos Públicos Estáticos

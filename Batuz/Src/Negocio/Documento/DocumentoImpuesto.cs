@@ -12,7 +12,7 @@
         /// <summary>
         /// Código de impuesto del impuesto.
         /// </summary>
-        public string IdentificadorImpuestos { get; set; }
+        public IdentificadorImpuestos IdentificadorImpuestos { get; set; }
 
         /// <summary>
         /// Tipo impositivo impuestos.
@@ -28,6 +28,12 @@
         /// Tipo impositivo impuestos.
         /// </summary>
         public decimal CuotaImpuestos { get; set; }
+
+        /// <summary>
+        /// Código de impuesto del impuesto valor añadidoo 
+        /// con recargo de equivalencia.
+        /// </summary>
+        public IdentificadorImpuestos IdentificadorImpuestosRecargo { get; set; }
 
         /// <summary>
         /// Tipo impositivo impuestos.
