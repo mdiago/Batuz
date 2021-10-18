@@ -9,7 +9,7 @@ En el año 2022, comienza la aplicación del proyecto Batuz. La administración 
 El papel del software, los certificados electrónicos y los dispositivos de facturación, cobran especial relevancia en este proyecto. El proyecto Batuz se compone de:
 
 * Los **libros contables**: Ventas e ingresos, Compras y gastos, Bienes de inversión. La información de los cuales debe transmitirse a las autoridades fiscales.
-* **TicketBAI**: Estandard que aplica la tecnología blockchain para la emisión de facturas o justificantes de ventas.
+* **TicketBAI**: Estándar que aplica la tecnología blockchain para la emisión de facturas o justificantes de ventas.
 
 ## TicketBAI
 
