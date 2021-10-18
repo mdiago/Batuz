@@ -113,7 +113,7 @@
                                             <td style="width: 8%; overflow: hidden;" align="right">{Precio:#,##0.00}</td>
                                             <td style="width: 8%; overflow: hidden;" align="right">{Descuento:#,##0.00}</td>
                                             <td style="width: 16%; overflow: hidden;" align="right">{TotalSinImpuestos:#,##0.00}</td>
-                                            <td style="width: 5%; overflow: hidden;">{IdentificadorImpuestosSoportados}</td>
+                                            <td style="width: 5%; overflow: hidden;">{IdentificadorImpuestos}</td>
                                             <td style="width: 5%; overflow: hidden;">{IdentificadorImpuestosRetenidos}</td>
                                         </tr>
                                     </table>
@@ -134,7 +134,7 @@
                         <tr style="font-weight: 900; font-family: Arial, Helvetica, sans-serif; font-size: 0.9rem; height:10rem;">
                             <td></td>
                             <td colspan="3" align="right">Total IVA</td>
-                            <td colspan="2" align="right">{CuotaImpuestosSoportados:#,##0.00} {Moneda}</td>
+                            <td colspan="2" align="right">{CuotaImpuestos:#,##0.00} {Moneda}</td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -175,7 +175,7 @@
                                 </thead>
                                 <tbody>
                                     <!--PLANTILLA LÍNEA IMPUESTO SOPORTADO-->
-                                    <tr tbaicollection="DocumentoImpuestosSoportados">
+                                    <tr tbaicollection="DocumentoImpuestos">
                                         <td align="right">{BaseImpuestos:#,##0.00}</td>
                                         <td align="right">{TipoImpuestos:#,##0.00}</td>
                                         <td align="right">{CuotaImpuestos:#,##0.00}</td>
@@ -184,7 +184,7 @@
                                 <tfoot>
                                     <tr>
                                         <td colspan="2" align="right" style="font-weight: bold; font-size: 1rem;">Total IVA</td>
-                                        <td align="right" style="font-weight: bold; font-size: 1rem;">{CuotaImpuestosSoportados:#,##0.00}</td>
+                                        <td align="right" style="font-weight: bold; font-size: 1rem;">{CuotaImpuestos:#,##0.00}</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -192,9 +192,9 @@
                         <!-- CODIGO QR -->
                         <td style="width: 60%;">
                             <div style="overflow: hidden; width: 11rem; float:right;">
-                                <div style="float: right; font-size: 0.5rem;">TBAI-00000006Y-251019-btFpwP8dcLGAF-237</div>
+                                <div style="float: right; font-size: 0.5rem;">{CodigoIdentificativo}</div>
                                 <div style="float: right;">
-                                    <qr charset='ISO-8859-1' errorcorrection='Q'>https://batuz.eus/QRTBAI/?id=TBAI-00000006Y-251019-btFpwP8dcLGAF-237&s=T&nf=27174&i=4.70&cr=007</qr>
+                                    <qr charset='ISO-8859-1' errorcorrection='Q'>https://batuz.eus/QRTBAI/?id={CodigoIdentificativo}&s={SerieFactura}&nf={NumFactura}&i={TotalFactura:#,##0.00}&cr={CodigoDetecionErrores}</qr>
                                 </div>
                             </div>
                         </td>

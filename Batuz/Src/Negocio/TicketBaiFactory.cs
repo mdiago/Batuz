@@ -49,7 +49,17 @@ namespace Batuz.Negocio
 {
 
     /// <summary>
-    /// Gestiona la creación de instancias de TicketBai.
+    /// Gestiona la creación de instancias de TicketBai. La idea es unificar 
+    /// la generación de los distintos tipos de documentos: con IVA normal, 
+    /// con inversión del sujeto pasivo, de regímenes especiales...Utilizando
+    /// el valor de la propiedad 'IdentificadorImpuestos' de la línea de 
+    /// impuetos de un documento. Este tratamiento de los impuestos es similar
+    /// al utilizado en los sistemas ERP más populares, como SAP, IFS, Ms Dynamics...
+    /// La clase TicketBaiFactory cálcula los distintos tipos de docmentos TicketBai
+    /// a partir de la entrada como argumento de una instancia de la clase 'Documento'.
+    /// La utilización de códigos de impuesto en las líneas de impuesto 
+    /// ('IdentificadorImpuestos') permite realizar los mapeo con los distintos
+    /// generadores de TicketBai.
     /// </summary>
     public class TicketBaiFactory
     {
@@ -153,7 +163,7 @@ namespace Batuz.Negocio
             if (documento.CuotaImpuestosRetenidos != 0)
                 result.Factura.DatosFactura.RetencionSoportada = documento.CuotaImpuestosRetenidos;
 
-            foreach (var iva in documento.DocumentoImpuestosSoportados) 
+            foreach (var iva in documento.DocumentoImpuestos) 
             {
                 if (iva.TipoImpuestos == 0) 
                 {                    

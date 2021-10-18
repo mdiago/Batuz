@@ -42,8 +42,11 @@ using Batuz.TicketBai.Xades.Xml;
 using Batuz.TicketBai.Xades.Xml.Canonicalization;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace Batuz.TicketBai.Xades.Signer
 {
@@ -388,6 +391,31 @@ namespace Batuz.TicketBai.Xades.Signer
             get
             {
                 return _XmlSigned;
+            }
+        }
+
+        /// <summary>
+        /// Devuelve el objeto ticketBai firmado.
+        /// </summary>
+        /// <returns>Objeto ticketBai firmado.</returns>
+        public TicketBai TicketBaiSigned
+        {
+            get
+            {               
+
+                TicketBai result = null;
+
+                if(string.IsNullOrEmpty(XmlSigned))
+                    return result;
+
+                XmlSerializer serializer = new XmlSerializer(typeof(TicketBai));
+
+                using (Stream reader = new MemoryStream(Encoding.UTF8.GetBytes(XmlSigned)))
+                    result = (TicketBai)serializer.Deserialize(reader);
+
+                return result;
+
+               
             }
         }
 

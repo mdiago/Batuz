@@ -42,39 +42,18 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Batuz.Negocio.Almacen
+namespace Batuz.Negocio
 {
 
     /// <summary>
-    /// Representa un almacen de una empresa en concreto.
+    /// Códigos de tipos de impuesto.
     /// </summary>
-    public class AlmacenEmpresa
+    public enum IdentificadorImpuestos
     {
-
-        #region Propiedades Públicas de Instancia
-
-        /// <summary>
-        /// NIF de la empresa.
-        /// </summary>
-        public string NIF { get; set; }
-
-        /// <summary>
-        /// Serie de la empresa
-        /// </summary>
-        public string Serie { get; set; }
-
-        /// <summary>
-        /// Contador facturas.
-        /// </summary>
-        public int ContadorFacturas { get; set; }
-
-        /// <summary>
-        /// Fecha última factura.
-        /// </summary>
-        public DateTime FechaUltimaFactura { get; set; }
-
-        #endregion
-
     }
 }

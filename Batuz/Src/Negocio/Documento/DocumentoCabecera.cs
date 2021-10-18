@@ -82,6 +82,22 @@ namespace Batuz.Negocio.Documento
         public string NumFactura { get; set; }
 
         /// <summary>
+        /// El código identificativo identifica a la factura o justificante generado mediante la utilización del software 
+        /// garante y asegura su relación con su correspondiente fichero de alta de operación con software garante al
+        /// que se refiere el artículo 3 de la presente Orden Foral.
+        /// </summary>
+        public string CodigoIdentificativo { get; set; }
+
+        /// <summary>
+        /// CRC-8. Código de detección de 
+        /// errores que se incluye con el
+        /// objetivo de detectar cambios
+        /// accidentales en el contenido del
+        /// código QR.
+        /// </summary>
+        public string CodigoDetecionErrores { get; set; }
+
+        /// <summary>
         /// Fecha de expedición de la factura.
         /// Formato Fecha (10) (dd-mm-aaaa).
         /// </summary>
@@ -128,8 +144,6 @@ namespace Batuz.Negocio.Documento
         }
 
         #endregion
-
-
 
     }
 }

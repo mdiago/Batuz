@@ -41,11 +41,7 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Batuz.TicketBai.Identificador
 {
@@ -152,7 +148,7 @@ namespace Batuz.TicketBai.Identificador
 
                 var signatue = _TicketBai?.Signature?.SignatureValue?.Value;
 
-                if (signatue.Length < 13)
+                if (signatue == null || signatue.Length < 13)
                     return null;
 
                 return signatue.Substring(0, 13);

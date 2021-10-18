@@ -98,6 +98,7 @@
     <Compile Include="Src\Negocio\Documento\DocumentoLinea.cs" />
     <Compile Include="Src\Negocio\Documento\DocumentoTipo.cs" />
     <Compile Include="Src\Negocio\Documento\DocumentoVencimiento.cs" />
+    <Compile Include="Src\Negocio\IdentificadorImpuestos.cs" />
     <Compile Include="Src\Negocio\TicketBaiFactory.cs" />
     <Compile Include="Src\TicketBai\Identificador\CodigoIdentificativo.cs" />
     <Compile Include="Src\TicketBai\Identificador\CodigoQR.cs" />

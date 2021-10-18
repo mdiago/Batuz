@@ -122,8 +122,9 @@ namespace Batuz.Test
                             Cantidad = 1,
                             Precio = 183.25m,
                             TotalSinImpuestos = 183.25m,
-                            TipoImpuestosSoportados = 10m,
-                            CuotaImpuestosSoportados = 18.33m
+                            IdentificadorImpuestos = "",
+                            TipoImpuestos = 10m,
+                            CuotaImpuestos = 18.33m
                         }
                     },
                     {
@@ -134,8 +135,9 @@ namespace Batuz.Test
                             Cantidad = 1,
                             Precio = 183.25m,
                             TotalSinImpuestos = 2135.18m,
-                            TipoImpuestosSoportados = 21m,
-                            CuotaImpuestosSoportados = 448.38M
+                            IdentificadorImpuestos = "",
+                            TipoImpuestos = 21m,
+                            CuotaImpuestos = 448.38M
                         }
                     }
                 }
@@ -151,7 +153,32 @@ namespace Batuz.Test
 
             // Creamos y preparamos un documento de ejemplo
             Documento documento = CrearDocumentoEjemplo();
-            documento.CalcularImpuestos();            
+            documento.CalcularImpuestos();
+
+            // Creo un objeto TicketBai para obtener el código indentificativo y el CRC8
+            var ticketBai = TicketBaiFactory.GetTicketBai(documento);
+
+
+            // Firmo el ticketBai
+            var xmlParser = new XmlParser();
+
+            var signer = new TicketBai.Xades.Signer.TicketBaiSigner(new CanonicalizationMethodDsigC14N(),
+                new DigestMethodSHA512(), new SHA256Managed());
+
+            var xml = xmlParser.GetString(ticketBai, new Dictionary<string, string>()
+            {
+                    { "T",          "urn:ticketbai:emision"},
+            });
+
+            signer.Load(xml);
+
+            var certificado = CargaCertificado();
+
+            signer.Sign(certificado);
+
+            // obtener el código indentificativo y el CRC8
+            documento.CodigoIdentificativo = $"{signer.TicketBaiSigned.CodigoIdentificativo}";
+            documento.CodigoDetecionErrores = signer.TicketBaiSigned.CodigoIdentificativo.ControlCRC8;
 
             // Texto html de plantilla de factura
             var plantillaFacturaHtml = Resources.factura;            

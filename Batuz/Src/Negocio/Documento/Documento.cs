@@ -72,36 +72,36 @@ namespace Batuz.Negocio.Documento
         }
 
         /// <summary>
-        /// Cuota impositiva impuestos soportados.
+        /// Cuota impositiva impuestos.
         /// </summary>
-        public decimal CuotaImpuestosSoportados
+        public decimal CuotaImpuestos
         {
             get
             {
 
-                decimal cuotaImpuestosSoportados = 0;
+                decimal cuotaImpuestos = 0;
 
                 foreach (var linea in DocumentoLineas)
-                    cuotaImpuestosSoportados += linea.CuotaImpuestosSoportados;
+                    cuotaImpuestos += linea.CuotaImpuestos;
 
-                return cuotaImpuestosSoportados;
+                return cuotaImpuestos;
             }
         }
 
         /// <summary>
-        /// Cuota impositiva impuestos soportados recargo.
+        /// Cuota impositiva impuestos valor añadido recargo.
         /// </summary>
-        public decimal CuotaImpuestosSoportadosRecargo
+        public decimal CuotaImpuestosRecargo
         {
             get
             {
 
-                decimal cuotaImpuestosSoportadosRecargo = 0;
+                decimal cuotaImpuestosRecargo = 0;
 
                 foreach (var linea in DocumentoLineas)
-                    cuotaImpuestosSoportadosRecargo += linea.CuotaImpuestosSoportadosRecargo;
+                    cuotaImpuestosRecargo += linea.CuotaImpuestosRecargo;
 
-                return cuotaImpuestosSoportadosRecargo;
+                return cuotaImpuestosRecargo;
             }
         }
 
@@ -130,8 +130,8 @@ namespace Batuz.Negocio.Documento
             get
             {
 
-                return TotalSinImpuestos + CuotaImpuestosSoportados + 
-                    CuotaImpuestosSoportadosRecargo - CuotaImpuestosRetenidos;
+                return TotalSinImpuestos + CuotaImpuestos + 
+                    CuotaImpuestosRecargo - CuotaImpuestosRetenidos;
             }
         }
 
@@ -141,9 +141,9 @@ namespace Batuz.Negocio.Documento
         public List<DocumentoLinea> DocumentoLineas { get; set; }
 
         /// <summary>
-        /// Impuestos soportados.
+        /// Impuestos valor añadido.
         /// </summary>
-        public List<DocumentoImpuesto> DocumentoImpuestosSoportados { get; set; }
+        public List<DocumentoImpuesto> DocumentoImpuestos { get; set; }
 
         /// <summary>
         /// Impuestos retenidos.
@@ -165,18 +165,18 @@ namespace Batuz.Negocio.Documento
         public void CalcularImpuestos() 
         {
 
-            DocumentoImpuestosSoportados = new List<DocumentoImpuesto>();
+            DocumentoImpuestos = new List<DocumentoImpuesto>();
             Dictionary<decimal, DocumentoImpuesto> totalPorTipoSoportados = new Dictionary<decimal, DocumentoImpuesto>();
 
             foreach (var linea in DocumentoLineas) 
             {
 
-                if (totalPorTipoSoportados.ContainsKey(linea.TipoImpuestosSoportados)) 
+                if (totalPorTipoSoportados.ContainsKey(linea.TipoImpuestos)) 
                 {
                     
-                    totalPorTipoSoportados[linea.TipoImpuestosSoportados].BaseImpuestos += linea.TotalSinImpuestos;
-                    totalPorTipoSoportados[linea.TipoImpuestosSoportados].CuotaImpuestos += linea.CuotaImpuestosSoportados;
-                    totalPorTipoSoportados[linea.TipoImpuestosSoportados].CuotaImpuestosRecargo += linea.CuotaImpuestosSoportadosRecargo;
+                    totalPorTipoSoportados[linea.TipoImpuestos].BaseImpuestos += linea.TotalSinImpuestos;
+                    totalPorTipoSoportados[linea.TipoImpuestos].CuotaImpuestos += linea.CuotaImpuestos;
+                    totalPorTipoSoportados[linea.TipoImpuestos].CuotaImpuestosRecargo += linea.CuotaImpuestosRecargo;
 
                 }
                 else 
@@ -186,16 +186,16 @@ namespace Batuz.Negocio.Documento
                     {
 
                         BaseImpuestos = linea.TotalSinImpuestos,
-                        TipoImpuestos = linea.TipoImpuestosSoportados,
-                        CuotaImpuestos = linea.CuotaImpuestosSoportados,
-                        TipoImpuestosRecargo = linea.TipoImpuestosSoportadosRecargo,
-                        CuotaImpuestosRecargo = linea.CuotaImpuestosSoportadosRecargo
+                        TipoImpuestos = linea.TipoImpuestos,
+                        CuotaImpuestos = linea.CuotaImpuestos,
+                        TipoImpuestosRecargo = linea.TipoImpuestosRecargo,
+                        CuotaImpuestosRecargo = linea.CuotaImpuestosRecargo
 
                     };
 
-                    DocumentoImpuestosSoportados.Add(impuesto);
+                    DocumentoImpuestos.Add(impuesto);
 
-                    totalPorTipoSoportados.Add(linea.TipoImpuestosSoportados, impuesto);
+                    totalPorTipoSoportados.Add(linea.TipoImpuestos, impuesto);
                 }
 
             }

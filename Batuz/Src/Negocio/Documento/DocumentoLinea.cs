@@ -83,29 +83,29 @@ namespace Batuz.Negocio.Documento
         public decimal TotalSinImpuestos { get; set; }
 
         /// <summary>
-        /// Código de impuesto del impuesto soportado.
+        /// Código de impuesto del impuesto valor añadido.
         /// </summary>
-        public string IdentificadorImpuestosSoportados { get; set; }
+        public string IdentificadorImpuestos { get; set; }
 
         /// <summary>
-        /// Tipo impositivo impuestos soportados.
+        /// Tipo impositivo impuestos valor añadido.
         /// </summary>
-        public decimal TipoImpuestosSoportados { get; set; }
+        public decimal TipoImpuestos { get; set; }
 
         /// <summary>
-        /// Cuata impositiva impuestos soportados.
+        /// Cuata impositiva impuestos valor añadido.
         /// </summary>
-        public decimal CuotaImpuestosSoportados { get; set; }
+        public decimal CuotaImpuestos { get; set; }
 
         /// <summary>
-        /// Tipo impositivo impuestos soportados.
+        /// Tipo impositivo impuestos valor añadido.
         /// </summary>
-        public decimal TipoImpuestosSoportadosRecargo { get; set; }
+        public decimal TipoImpuestosRecargo { get; set; }
 
         /// <summary>
-        /// Cuata impositiva impuestos soportados.
+        /// Cuata impositiva impuestos valor añadido.
         /// </summary>
-        public decimal CuotaImpuestosSoportadosRecargo { get; set; }
+        public decimal CuotaImpuestosRecargo { get; set; }
 
         /// <summary>
         /// Código de impuesto del impuesto retenido.
@@ -129,8 +129,8 @@ namespace Batuz.Negocio.Documento
         {
             get 
             {
-                return TotalSinImpuestos + CuotaImpuestosSoportados + 
-                    CuotaImpuestosSoportadosRecargo - CuotaImpuestosRetenidos; 
+                return TotalSinImpuestos + CuotaImpuestos + 
+                    CuotaImpuestosRecargo - CuotaImpuestosRetenidos; 
             } 
         }
 
