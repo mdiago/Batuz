@@ -35,6 +35,7 @@ namespace Batuz.Test
             this.btValidar = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.wBr = new System.Windows.Forms.WebBrowser();
+            this.btSend = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -89,6 +90,7 @@ namespace Batuz.Test
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.btSend);
             this.splitContainer1.Panel1.Controls.Add(this.btCrearPdfTicketBai);
             this.splitContainer1.Panel1.Controls.Add(this.btValidar);
             this.splitContainer1.Panel1.Controls.Add(this.btCrearTicketBai);
@@ -109,6 +111,16 @@ namespace Batuz.Test
             this.wBr.Name = "wBr";
             this.wBr.Size = new System.Drawing.Size(653, 623);
             this.wBr.TabIndex = 0;
+            // 
+            // btSend
+            // 
+            this.btSend.Location = new System.Drawing.Point(52, 299);
+            this.btSend.Name = "btSend";
+            this.btSend.Size = new System.Drawing.Size(144, 23);
+            this.btSend.TabIndex = 4;
+            this.btSend.Text = "Envía TicketBai Firmado";
+            this.btSend.UseVisualStyleBackColor = true;
+            this.btSend.Click += new System.EventHandler(this.btSend_Click);
             // 
             // formMain
             // 
@@ -134,6 +146,7 @@ namespace Batuz.Test
         private System.Windows.Forms.Button btValidar;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.WebBrowser wBr;
+        private System.Windows.Forms.Button btSend;
     }
 }
 

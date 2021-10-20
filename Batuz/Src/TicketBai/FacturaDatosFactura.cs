@@ -82,10 +82,22 @@ namespace Batuz.TicketBai
         public decimal RetencionSoportada { get; set; }
 
         /// <summary>
+        /// Indica si se serializa la RetencionSoportada.
+        /// </summary>
+        [XmlIgnore]
+        public bool RetencionSoportadaSpecified { get { return RetencionSoportada != 0; } }
+
+        /// <summary>
         /// Base imponible a coste (para grupos de IVA–nivel avanzado) 
         /// Decimal (12,2).
         /// </summary>
         public decimal BaseImponibleACoste { get; set; }
+
+        /// <summary>
+        /// Indica si se serializa la BaseImponibleACoste.
+        /// </summary>
+        [XmlIgnore]
+        public bool BaseImponibleACosteSpecified { get { return BaseImponibleACoste != 0; } }
 
         /// <summary>
         /// Clave que identificará el tipo de régimen del IVA

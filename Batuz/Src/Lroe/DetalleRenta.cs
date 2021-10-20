@@ -44,39 +44,48 @@
 using System;
 using System.Xml.Serialization;
 
-namespace Batuz.TicketBai
+namespace Batuz.Lroe
 {
 
     /// <summary>
-    /// Información de destinatarios de la factura.
+    /// Datos detalle de renta.
     /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true)]
-    public class SujetosDestinatarios
+    public class DetalleRenta
     {
 
         #region Propiedades Públicas de Instancia
 
         /// <summary>
-        /// Identificación de destinatarios de la factura
+        /// Epígrafe de la actividad ejercida.
+        /// Alfanumérico (7).
         /// </summary>
-        public SujetosDestinatariosIDDestinatario IDDestinatario { get; set; }
+        public string Epigrafe { get; set; }
+
+        /// <summary>
+        /// Identificador que especifica si el ingreso a computar en el IRPF es 
+        /// diferente a la base imponible del IVA o en su caso de la base imponible
+        /// más cuota repercutida.Si no se informa este campo se entenderá que
+        /// tiene valor “N”.
+        /// Alfanumérico (1) L15.
+        /// </summary>
+        public string IngresoAComputarIRPFDiferenteBaseImpoIVA { get; set; }
+
+        /// <summary>
+        /// Ingreso a computar en el IRPF, siempre que este ingreso sea diferente a la 
+        /// base imponible del IVA.
+        /// Decimal (12,2).
+        /// </summary>
+        public decimal ImporteIngresoIRPF { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [XmlIgnore]
+        public bool ImporteIngresoIRPFSpecified { get { return ImporteIngresoIRPF != 0; } }
 
         #endregion
 
-        #region Métodos Públicos de Instancia
-
-        /// <summary>
-        /// Representación textual de la instancia.
-        /// </summary>
-        /// <returns>Representación textual de la instancia.</returns>
-        public override string ToString()
-        {
-            return $"{IDDestinatario}";
-        }
-
-        #endregion       
-
     }
-
 }

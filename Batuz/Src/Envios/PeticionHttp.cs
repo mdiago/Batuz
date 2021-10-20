@@ -42,18 +42,81 @@
  */
 
 using System;
-using System.Xml.Serialization;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Batuz.TicketBai
+namespace Batuz.Envios
 {
 
     /// <summary>
-    /// Información destinatario.
+    /// Representa una petición http.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    public class SujetosDestinatariosIDDestinatario : Sujeto
+    public class PeticionHttp
     {
-    }
 
+        string _Url;
+        CabeceraPeticionHttp _CabeceraPeticionHttp;
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="url">Url de la petición.</param>
+        /// <param name="encoding">Encoding de la petición. 
+        /// UTF8 por defecto.</param>
+        /// <param name="method">Método de la petición. 
+        /// 'POST' por defecto.</param>
+        public PeticionHttp(string url, Encoding encoding = null, 
+            string method = "POST") 
+        {
+
+            Encoding = (encoding == null) ? Encoding.UTF8 : encoding;
+            Method = method;
+
+            _Url = url;
+            _CabeceraPeticionHttp = new CabeceraPeticionHttp();
+
+            Peticion = GetHttpRequest();
+            Peticion.Headers = _CabeceraPeticionHttp.Encabezados;
+
+        }
+
+        /// <summary>
+        /// Encabezados hhtp.
+        /// </summary>
+        public WebHeaderCollection Encabezados { get; private set; }
+
+        /// <summary>
+        /// Petición http.
+        /// </summary>
+        public HttpWebRequest Peticion { get; private set; }
+
+        /// <summary>
+        /// Encoding utilizado en la petición.
+        /// </summary>
+        public Encoding Encoding { get; set; }
+
+        /// <summary>
+        /// Método petición http.
+        /// </summary>
+        public string Method { get; set; }
+
+        /// <summary>
+        /// Devuelve una petición http.
+        /// </summary>
+        /// <returns>Petición http.</returns>
+        private HttpWebRequest GetHttpRequest() 
+        {
+
+            var result = (HttpWebRequest)WebRequest.Create(_Url);
+            result.Method = Method;
+            result.ContentType = "application/xml;charset=UTF-8";
+
+            return result;
+
+        }
+
+    }
 }

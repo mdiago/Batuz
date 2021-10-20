@@ -42,6 +42,7 @@
  */
 
 using System;
+using System.Globalization;
 using System.Xml.Serialization;
 
 namespace Batuz.TicketBai
@@ -67,7 +68,35 @@ namespace Batuz.TicketBai
         /// Tipo impositivo.
         /// Decimal (3,2).
         /// </summary>
+        [XmlIgnore()]
         public decimal TipoImpositivo { get; set; }
+
+        /// <summary>
+        /// Tipo con formato.
+        /// </summary>
+        [XmlElement("TipoImpositivo")]
+        public string TipoImpositivoString 
+        { 
+            get 
+            {
+
+                if (TipoImpositivo == 0)
+                    return null;
+
+                var nfi = new NumberFormatInfo() { NumberDecimalSeparator = "." };
+                return TipoImpositivo.ToString("0.00", nfi); 
+            }
+            set
+            {
+
+                var nfi = new NumberFormatInfo() { NumberDecimalSeparator = "." };
+                decimal amount = 0;
+
+                if (Decimal.TryParse(value, NumberStyles.Number, nfi, out amount))
+                    TipoImpositivo = amount;
+
+            }
+        }
 
         /// <summary>
         /// Cuota tipo impositivo.
@@ -82,10 +111,23 @@ namespace Batuz.TicketBai
         public decimal TipoRecargoEquivalencia { get; set; }
 
         /// <summary>
+        /// Indica si se serializa la TipoRecargoEquivalencia.
+        /// </summary>
+        [XmlIgnore]
+        public bool TipoRecargoEquivalenciaSpecified { get { return TipoRecargoEquivalencia != 0; } }
+
+
+        /// <summary>
         /// Cuota resultante de aplicar a la base imponible el
         /// tipo de recargo de equivalencia. Decimal (12,2).
         /// </summary>
         public decimal CuotaRecargoEquivalencia { get; set; }
+
+        /// <summary>
+        /// Indica si se serializa la CuotaRecargoEquivalencia.
+        /// </summary>
+        [XmlIgnore]
+        public bool CuotaRecargoEquivalenciaSpecified { get { return CuotaRecargoEquivalencia != 0; } }
 
         /// <summary>
         /// Identificador que especifica si se trata de una

@@ -69,7 +69,7 @@ namespace Batuz.Negocio
         /// <summary>
         /// Serializador básico.
         /// </summary>
-        static Serializadores.Basico _Basico = new Serializadores.Basico();
+        static Basico _Basico = new Basico();
 
         /// <summary>
         /// Diccionario de serializadores por cadena de acceso.

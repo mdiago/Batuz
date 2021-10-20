@@ -42,70 +42,33 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Batuz.TicketBai
+namespace Batuz.Lroe
 {
 
     /// <summary>
-    /// Bloque en el que se detallan el emisor y destinatarios
-    /// de la factura o justificante.
+    /// Obligado tributario.
     /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true)]
-    [XmlRoot(IsNullable = false)]
-    public class Sujetos
+    public class ObligadoTributario
     {
 
         #region Propiedades Públicas de Instancia
 
         /// <summary>
-        /// Información del emisor de la factura o justificante.
+        /// NIF del obligado tributario o de la obligada tributaria.
+        /// Formato NIF (9).
         /// </summary>
-        public SujetosEmisor Emisor { get; set; }
+        public string NIF { get; set; }
 
         /// <summary>
-        /// Información de los destinatarios de la factura o justificante.
+        /// Apellidos y nombre o razón social o denominación social completa del 
+        /// obligado tributario o de la obligada tributaria.
+        /// Alfanumérico (120).
         /// </summary>
-        public List<IDDestinatario> Destinatarios { get; set; }
-
-        /// <summary>
-        /// Identificador que especifica si la factura tiene
-        /// varios destinatarios o varias destinatarias.Si no
-        /// se informa este campo se entenderá que tiene
-        /// valor «N». Alfanumérico(1) L3.
-        /// </summary>
-        public string VariosDestinatarios { get; set; }
-
-        /// <summary>
-        /// Identificador que especifica si la factura ha sido
-        /// emitida por un tercero o una tercera o por el
-        /// destinatario o la destinataria.Si no se informa
-        /// este campo se entenderá que tiene valor «N».
-        /// </summary>
-        public string EmitidaPorTercerosODestinatario { get; set; }
-
-        #endregion
-
-        #region Métodos Públicos de Instancia
-
-        /// <summary>
-        /// Representación textual de la instancia.
-        /// </summary>
-        /// <returns>Representación textual de la instancia.</returns>
-        public override string ToString()
-        {
-
-            var result = "";
-
-            if (Destinatarios != null)
-                foreach (var destinatario in Destinatarios)
-                    result += $"{(result == "" ? "" : ", ")}{destinatario}";
-
-
-            return $"{Emisor}: {result}";
-        }
+        public string ApellidosNombreRazonSocial { get; set; }
 
         #endregion
 

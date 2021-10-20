@@ -79,18 +79,13 @@ namespace Batuz.Negocio.Serializadores
                         NIF = documento.Emisor.IdentficadorFiscal,
                         ApellidosNombreRazonSocial = documento.Emisor.Nombre
                     },
-                    Destinatarios = new List<SujetosDestinatarios>()
+                    Destinatarios = new List<IDDestinatario>()
                     {
-                        {
-                            new SujetosDestinatarios()
-                            {
-                                IDDestinatario = new SujetosDestinatariosIDDestinatario()
+                        new IDDestinatario()
                                 {
                                     NIF = documento.Destinatario.IdentficadorFiscal,
                                     ApellidosNombreRazonSocial = documento.Destinatario.Nombre
                                 }
-                            }
-                        }
                     },
                 },
                 Factura = new Factura()
@@ -131,10 +126,10 @@ namespace Batuz.Negocio.Serializadores
                 {
                     EncadenamientoFacturaAnterior = new HuellaTBAIEncadenamientoFacturaAnterior()
                     {
-                        SerieFacturaAnterior = null,
-                        NumFacturaAnterior = null,
-                        FechaExpedicionFacturaAnterior = null,
-                        SignatureValueFirmaFacturaAnterior = null
+                        SerieFacturaAnterior = "2021",
+                        NumFacturaAnterior = "0",
+                        FechaExpedicionFacturaAnterior = "19-10-2021",
+                        SignatureValueFirmaFacturaAnterior = "KwXaQec65SKpVP7EU9o4nUXOx7SAftIToFsxH+2j2tXPXhpBUnS26dhdSpiMl2DlTuqRsFdZfWyYazaGHgSRQHZZAnFtpbi4BeMk"
                     },
                     Software = new HuellaTBAISoftware()
                     {
@@ -145,7 +140,8 @@ namespace Batuz.Negocio.Serializadores
                         },
                         Nombre = VerificacionPresencial.EmpresaDesarrolladoraNombre,
                         Version = VerificacionPresencial.SoftwareGaranteVersion
-                    }
+                    },
+                    NumSerieDispositivo = "TEST"
                 }
             };
 

@@ -73,6 +73,10 @@ namespace Batuz.TicketBai.Xades.Signer
         TicketBai _TicketBaiTmp;
         readonly string _SignatureMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
 
+        SignatureSignedInfoReference _ReferenceObject;
+        SignatureSignedInfoReference _ReferenceSignedProperties;
+        SignatureSignedInfoReference _ReferenceKeyInfo;
+
         #endregion
 
         #region Construtores de Instancia
@@ -101,25 +105,12 @@ namespace Batuz.TicketBai.Xades.Signer
         private SignatureSignedInfo GetSignedInfo(string xmlText)
         {
 
-            var result = new SignatureSignedInfo()
+            _ReferenceObject = new SignatureSignedInfoReference()
             {
-                CanonicalizationMethod = new SignatureSignedInfoCanonicalizationMethod()
-                {
-                    Algorithm = CanonicalizationMethod.TransformAlgorithmUrl
-                },
-                SignatureMethod = new SignatureSignedInfoSignatureMethod()
-                {
-                    Algorithm = _SignatureMethod
-                },
-                Reference = new SignatureSignedInfoReference[3]
-                {
-                    // Object
-                    new SignatureSignedInfoReference()
-                    {
-                        Id = $"Reference-{_IdObject}",
-                        URI = "",
-                        Type = "http://www.w3.org/2000/09/xmldsig#Object",
-                        Transforms = new SignatureSignedInfoReferenceTransform[3]
+                Id = $"Reference-{_IdObject}",
+                URI = "",
+                Type = "http://www.w3.org/2000/09/xmldsig#Object",
+                Transforms = new SignatureSignedInfoReferenceTransform[3]
                         {
                             new SignatureSignedInfoReferenceTransform()
                             {
@@ -135,33 +126,52 @@ namespace Batuz.TicketBai.Xades.Signer
                                 XPath = "not(ancestor-or-self::ds:Signature)",
                             }
                         },
-                        DigestMethod = new SignatureSignedInfoReferenceDigestMethod()
-                        {
-                            Algorithm = "http://www.w3.org/2001/04/xmlenc#sha512"
-                        },
-                        DigestValue = GetXmlDocumentDigestValue(xmlText)
-                    },
+                DigestMethod = new SignatureSignedInfoReferenceDigestMethod()
+                {
+                    Algorithm = "http://www.w3.org/2001/04/xmlenc#sha512"
+                },
+                DigestValue = GetXmlDocumentDigestValue(xmlText)
+            };
+
+            _ReferenceSignedProperties = new SignatureSignedInfoReference()
+            {
+                URI = $"#Signature-{_IdSignature}-SignedProperties",
+                Type = "http://uri.etsi.org/01903#SignedProperties",
+                DigestMethod = new SignatureSignedInfoReferenceDigestMethod()
+                {
+                    Algorithm = "http://www.w3.org/2001/04/xmlenc#sha512"
+                },
+                DigestValue = null
+            };
+
+            _ReferenceKeyInfo = new SignatureSignedInfoReference()
+            {
+                URI = $"#Signature-{_IdSignature}-KeyInfo",
+                DigestMethod = new SignatureSignedInfoReferenceDigestMethod()
+                {
+                    Algorithm = "http://www.w3.org/2001/04/xmlenc#sha512"
+                },
+                DigestValue = null
+            };
+
+            var result = new SignatureSignedInfo()
+            {
+                CanonicalizationMethod = new SignatureSignedInfoCanonicalizationMethod()
+                {
+                    Algorithm = CanonicalizationMethod.TransformAlgorithmUrl
+                },
+                SignatureMethod = new SignatureSignedInfoSignatureMethod()
+                {
+                    Algorithm = _SignatureMethod
+                },
+                Reference = new SignatureSignedInfoReference[3]
+                {
+                    // Object
+                    _ReferenceObject,
                     // SignedProperties
-                    new SignatureSignedInfoReference()
-                    {
-                        URI = $"#Signature-{_IdSignature}-SignedProperties",
-                        Type = "http://uri.etsi.org/01903#SignedProperties",
-                        DigestMethod = new SignatureSignedInfoReferenceDigestMethod()
-                        {
-                            Algorithm = "http://www.w3.org/2001/04/xmlenc#sha512"
-                        },
-                        DigestValue = null
-                    },
+                    _ReferenceSignedProperties,
                     // KeyInfo
-                    new SignatureSignedInfoReference()
-                    {
-                        URI = $"#Signature-{_IdSignature}-KeyInfo",
-                        DigestMethod = new SignatureSignedInfoReferenceDigestMethod()
-                        {
-                            Algorithm = "http://www.w3.org/2001/04/xmlenc#sha512"
-                        },
-                        DigestValue = null
-                    }
+                    _ReferenceKeyInfo,
                 },
             };
 
@@ -306,10 +316,10 @@ namespace Batuz.TicketBai.Xades.Signer
         /// <param name="xmlText">Texto del TicketBai a firmar.</param>
         /// <param name="certificate">Certificado a utilziar en la firma.</param>
         /// <returns>Elemento 'Signature' de 'TicketBai'. </returns>
-        private Xml.Signature.Signature GetEmptySignature(string xmlText, X509Certificate2 certificate)
+        private Signature GetEmptySignature(string xmlText, X509Certificate2 certificate)
         {
 
-            var result = new Xml.Signature.Signature()
+            var result = new Signature()
             {
                 Id = $"Signature-{_IdSignature}-Signature",
                 SignedInfo = GetSignedInfo(xmlText),
@@ -369,7 +379,8 @@ namespace Batuz.TicketBai.Xades.Signer
 
             _XmlSignedPropertiesCN14 = CanonicalizationMethod.GetCanonicalString(_XmlSignedPropertiesXmlNodeList);
             _SignedPropertiesHash = GetDigestValue(_XmlSignedPropertiesCN14);
-            _TicketBaiTmp.Signature.SignedInfo.Reference[1].DigestValue = _SignedPropertiesHash;
+
+            _ReferenceSignedProperties.DigestValue = _SignedPropertiesHash;
 
         }
 
@@ -400,7 +411,8 @@ namespace Batuz.TicketBai.Xades.Signer
 
             _XmlKeyInfoCN14 = CanonicalizationMethod.GetCanonicalString(_XmlKeyInfoXmlNodeList);
             _KeyInfoHash = GetDigestValue(_XmlKeyInfoCN14);
-            _TicketBaiTmp.Signature.SignedInfo.Reference[2].DigestValue = _KeyInfoHash;
+
+            _ReferenceKeyInfo.DigestValue = _KeyInfoHash;
 
         }
 
@@ -451,7 +463,7 @@ namespace Batuz.TicketBai.Xades.Signer
             catch (Exception ex)
             {
                 throw new Exception($"Error: {ex.Message}.\nUpdate CSP for SHA256 in your certificate:\n" +
-                    $"certutil -importPFX -user -v -privatekey -p elefante090376 " +
+                    $"certutil -importPFX -user -v -privatekey -p test " +
                     $"-csp \"Microsoft Enhanced RSA and AES Cryptographic Provider\"" +
                     $" C:\\Users\\usuario\\Downloads\\cert.pfx");
             }

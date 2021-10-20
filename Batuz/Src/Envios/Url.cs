@@ -41,71 +41,60 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-
-namespace Batuz.TicketBai
+namespace Batuz.Envios
 {
 
     /// <summary>
-    /// Bloque en el que se detallan el emisor y destinatarios
-    /// de la factura o justificante.
+    /// Direcciónes url de los servicios para Batuz.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    [XmlRoot(IsNullable = false)]
-    public class Sujetos
+    public static class Url
     {
 
-        #region Propiedades Públicas de Instancia
+        #region Propiedades Públicas Estáticas
 
         /// <summary>
-        /// Información del emisor de la factura o justificante.
+        /// servidor pruebas.
         /// </summary>
-        public SujetosEmisor Emisor { get; set; }
+        public static string ServerPruebas = "https://pruesarrerak.bizkaia.eus";
 
         /// <summary>
-        /// Información de los destinatarios de la factura o justificante.
+        /// Servidor producción.
         /// </summary>
-        public List<IDDestinatario> Destinatarios { get; set; }
+        public static string ServerProduccion = "https://sarrerak.bizkaia.eus";
 
         /// <summary>
-        /// Identificador que especifica si la factura tiene
-        /// varios destinatarios o varias destinatarias.Si no
-        /// se informa este campo se entenderá que tiene
-        /// valor «N». Alfanumérico(1) L3.
+        /// Servicio envíos.
         /// </summary>
-        public string VariosDestinatarios { get; set; }
+        public static string ServicioEnvios = "/N3B4000M/aurkezpena";
 
         /// <summary>
-        /// Identificador que especifica si la factura ha sido
-        /// emitida por un tercero o una tercera o por el
-        /// destinatario o la destinataria.Si no se informa
-        /// este campo se entenderá que tiene valor «N».
+        /// Servicio consulta.
         /// </summary>
-        public string EmitidaPorTercerosODestinatario { get; set; }
-
-        #endregion
-
-        #region Métodos Públicos de Instancia
+        public static string ServicioConsulta = "/N3B4000M/kontsulta";
 
         /// <summary>
-        /// Representación textual de la instancia.
+        /// URL del servicio de entradas en el 
+        /// entorno de pruebas para el alta, modificación y anulación.
         /// </summary>
-        /// <returns>Representación textual de la instancia.</returns>
-        public override string ToString()
-        {
+        public static string UrlPruebasEnvio = $"{ServerPruebas}{ServicioEnvios}";
 
-            var result = "";
+        /// <summary>
+        ///  URL del servicio de entradas en el entorno 
+        ///  de pruebas para las consultas.
+        /// </summary>
+        public static string UrlPruebasConsulta = $"{ServerPruebas}{ServicioConsulta}";
 
-            if (Destinatarios != null)
-                foreach (var destinatario in Destinatarios)
-                    result += $"{(result == "" ? "" : ", ")}{destinatario}";
+        /// <summary>
+        /// URL del servicio de entradas en el 
+        /// entorno de pruebas para el alta, modificación y anulación.
+        /// </summary>
+        public static string UrlProduccionEnvio = $"{ServerProduccion}{ServicioEnvios}";
 
-
-            return $"{Emisor}: {result}";
-        }
+        /// <summary>
+        ///  URL del servicio de entradas en el entorno 
+        ///  de pruebas para las consultas.
+        /// </summary>
+        public static string UrlProduccionConsulta = $"{ServerProduccion}{ServicioConsulta}";
 
         #endregion
 

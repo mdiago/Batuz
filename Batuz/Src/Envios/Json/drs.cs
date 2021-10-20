@@ -41,74 +41,30 @@
     Para más información, contacte con la dirección: info@irenesolutions.com    
  */
 
-using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-
-namespace Batuz.TicketBai
+namespace Batuz.Envios.Json
 {
 
     /// <summary>
-    /// Bloque en el que se detallan el emisor y destinatarios
-    /// de la factura o justificante.
+    /// Datos relevantes: son los datos necesarios para identificar el modelo que se 
+    /// quiere presentar.
     /// </summary>
-    [Serializable()]
-    [XmlType(AnonymousType = true)]
-    [XmlRoot(IsNullable = false)]
-    public class Sujetos
+    public class drs
     {
 
         #region Propiedades Públicas de Instancia
 
         /// <summary>
-        /// Información del emisor de la factura o justificante.
+        /// Modelo: es el modelo a presentar (140/240). 
         /// </summary>
-        public SujetosEmisor Emisor { get; set; }
+        public string mode { get; set; }
 
         /// <summary>
-        /// Información de los destinatarios de la factura o justificante.
+        /// Ejercicio: ejercicio del modelo, a cumplimentar con el ejercicio que 
+        /// corresponda.
         /// </summary>
-        public List<IDDestinatario> Destinatarios { get; set; }
-
-        /// <summary>
-        /// Identificador que especifica si la factura tiene
-        /// varios destinatarios o varias destinatarias.Si no
-        /// se informa este campo se entenderá que tiene
-        /// valor «N». Alfanumérico(1) L3.
-        /// </summary>
-        public string VariosDestinatarios { get; set; }
-
-        /// <summary>
-        /// Identificador que especifica si la factura ha sido
-        /// emitida por un tercero o una tercera o por el
-        /// destinatario o la destinataria.Si no se informa
-        /// este campo se entenderá que tiene valor «N».
-        /// </summary>
-        public string EmitidaPorTercerosODestinatario { get; set; }
-
-        #endregion
-
-        #region Métodos Públicos de Instancia
-
-        /// <summary>
-        /// Representación textual de la instancia.
-        /// </summary>
-        /// <returns>Representación textual de la instancia.</returns>
-        public override string ToString()
-        {
-
-            var result = "";
-
-            if (Destinatarios != null)
-                foreach (var destinatario in Destinatarios)
-                    result += $"{(result == "" ? "" : ", ")}{destinatario}";
-
-
-            return $"{Emisor}: {result}";
-        }
+        public string ejer { get; set; }
 
         #endregion
 
     }
-
 }

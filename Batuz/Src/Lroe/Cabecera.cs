@@ -42,73 +42,67 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Batuz.TicketBai
+namespace Batuz.Lroe
 {
 
     /// <summary>
-    /// Bloque en el que se detallan el emisor y destinatarios
-    /// de la factura o justificante.
+    /// Datos del cabecera del alta ingresos con facturas emitidas con software garante.
     /// </summary>
     [Serializable()]
     [XmlType(AnonymousType = true)]
-    [XmlRoot(IsNullable = false)]
-    public class Sujetos
+    [XmlRoot(Namespace = "", IsNullable = false)]
+    public partial class Cabecera
     {
 
         #region Propiedades Públicas de Instancia
 
         /// <summary>
-        /// Información del emisor de la factura o justificante.
+        /// Modelo de la declaración. Deberá informarse con valor “140” (Libro
+        /// Registro de Operaciones Económicas, personas físicas).
+        /// Alfanumérico (3).
         /// </summary>
-        public SujetosEmisor Emisor { get; set; }
+        public string Modelo { get; set; }
 
         /// <summary>
-        /// Información de los destinatarios de la factura o justificante.
+        /// Capítulo del Libro Registro de Operaciones Económicas. 
+        /// Deberá informarse con valor “1” (Ingresos y facturas emitidas).
+        /// Alfanumérico (2).
         /// </summary>
-        public List<IDDestinatario> Destinatarios { get; set; }
+        public string Capitulo { get; set; }
 
         /// <summary>
-        /// Identificador que especifica si la factura tiene
-        /// varios destinatarios o varias destinatarias.Si no
-        /// se informa este campo se entenderá que tiene
-        /// valor «N». Alfanumérico(1) L3.
+        /// Subcapítulo del Libro Registro de Operaciones Económicas. Deberá 
+        /// informarse con valor “1.1” (Ingresos con facturas emitidas con software
+        /// garante).
+        /// Alfanumérico (3).
         /// </summary>
-        public string VariosDestinatarios { get; set; }
+        public string Subcapitulo { get; set; }
 
         /// <summary>
-        /// Identificador que especifica si la factura ha sido
-        /// emitida por un tercero o una tercera o por el
-        /// destinatario o la destinataria.Si no se informa
-        /// este campo se entenderá que tiene valor «N».
+        /// Tipo de operación. Deberá informarse con valor “A00” (Alta).
+        /// Alfanumérico (3).
         /// </summary>
-        public string EmitidaPorTercerosODestinatario { get; set; }
-
-        #endregion
-
-        #region Métodos Públicos de Instancia
+        public string Operacion { get; set; }
 
         /// <summary>
-        /// Representación textual de la instancia.
+        /// Identificación de la versión del esquema utilizado.
+        /// Alfanumérico (5) LC0.
         /// </summary>
-        /// <returns>Representación textual de la instancia.</returns>
-        public override string ToString()
-        {
+        public string Version { get; set; }
 
-            var result = "";
+        /// <summary>
+        /// Ejercicio. Numérico (4).
+        /// </summary>
+        public string Ejercicio { get; set; }
 
-            if (Destinatarios != null)
-                foreach (var destinatario in Destinatarios)
-                    result += $"{(result == "" ? "" : ", ")}{destinatario}";
-
-
-            return $"{Emisor}: {result}";
-        }
+        /// <summary>
+        /// Obligado tributario.
+        /// </summary>
+        public ObligadoTributario ObligadoTributario { get; set; }
 
         #endregion
 
     }
-
 }

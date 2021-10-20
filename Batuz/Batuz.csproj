@@ -79,6 +79,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -87,6 +88,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Src\Envios\CabeceraPeticionHttp.cs" />
+    <Compile Include="Src\Envios\Json\inte.cs" />
+    <Compile Include="Src\Envios\Json\drs.cs" />
+    <Compile Include="Src\Envios\Json\data.cs" />
+    <Compile Include="Src\Envios\PeticionHttp.cs" />
+    <Compile Include="Src\Envios\Url.cs" />
+    <Compile Include="Src\Lroe\Cabecera.cs" />
+    <Compile Include="Src\Lroe\ObligadoTributario.cs" />
+    <Compile Include="Src\Lroe\Ingreso.cs" />
+    <Compile Include="Src\Lroe\DetalleRenta.cs" />
+    <Compile Include="Src\Lroe\LROEPF140IngresosConFacturaConSGAltaPeticion.cs" />
     <Compile Include="Src\Negocio\Almacen\AlmacenEmpresa.cs" />
     <Compile Include="Src\Negocio\Configuracion\Parametros.cs" />
     <Compile Include="Src\Negocio\Configuracion\ParametrosAlmacen.cs" />
@@ -143,8 +155,7 @@
     <Compile Include="Src\TicketBai\Pdf\QRCodeTagWorkerFactory.cs" />
     <Compile Include="Src\TicketBai\Pdf\RenderizadorHtml.cs" />
     <Compile Include="Src\TicketBai\Sujetos.cs" />
-    <Compile Include="Src\TicketBai\SujetosDestinatarios.cs" />
-    <Compile Include="Src\TicketBai\SujetosDestinatariosIDDestinatario.cs" />
+    <Compile Include="Src\TicketBai\IDDestinatario.cs" />
     <Compile Include="Src\TicketBai\Sujeto.cs" />
     <Compile Include="Src\TicketBai\SujetosEmisor.cs" />
     <Compile Include="Src\TicketBai\TicketBai.cs" />
