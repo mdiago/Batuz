@@ -113,6 +113,7 @@ namespace Batuz.TicketBai.Xades.Xml.Canonicalization
             {
                 PreserveWhitespace = true
             };
+
             xmlDoc.LoadXml(xmlContent);
 
             XmlDsigC14NTransform xmlTransform = new XmlDsigC14NTransform();

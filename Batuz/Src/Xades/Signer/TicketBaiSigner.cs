@@ -227,6 +227,8 @@ namespace Batuz.TicketBai.Xades.Signer
         private QualifyingPropertiesSignedProperties GetSignedProperties(X509Certificate2 certificate)
         {
 
+            var certHansSha512 = new SHA512Managed().ComputeHash(certificate.RawData);
+
             var result = new QualifyingPropertiesSignedProperties()
             {
                 Id = $"Signature-{_IdSignature}-SignedProperties",
@@ -243,7 +245,7 @@ namespace Batuz.TicketBai.Xades.Signer
                                 {
                                     Algorithm = "http://www.w3.org/2001/04/xmlenc#sha512"
                                 },
-                                DigestValue = Convert.ToBase64String(certificate.GetCertHash())
+                                DigestValue = Convert.ToBase64String(certHansSha512)
                             },
                             IssuerSerial = new QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSigningCertificateCertIssuerSerial()
                             {
@@ -427,7 +429,6 @@ namespace Batuz.TicketBai.Xades.Signer
 
             var namespaces = new Dictionary<string, string>()
             {
-                { "T",          "urn:ticketbai:emision"},
                 { "ds",         "http://www.w3.org/2000/09/xmldsig#"},
             };
 
@@ -445,7 +446,7 @@ namespace Batuz.TicketBai.Xades.Signer
                     Value = Convert.ToBase64String(Sign)
                 };
 
-                var xml = parser.GetString(_TicketBaiTmp, namespaces);
+                var xml = parser.GetString(_TicketBaiTmp, namespaces, false, true, true);
 
                 _XmlDocSignatureValue = GetXmlDocument(xml);
 
@@ -457,13 +458,14 @@ namespace Batuz.TicketBai.Xades.Signer
 
                 _XmlSignatureValue = ClearAutoSelfClosedTagSpaces(_XmlSignatureValue);
 
-                _XmlSignatureValueCN14 = CanonicalizationMethod.GetCanonicalString(_XmlSignedInfoXmlNodeList);
+                _XmlSignatureValueCN14 = CanonicalizationMethod.GetCanonicalString(_XmlSignedInfoXmlNodeList);            
+
 
             }
             catch (Exception ex)
             {
                 throw new Exception($"Error: {ex.Message}.\nUpdate CSP for SHA256 in your certificate:\n" +
-                    $"certutil -importPFX -user -v -privatekey -p test " +
+                    $"certutil -importPFX -user -v -privatekey -p your_password " +
                     $"-csp \"Microsoft Enhanced RSA and AES Cryptographic Provider\"" +
                     $" C:\\Users\\usuario\\Downloads\\cert.pfx");
             }
@@ -575,19 +577,26 @@ namespace Batuz.TicketBai.Xades.Signer
             }
             else 
             {
+
                 // El xml a fimar no tenía firma previa
                 var parser = new XmlParser();
                 var xmlSignature = parser.GetString(_TicketBaiTmp.Signature, new Dictionary<string, string>()
                 {
-                        { "T",          "urn:ticketbai:emision"},
                         { "ds",         "http://www.w3.org/2000/09/xmldsig#"},
-                });
+                }, false, true, true);
 
                 xmlSignature = Regex.Replace(xmlSignature, @"<(\w+:){0,1}KeyInfo[^>]*>[\S\s]+</(\w+:){0,1}KeyInfo>", _XmlKeyInfo);
-                var xmlQualifyingProperties = parser.GetString(_TicketBaiTmp.Signature.Object.QualifyingProperties, Namespaces.Items);
+
+                var xmlQualifyingProperties = parser.GetString(_TicketBaiTmp.Signature.Object.QualifyingProperties, new Dictionary<string, string>()
+                {
+                        { "xades",      "http://uri.etsi.org/01903/v1.3.2#"},
+                        { "ds",         "http://www.w3.org/2000/09/xmldsig#"},
+                }, false, true, true);
+
                 xmlSignature =  Regex.Replace(xmlSignature, @"<(\w+:){0,1}QualifyingProperties[^>]*>[\S\s]+</(\w+:){0,1}QualifyingProperties>", xmlQualifyingProperties);
 
-                _XmlSigned = _XmlLoadedSource.Replace("</T:TicketBai>", $"{xmlSignature}</T:TicketBai>");
+                _XmlSigned = _XmlLoadedSource.Replace("</T:TicketBai>", $"{xmlSignature}</T:TicketBai>");             
+
 
             }
 

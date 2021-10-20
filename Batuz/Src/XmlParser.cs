@@ -90,11 +90,12 @@ namespace Batuz
         /// <param name="namespaces">Espacios de nombres.</param> 
         /// <param name="indent">Indica si se debe utilizar indentación.</param>
         /// <param name="omitXmlDeclaration">Indica si se se omite la delcaración xml.</param>
+        /// <param name="omitRootNamespace">Indica si se se omite la delcaración del espacio de nombres raiz.</param> 
         /// <returns>string con el archivo xml.</returns>
-        public string GetString(object instance, Dictionary<string, string> namespaces, bool indent = false, bool omitXmlDeclaration = true)
+        public string GetString(object instance, Dictionary<string, string> namespaces, bool indent = false, bool omitXmlDeclaration = true, bool omitRootNamespace = false)
         {
 
-            return Encoding.GetString(GetBytes(instance, namespaces, indent, omitXmlDeclaration));
+            return Encoding.GetString(GetBytes(instance, namespaces, indent, omitXmlDeclaration, omitRootNamespace));
 
         }
 
@@ -132,16 +133,18 @@ namespace Batuz
         /// <param name="namespaces">Espacios de nombres.</param> 
         /// <param name="indent">Indica si se debe utilizar indentación.</param>
         /// <param name="omitXmlDeclaration">Indica si se se omite la delcaración xml.</param>
+        /// <param name="omitRootNamespace">Indica si se se omite la delcaración del espacio de nombres raiz.</param> 
         /// <returns>string con el archivo xml.</returns>
-        public byte[] GetBytes(object instance, Dictionary<string, string> namespaces, bool indent = false, bool omitXmlDeclaration = true)
+        public byte[] GetBytes(object instance, Dictionary<string, string> namespaces, 
+            bool indent = false, bool omitXmlDeclaration = true, bool omitRootNamespace = false)
         {
 
             XmlSerializer serializer = new XmlSerializer(instance.GetType());
 
-            var xmlSerializerNamespaces = new XmlSerializerNamespaces(new XmlQualifiedName[] {
-                new XmlQualifiedName("T", "urn:ticketbai:emision")
-                }
-            );
+            var xmlSerializerNamespaces = new XmlSerializerNamespaces();
+
+            if (!omitRootNamespace)
+                xmlSerializerNamespaces.Add("T", "urn:ticketbai:emision");
 
             foreach (KeyValuePair<string, string> ns in namespaces)
                 xmlSerializerNamespaces.Add(ns.Key, ns.Value);
