@@ -239,7 +239,7 @@ namespace Batuz.Test
 
             var store = new X509Store(StoreLocation.CurrentUser);
             store.Open(OpenFlags.ReadOnly);
-            return store.Certificates[19];
+            return store.Certificates[23];
 
         }
 

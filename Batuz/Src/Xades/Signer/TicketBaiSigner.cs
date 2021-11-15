@@ -47,7 +47,9 @@ using Batuz.TicketBai.Xades.Xml.Canonicalization;
 using Batuz.TicketBai.Xades.Xml.Signature;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Numerics;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -229,6 +231,8 @@ namespace Batuz.TicketBai.Xades.Signer
 
             var certHansSha512 = new SHA512Managed().ComputeHash(certificate.RawData);
 
+            var serial = BigInteger.Parse(certificate.SerialNumber, NumberStyles.HexNumber);
+
             var result = new QualifyingPropertiesSignedProperties()
             {
                 Id = $"Signature-{_IdSignature}-SignedProperties",
@@ -250,7 +254,7 @@ namespace Batuz.TicketBai.Xades.Signer
                             IssuerSerial = new QualifyingPropertiesSignedPropertiesSignedSignaturePropertiesSigningCertificateCertIssuerSerial()
                             {
                                 X509IssuerName = certificate.IssuerName.Name,
-                                X509SerialNumber = certificate.SerialNumber
+                                X509SerialNumber = $"{serial}"
                             }
                         }
                     },
@@ -719,6 +723,20 @@ namespace Batuz.TicketBai.Xades.Signer
             return reference.DigestValue == docHash;
 
 
+        }
+
+        /// <summary>
+        /// Convierte hexadecimal. 
+        /// </summary>
+        /// <param name="hex">Cadena hexadecimal.</param>
+        /// <returns>Matriz de bytes</returns>
+        public static byte[] StringToByteArray(String hex)
+        {
+            int NumberChars = hex.Length;
+            byte[] bytes = new byte[NumberChars / 2];
+            for (int i = 0; i < NumberChars; i += 2)
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            return bytes;
         }
 
         #endregion
